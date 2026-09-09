@@ -1,0 +1,12 @@
+<settings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="https://developer.garmin.com/downloads/connect-iq/resources.xsd">
+    <setting propertyKey="@Properties.DefaultRadiusMeters" title="@Strings.SettingRadiusTitle">
+        <settingConfig type="list">
+            <listEntry value="15">@Strings.Radius15</listEntry>
+            <listEntry value="25">@Strings.Radius25</listEntry>
+            <listEntry value="50">@Strings.Radius50</listEntry>
+            <listEntry value="75">@Strings.Radius75</listEntry>
+            <listEntry value="100">@Strings.Radius100</listEntry>
+        </settingConfig>
+    </setting>
+</settings>
