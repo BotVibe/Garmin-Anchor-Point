@@ -14,7 +14,8 @@ Update both files in the **same change** when any of the following moves:
 
 - App name, UI copy, or user-facing terminology
 - Controls, screens, or alarm behavior
-- Build/sideload/simulator steps
+- Build/sideload/simulator/test steps
+- Unit test coverage or how tests are run
 - Supported devices, permissions, or API assumptions
 - Scope boundaries (what is in / out of MVP)
 
@@ -25,14 +26,26 @@ Do not defer doc updates. Prefer English for all names, UI strings, comments aim
 | Path | Role |
 |------|------|
 | `source/AnchorPointApp.mc` | App lifecycle, GPS enable/disable |
-| `source/AnchorMonitor.mc` | Anchor, radius, distance, FIT session, alarm state |
-| `source/Geo.mc` | Haversine distance and GPS quality helpers |
+| `source/AnchorMonitor.mc` | UI, FIT recording, vibration/tone around session |
+| `source/AnchorSession.mc` | Pure state machine (setup/monitoring/alarm) — unit-tested |
+| `source/Geo.mc` | Haversine distance, fix usability, outside-radius check |
+| `source/RadiusPresets.mc` | Radius presets + snap/nudge helpers |
 | `source/views/*` | Setup, Monitor, Alarm screens |
 | `source/delegates/*` | Input handling and end-session menu |
+| `source-test/*` | Run No Evil `(:test)` methods |
 | `resources/strings/strings.xml` | English UI strings |
 | `resources/settings/*` | Default radius property + Connect settings |
 | `manifest.xml` | App id, products, `Fit` + `Positioning` |
-| `scripts/build.sh` | CLI build helper |
+| `scripts/build.sh` | Normal PRG build |
+| `scripts/test.sh` | Unit-test build (`-t`) + `monkeydo -t` |
+
+## Testing
+
+- Framework: Garmin **Run No Evil** (`Toybox.Test`), simulator only.
+- `monkey.jungle` includes `source-test`; `(:test)` symbols are omitted from non-`-t` builds.
+- Prefer testing pure logic in `Geo`, `RadiusPresets`, and `AnchorSession`. Keep UI/FIT/`Attention` side effects in `AnchorMonitor`.
+- When changing geofence or radius behavior, add/adjust tests in `source-test/` and update this section + README.
+- Run: `./scripts/test.sh fenix7` or VS Code **Monkey C: Run Tests**.
 
 ## Conventions
 
@@ -46,4 +59,4 @@ Do not defer doc updates. Prefer English for all names, UI strings, comments aim
 
 - Requires Connect IQ SDK and a downloaded device package (SDK Manager login).
 - Developer key required to sign `.prg` builds.
-- See README for VS Code and CLI steps.
+- See README for VS Code, CLI build, and test steps.
