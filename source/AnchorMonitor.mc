@@ -180,7 +180,7 @@ class AnchorMonitor {
                 _session = null;
             }
             _session = ActivityRecording.createSession({
-                :name => "Ankeralarm",
+                :name => "Anchor Alarm",
                 :sport => Activity.SPORT_BOATING,
                 :subSport => Activity.SUB_SPORT_GENERIC
             });
