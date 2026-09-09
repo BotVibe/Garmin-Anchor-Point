@@ -4,7 +4,7 @@ Watch-only MVP: set an anchor GPS point, monitor distance for a few hours like a
 
 ## Documentation maintenance
 
-`README.md` and `AGENTS.md` must stay in sync with the project. Whenever behavior, naming, controls, build steps, tests, or scope changes, update both files in the same change. Prefer doing this automatically as part of the work — do not leave docs for a later pass.
+`README.md` and `AGENTS.md` must stay in sync with the project. Whenever behavior, naming, controls, build steps, tests, store listing, or scope changes, update both files (and `store/` listing docs when relevant) in the same change. Prefer doing this automatically as part of the work — do not leave docs for a later pass.
 
 ## Features
 
