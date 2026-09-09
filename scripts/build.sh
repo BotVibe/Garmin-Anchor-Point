@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
-# Build Anchor Alarm for a target device (requires Connect IQ SDK + device package).
+# Build Anchor Point for a target device (requires Connect IQ SDK + device package).
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")" && pwd)"
 DEVICE="${1:-fenix7}"
 OUT_DIR="${ROOT}/bin"
-OUT_PRG="${OUT_DIR}/AnchorAlarm-${DEVICE}.prg"
+OUT_PRG="${OUT_DIR}/AnchorPoint-${DEVICE}.prg"
 
 if [[ -z "${CIQ_SDK_HOME:-}" ]]; then
   if [[ -f "${HOME}/.Garmin/ConnectIQ/current-sdk.cfg" ]]; then

@@ -4,7 +4,7 @@ Guidance for coding agents working in this repository.
 
 ## Product
 
-**Anchor Alarm** is a Garmin Connect IQ `watch-app` (Monkey C). The MVP is watch-only: continuous GPS, settable radius, FIT session styled like boating, and on-watch vibration/tone alarm when the boat leaves the circle.
+**Anchor Point** is a Garmin Connect IQ `watch-app` (Monkey C). The MVP is watch-only: continuous GPS, settable radius, FIT session styled like boating, and on-watch vibration/tone alarm when the boat leaves the circle.
 
 ## Documentation maintenance (required)
 
@@ -24,7 +24,7 @@ Do not defer doc updates. Prefer English for all names, UI strings, comments aim
 
 | Path | Role |
 |------|------|
-| `source/AnchorAlarmApp.mc` | App lifecycle, GPS enable/disable |
+| `source/AnchorPointApp.mc` | App lifecycle, GPS enable/disable |
 | `source/AnchorMonitor.mc` | Anchor, radius, distance, FIT session, alarm state |
 | `source/Geo.mc` | Haversine distance and GPS quality helpers |
 | `source/views/*` | Setup, Monitor, Alarm screens |
@@ -37,7 +37,7 @@ Do not defer doc updates. Prefer English for all names, UI strings, comments aim
 ## Conventions
 
 - Language: **English** for app name, strings, docs, and commit messages.
-- Session recording name: `Anchor Alarm` (`Activity.SPORT_BOATING`).
+- Product / session recording name: `Anchor Point` (`Activity.SPORT_BOATING`).
 - Radius presets: 15 / 25 / 50 / 75 / 100 m.
 - App must remain open while monitoring; do not promise background geofencing unless Connect IQ capabilities change and docs are updated.
 - Phone companion / internet push are out of MVP unless explicitly requested — if added, update README + AGENTS.md immediately.

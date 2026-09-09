@@ -3,8 +3,8 @@ import Toybox.Lang;
 import Toybox.Position;
 import Toybox.WatchUi;
 
-//! Anchor Alarm device app entry point.
-class AnchorAlarmApp extends Application.AppBase {
+//! Anchor Point device app entry point.
+class AnchorPointApp extends Application.AppBase {
 
     private var _monitor as AnchorMonitor?;
 

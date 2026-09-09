@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
-<!-- Anchor Alarm Connect IQ watch-app -->
+<!-- Anchor Point Connect IQ watch-app -->
 <iq:manifest xmlns:iq="http://www.garmin.com/xml/connectiq" version="3">
     <iq:application
         id="55D9D8C9D74B4E68A0C75BBAA1EC8168"
         type="watch-app"
         name="@Strings.AppName"
-        entry="AnchorAlarmApp"
+        entry="AnchorPointApp"
         launcherIcon="@Drawables.LauncherIcon"
         minApiLevel="3.2.0">
 

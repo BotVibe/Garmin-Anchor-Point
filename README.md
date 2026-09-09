@@ -1,4 +1,4 @@
-# Anchor Alarm (Garmin Connect IQ)
+# Anchor Point (Garmin Connect IQ)
 
 Watch-only MVP: set an anchor GPS point, monitor distance for a few hours like a sport session, and alarm **on the watch** if the boat drifts beyond a chosen radius.
 
@@ -11,7 +11,7 @@ Watch-only MVP: set an anchor GPS point, monitor distance for a few hours like a
 - Continuous GPS while the app session is open
 - Set anchor at the current position when the fix is usable
 - Radius presets: 15 / 25 / 50 / 75 / 100 m (default 50 m, also in Garmin Connect app settings)
-- FIT activity recording (`SPORT_BOATING`, name `Anchor Alarm`) so the session appears in your activity history
+- FIT activity recording (`SPORT_BOATING`, name `Anchor Point`) so the session appears in your activity history
 - Monitor screen: distance, radius, GPS quality, runtime, inside/outside status
 - Alarm: vibration + tone + full-screen alert until acknowledged
 - English UI strings
@@ -19,7 +19,7 @@ Watch-only MVP: set an anchor GPS point, monitor distance for a few hours like a
 ## Important limits
 
 - The app must stay open for the whole watch (2–3 h typical). Closing it stops monitoring.
-- On watches with multitasking, leaving the app can pause GPS; keep Anchor Alarm in the foreground.
+- On watches with multitasking, leaving the app can pause GPS; keep Anchor Point in the foreground.
 - No phone companion and no internet/Wi‑Fi remote alarm in this MVP.
 - Battery use is similar to an outdoor GPS activity.
 
@@ -39,7 +39,7 @@ Watch-only MVP: set an anchor GPS point, monitor distance for a few hours like a
 manifest.xml          # watch-app, products, Fit + Positioning
 monkey.jungle
 source/
-  AnchorAlarmApp.mc   # lifecycle + GPS
+  AnchorPointApp.mc   # lifecycle + GPS
   AnchorMonitor.mc    # session, distance, alarm state
   Geo.mc              # haversine distance helpers
   views/              # Setup, Monitor, Alarm
