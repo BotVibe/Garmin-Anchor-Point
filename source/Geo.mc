@@ -61,4 +61,12 @@ module Geo {
     function isFixUsable(quality as Quality) as Boolean {
         return (quality == Position.QUALITY_USABLE) || (quality == Position.QUALITY_GOOD);
     }
+
+    //! True when distance is strictly outside the allowed radius.
+    //! @param distanceMeters Current distance from anchor
+    //! @param radiusMeters Allowed radius
+    //! @return true if breached
+    function isOutsideRadius(distanceMeters as Float, radiusMeters as Number) as Boolean {
+        return distanceMeters > radiusMeters.toFloat();
+    }
 }
