@@ -1,0 +1,20 @@
+# Build artifacts
+bin/
+gen/
+*.prg
+*.prg.debug.xml
+*.iq
+*.mir
+*.mb
+
+# Local SDK / keys (never commit)
+developer_key.pem
+*.pem
+.Garmin/
+.connectiq/
+
+# Editor / OS
+.DS_Store
+*.swp
+.idea/
+*.iml

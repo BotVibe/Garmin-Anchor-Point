@@ -1,0 +1,9 @@
+{
+  "monkeyC.jungleFiles": "monkey.jungle",
+  "files.exclude": {
+    "bin": true,
+    "**/*.prg": true,
+    "**/*.prg.debug.xml": true,
+    "**/*.iq": true
+  }
+}

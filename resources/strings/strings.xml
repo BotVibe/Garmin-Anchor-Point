@@ -1,0 +1,48 @@
+<strings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="https://developer.garmin.com/downloads/connect-iq/resources.xsd">
+
+    <string id="AppName">Anchor Point</string>
+    <string id="AppVersion">1.0.0</string>
+
+    <string id="TitleSetup">Anchor Point</string>
+    <string id="TitleMonitor">Monitoring</string>
+    <string id="TitleAlarm">ALARM</string>
+
+    <string id="GpsWaiting">Acquiring GPS…</string>
+    <string id="GpsPoor">GPS weak</string>
+    <string id="GpsOk">GPS OK</string>
+    <string id="GpsGood">GPS good</string>
+    <string id="GpsUnknown">GPS unknown</string>
+
+    <string id="RadiusLabel">Radius</string>
+    <string id="MetersUnit">m</string>
+    <string id="DistanceLabel">Distance</string>
+    <string id="StatusOk">INSIDE</string>
+    <string id="StatusWarn">OUTSIDE</string>
+    <string id="RuntimeLabel">Runtime</string>
+
+    <string id="HintSetAnchor">START: set anchor &amp; start</string>
+    <string id="HintChangeRadius">UP/DOWN: change radius</string>
+    <string id="HintKeepOpen">Keep the app open — GPS pauses otherwise</string>
+    <string id="HintInactive">Monitoring paused (app inactive)</string>
+    <string id="HintMonitorMenu">MENU: end session</string>
+    <string id="HintAlarmAck">START: acknowledge alarm</string>
+
+    <string id="MenuStopTitle">End session</string>
+    <string id="MenuSave">Save</string>
+    <string id="MenuDiscard">Discard</string>
+    <string id="MenuCancel">Cancel</string>
+    <string id="MenuRadius">Change radius</string>
+
+    <string id="AlarmBody">Left the anchor circle!</string>
+    <string id="NoFitSupport">FIT recording not available</string>
+    <string id="NeedGps">Waiting for usable GPS</string>
+    <string id="AnchorSet">Anchor set</string>
+
+    <string id="SettingRadiusTitle">Default radius</string>
+    <string id="Radius15">15 m</string>
+    <string id="Radius25">25 m</string>
+    <string id="Radius50">50 m</string>
+    <string id="Radius75">75 m</string>
+    <string id="Radius100">100 m</string>
+</strings>
