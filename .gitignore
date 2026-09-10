@@ -18,3 +18,8 @@ developer_key.pem
 *.swp
 .idea/
 *.iml
+
+# Track Connect IQ store export in release/
+!release/
+!release/connectiq/
+!release/connectiq/**
