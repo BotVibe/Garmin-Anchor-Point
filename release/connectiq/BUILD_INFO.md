@@ -6,4 +6,5 @@
 - **sdk_version**: 9.2.0
 - **artifact**: `app.iq` (86-device export)
 - **source_pr**: #4 — fix: Compile cleanly on Connect IQ SDK 9.2.0
-- **store_graphics_copied**: 0
+- **store_graphics_copied**: 8
+- **store_graphics_note**: listing mockups + launcher PNG exports from store/assets/
