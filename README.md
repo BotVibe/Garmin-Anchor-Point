@@ -4,7 +4,7 @@ Watch-only MVP: set an anchor GPS point, monitor distance for a few hours like a
 
 ## Documentation maintenance
 
-`README.md` and `AGENTS.md` must stay in sync with the project. Whenever behavior, naming, controls, build steps, tests, or scope changes, update both files in the same change. Prefer doing this automatically as part of the work — do not leave docs for a later pass.
+`README.md` and `AGENTS.md` must stay in sync with the project. Whenever behavior, naming, controls, build steps, tests, store listing, or scope changes, update both files (and `store/` listing docs when relevant) in the same change. Prefer doing this automatically as part of the work — do not leave docs for a later pass.
 
 ## Features
 
@@ -51,6 +51,7 @@ source-test/             # Run No Evil (:test) methods
 resources/               # strings, icon, settings
 scripts/build.sh         # normal PRG build
 scripts/test.sh          # build with -t and run monkeydo -t
+store/                   # Connect IQ Store listing, privacy, checklists
 AGENTS.md                # guidance for coding agents
 ```
 
@@ -93,9 +94,50 @@ In VS Code: **Monkey C: Run Tests** (Test Explorer).
 
 Manual UI checks (alarm screen / vibration) still need the simulator or a real watch.
 
-## Store release (later)
+## Publish to the Connect IQ Store
 
-Export an `.iq` package with the Monkey C export command, add store graphics/description, and submit via the Connect IQ developer portal. Not part of this MVP.
+Prepared materials live in [`store/`](store/) (listing copy, privacy draft, asset checklist). Agents and contributors must keep **README.md**, **AGENTS.md**, and `store/` listing docs updated together when publishing steps or product claims change.
+
+### Already prepared in this repo
+
+- English store listing text: [`store/listing-en.md`](store/listing-en.md)
+- Privacy draft (on-device GPS/FIT): [`store/privacy-en.md`](store/privacy-en.md)
+- Screenshot checklist: [`store/assets/README.md`](store/assets/README.md)
+- Pre-submit checklist: [`store/submission-checklist.md`](store/submission-checklist.md)
+- App icon source: `resources/drawables/launcher_icon.svg`
+- Device list / permissions: `manifest.xml`
+
+### Remaining steps (manual — need your Garmin account & local SDK)
+
+1. **Developer account**  
+   Create/sign in at the [Garmin Connect IQ developer site](https://developer.garmin.com/connect-iq/submit-an-app/) and accept the developer agreement.
+
+2. **Replace placeholders**  
+   Put a real support/privacy email into `store/listing-en.md` and `store/privacy-en.md` (or host the privacy text on your site and link it).
+
+3. **Final testing**  
+   Run unit tests, then manually verify setup → monitoring → alarm → save/discard in the simulator and ideally on one real watch. Complete [`store/submission-checklist.md`](store/submission-checklist.md).
+
+4. **Capture screenshots**  
+   Follow [`store/assets/README.md`](store/assets/README.md) and save images under `store/assets/` (or upload directly from disk).
+
+5. **Export `.iq`**  
+   In VS Code: Command Palette → **Monkey C: Export Project** → choose an output folder.  
+   This builds a signed `.iq` for all products in `manifest.xml` (needs SDK + device packages + developer key).
+
+6. **Upload & listing**  
+   Open [Submit an App](https://developer.garmin.com/connect-iq/submit-an-app/), upload the `.iq`, paste listing text from `store/listing-en.md`, add screenshots, set Free / no companion app / English.
+
+7. **Submit for review**  
+   Garmin typically reviews within about **72 hours**. While pending, the app is not public; you can often preview/install it yourself. Fix any rejection notes and resubmit.
+
+Official docs: [Publishing to the Store](https://developer.garmin.com/connect-iq/core-topics/publishing-to-the-store/), [App Review Guidelines](https://developer.garmin.com/connect-iq/app-review-guidelines/).
+
+### Review notes specific to Anchor Point
+
+- Describe the app honestly: **not** a life-saving navigation system; GPS accuracy varies; **app must stay open**.
+- Permissions used: Positioning + Fit only (no Communications / no developer cloud in MVP).
+- Safety-oriented wording in the prepared listing is intentional — keep those caveats if you edit the text.
 
 ## Roadmap (out of scope)
 

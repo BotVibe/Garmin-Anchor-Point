@@ -16,10 +16,11 @@ Update both files in the **same change** when any of the following moves:
 - Controls, screens, or alarm behavior
 - Build/sideload/simulator/test steps
 - Unit test coverage or how tests are run
+- Store listing, privacy text, or publish checklist (`store/`)
 - Supported devices, permissions, or API assumptions
 - Scope boundaries (what is in / out of MVP)
 
-Do not defer doc updates. Prefer English for all names, UI strings, comments aimed at contributors, README, and this file.
+Do not defer doc updates. Prefer English for all names, UI strings, comments aimed at contributors, README, and this file. When store-facing claims change, update `store/listing-en.md` and `store/privacy-en.md` in the same change.
 
 ## Code map
 
@@ -38,6 +39,7 @@ Do not defer doc updates. Prefer English for all names, UI strings, comments aim
 | `manifest.xml` | App id, products, `Fit` + `Positioning` |
 | `scripts/build.sh` | Normal PRG build |
 | `scripts/test.sh` | Unit-test build (`-t`) + `monkeydo -t` |
+| `store/` | Connect IQ Store listing copy, privacy draft, asset/submit checklists |
 
 ## Testing
 
@@ -58,5 +60,6 @@ Do not defer doc updates. Prefer English for all names, UI strings, comments aim
 ## Build notes
 
 - Requires Connect IQ SDK and a downloaded device package (SDK Manager login).
-- Developer key required to sign `.prg` builds.
-- See README for VS Code, CLI build, and test steps.
+- Developer key required to sign `.prg` / `.iq` builds.
+- See README for VS Code, CLI build, test, and **Connect IQ Store publish** steps.
+- Store upload and review require a human Garmin developer account; agents prepare `store/` materials and docs but cannot complete portal login/export without that environment.
