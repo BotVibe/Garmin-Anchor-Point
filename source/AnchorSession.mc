@@ -22,7 +22,7 @@ class AnchorSession {
     private var _outside as Boolean = false;
     private var _sessionStartedAt as Number = 0;
 
-    public function initialize() as Void {
+    public function initialize() {
         setRadiusMeters(50);
     }
 

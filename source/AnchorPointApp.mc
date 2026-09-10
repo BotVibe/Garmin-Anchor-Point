@@ -35,7 +35,7 @@ class AnchorPointApp extends Application.AppBase {
 
     //! Forward GPS updates to the monitor.
     //! @param info Position.Info
-    public function onPosition(info as Info) as Void {
+    public function onPosition(info as Position.Info) as Void {
         var monitor = _monitor;
         if (monitor != null) {
             monitor.onPosition(info);
