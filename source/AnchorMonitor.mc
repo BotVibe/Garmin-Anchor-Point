@@ -20,7 +20,7 @@ class AnchorMonitor {
     private var _alarmViewPushed as Boolean = false;
 
     //! Constructor — loads default radius from properties.
-    public function initialize() as Void {
+    public function initialize() {
         _session = new $.AnchorSession();
         var stored = Application.Properties.getValue("DefaultRadiusMeters");
         if (stored != null) {
@@ -92,7 +92,7 @@ class AnchorMonitor {
 
     //! Update GPS information from Position callback.
     //! @param info Latest Position.Info
-    public function onPosition(info as Info) as Void {
+    public function onPosition(info as Position.Info) as Void {
         var enteredAlarm = _session.updateLocation(info.position, info.accuracy);
         if (enteredAlarm) {
             enterAlarm();
