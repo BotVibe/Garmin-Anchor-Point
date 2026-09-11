@@ -2,7 +2,7 @@
 # Build Anchor Point with Run No Evil unit tests and execute them in the simulator.
 set -euo pipefail
 
-ROOT="$(cd "$(dirname "$0")" && pwd)"
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 DEVICE="${1:-fenix7}"
 OUT_DIR="${ROOT}/bin"
 OUT_PRG="${OUT_DIR}/AnchorPoint-${DEVICE}-tests.prg"
