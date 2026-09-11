@@ -1,72 +1,67 @@
-# Anchor Point — Connect IQ Store listing (English)
+# Connect IQ Store listing (English)
 
-Copy/paste into the app submission form. Adjust support email before submit.
+Copy these fields into the Connect IQ Store submission form. Keep the tone factual and scoped to the watch-only MVP.
 
 ## App name
 
-```
 Anchor Point
-```
 
-## Short description (one line)
+## Short description (≤ 255 characters)
 
-```
-Watch-only anchor alarm: set a GPS point and get alerted if the boat drifts past your radius.
-```
+Watch-only GPS anchor alarm for boaters. Set an anchor point, choose a radius, and get a tone/vibrate alert on the watch if the boat drifts out of range.
 
-## Full description
+## Long description
 
-```
-Anchor Point is a Garmin Connect IQ watch app that helps you monitor drift while at anchor.
+Anchor Point helps you notice when your boat drifts away from the spot you anchored.
 
-How it works
-1. Open the app and wait for a usable GPS fix.
-2. Choose a radius (15–50 m in 5 m steps, or 75 / 100 m).
-3. Press START to set the anchor at your current position and begin monitoring.
-4. Keep the app open. If the watch moves outside the radius, the watch shows an alarm screen and alerts you with tone and/or vibration (configurable in settings).
-5. End the session from the menu and optionally save it as a boating activity.
+How it works:
 
-Features
-• Continuous GPS monitoring while the app is open
-• Adjustable radius: 15–50 m (5 m steps), 75 m, 100 m
-• On-watch alarm: tone + vibrate (default), tone only, or vibrate only
-• Optional FIT activity recording (Boating / “Anchor Point”)
+1. Wait for a usable GPS fix on your watch.
+2. Choose an alert radius (15–50 m in 5 m steps, plus 75 m and 100 m).
+3. Start monitoring. The watch stores the current position as the anchor.
+4. While monitoring, the watch shows distance to the anchor and whether you are inside or outside the radius.
+5. If the boat drifts outside the radius, the watch alarms with tone and/or vibration according to your setting.
+6. End monitoring from the on-watch menu when you are done.
 
-Important limitations
-• This is a convenience aid, not a life-saving or navigational safety system. Always use proper seamanship and backup methods.
-• Monitoring requires the app to stay open in the foreground. Closing the app or leaving it inactive (multitasking) can pause GPS.
-• GPS accuracy depends on satellite conditions and may vary.
-• Battery use is similar to other outdoor GPS activities (typically a few hours).
-• No companion phone app and no internet/Wi-Fi remote alerts in this version.
+Alarm style (Connect IQ settings):
 
-Permissions
-• Positioning — distance from the anchor point
-• Fit / activity recording — optional session save
+- Tone + vibrate (default)
+- Tone only
+- Vibrate only
 
-Support
-Replace with your contact: support@example.com
-```
+What this app does not do (MVP):
 
-## What’s new (v1.0.0)
+- No phone companion app
+- No internet or remote alerts
+- No chart plotting or navigation features
+- No activity / FIT recording
 
-```
-Initial release: set an anchor GPS point, monitor radius on the watch, and alarm on drift. Optional boating FIT session.
-```
+Important: GPS quality can vary. Use this as a secondary awareness aid, not as your only safety system.
 
-## Suggested store metadata
+## Category
 
-- **Type:** Device App / Watch App
-- **Category:** Boating / Sailing (or Outdoor / Navigation if closer match in the portal)
-- **Price:** Free
-- **Language:** English
-- **Requires payment:** No
-- **ANT+ profiles:** None
-- **Companion mobile app required:** No
+Suggested: Safety / Sports (Boating) — choose the closest available Connect IQ category for watch apps.
 
-## Support policy (portal field)
+## Keywords / tags
 
-```
-Email support for install and usage questions. Please include watch model and Connect IQ / firmware version. Response within a few business days.
-```
+anchor, boat, drift, GPS, marine, safety, watch alarm
 
-Replace the placeholder email with a real address before submitting.
+## What’s new (for this release)
+
+- Watch-only GPS anchor monitoring
+- Radius presets: 15–50 m (5 m steps), 75 m, 100 m
+- Alarm style setting: tone+vibrate, tone only, or vibrate only
+- Continuous GPS while monitoring
+- On-watch alarm when outside the selected radius
+- End monitoring from the watch menu
+
+## Support / contact
+
+Use the repository Issues page for bug reports and feature requests:
+
+https://github.com/BotVibe/Garmin-Anchor-Point/issues
+
+## Privacy policy URL
+
+Host `store/privacy-en.md` (or an equivalent page) publicly and paste that URL into the store form.
+For a quick public URL from this repository, you can use the raw GitHub file link after publishing the file on the default branch.

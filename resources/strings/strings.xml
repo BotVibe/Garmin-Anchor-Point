@@ -29,13 +29,11 @@
     <string id="HintAlarmAck">START: acknowledge alarm</string>
 
     <string id="MenuStopTitle">End session</string>
-    <string id="MenuSave">Save</string>
-    <string id="MenuDiscard">Discard</string>
+    <string id="MenuEnd">End</string>
     <string id="MenuCancel">Cancel</string>
     <string id="MenuRadius">Change radius</string>
 
     <string id="AlarmBody">Left the anchor circle!</string>
-    <string id="NoFitSupport">FIT recording not available</string>
     <string id="NeedGps">Waiting for usable GPS</string>
     <string id="AnchorSet">Anchor set</string>
 
