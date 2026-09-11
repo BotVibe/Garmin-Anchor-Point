@@ -27,17 +27,19 @@ class AlarmView extends WatchUi.View {
         dc.clear();
 
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-        dc.drawText(cx, height * 18 / 100, Graphics.FONT_LARGE, WatchUi.loadResource(Rez.Strings.TitleAlarm) as String, Graphics.TEXT_JUSTIFY_CENTER);
+        dc.drawText(cx, height * 14 / 100, Graphics.FONT_LARGE, WatchUi.loadResource(Rez.Strings.TitleAlarm) as String, Graphics.TEXT_JUSTIFY_CENTER);
 
-        dc.drawText(cx, height * 40 / 100, Graphics.FONT_SMALL, WatchUi.loadResource(Rez.Strings.AlarmBody) as String, Graphics.TEXT_JUSTIFY_CENTER);
+        dc.drawText(cx, height * 34 / 100, Graphics.FONT_SMALL, WatchUi.loadResource(Rez.Strings.AlarmBody) as String, Graphics.TEXT_JUSTIFY_CENTER);
 
         var dist = _monitor.getDistanceMeters();
         var distText = (WatchUi.loadResource(Rez.Strings.DistanceLabel) as String) + ": " + dist.format("%.0f") + " " + (WatchUi.loadResource(Rez.Strings.MetersUnit) as String);
-        dc.drawText(cx, height * 58 / 100, Graphics.FONT_TINY, distText, Graphics.TEXT_JUSTIFY_CENTER);
+        dc.drawText(cx, height * 50 / 100, Graphics.FONT_TINY, distText, Graphics.TEXT_JUSTIFY_CENTER);
 
         var radiusText = (WatchUi.loadResource(Rez.Strings.RadiusLabel) as String) + ": " + _monitor.getRadiusMeters().toString() + " " + (WatchUi.loadResource(Rez.Strings.MetersUnit) as String);
-        dc.drawText(cx, height * 70 / 100, Graphics.FONT_XTINY, radiusText, Graphics.TEXT_JUSTIFY_CENTER);
+        dc.drawText(cx, height * 62 / 100, Graphics.FONT_XTINY, radiusText, Graphics.TEXT_JUSTIFY_CENTER);
 
-        dc.drawText(cx, height * 86 / 100, Graphics.FONT_XTINY, WatchUi.loadResource(Rez.Strings.HintAlarmAck) as String, Graphics.TEXT_JUSTIFY_CENTER);
+        dc.drawText(cx, height * 76 / 100, Graphics.FONT_XTINY, WatchUi.loadResource(Rez.Strings.HintAlarmAck) as String, Graphics.TEXT_JUSTIFY_CENTER);
+        dc.drawText(cx, height * 86 / 100, Graphics.FONT_XTINY, WatchUi.loadResource(Rez.Strings.HintAlarmRadius) as String, Graphics.TEXT_JUSTIFY_CENTER);
+        dc.drawText(cx, height * 94 / 100, Graphics.FONT_XTINY, WatchUi.loadResource(Rez.Strings.HintAlarmMenu) as String, Graphics.TEXT_JUSTIFY_CENTER);
     }
 }

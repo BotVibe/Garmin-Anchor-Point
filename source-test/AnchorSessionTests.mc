@@ -77,9 +77,55 @@ function testAcknowledgeAndRearmWhileOutside(logger as Logger) as Boolean {
 
     session.acknowledgeAlarm();
     Test.assert(session.isMonitoring());
+    Test.assert(session.isAlarmMuted());
+    // Snooze blocks immediate re-arm while still outside.
+    Test.assert(!session.rearmIfStillOutside());
+    Test.assert(session.isMonitoring());
 
+    session.muteAlarmFor(0);
     Test.assert(session.rearmIfStillOutside());
     Test.assert(session.isAlarming());
+    return true;
+}
+
+(:test)
+function testAcknowledgeSnoozeBlocksNewAlarm(logger as Logger) as Boolean {
+    var session = new AnchorSession();
+    session.setRadiusMeters(25);
+
+    var anchor = new Position.Location({:latitude => 0.0, :longitude => 0.0, :format => :degrees});
+    var outside = new Position.Location({:latitude => 0.001, :longitude => 0.0, :format => :degrees});
+
+    session.updateLocation(anchor, Position.QUALITY_GOOD);
+    Test.assert(session.startMonitoring());
+    Test.assert(session.updateLocation(outside, Position.QUALITY_GOOD));
+    session.acknowledgeAlarm();
+    Test.assert(session.isAlarmMuted());
+
+    var entered = session.updateLocation(outside, Position.QUALITY_GOOD);
+    Test.assert(!entered);
+    Test.assert(session.isMonitoring());
+    Test.assert(session.isOutside());
+    return true;
+}
+
+(:test)
+function testSnoozeClearsWhenBackInside(logger as Logger) as Boolean {
+    var session = new AnchorSession();
+    session.setRadiusMeters(50);
+
+    var anchor = new Position.Location({:latitude => 0.0, :longitude => 0.0, :format => :degrees});
+    var outside = new Position.Location({:latitude => 0.001, :longitude => 0.0, :format => :degrees});
+
+    session.updateLocation(anchor, Position.QUALITY_GOOD);
+    Test.assert(session.startMonitoring());
+    Test.assert(session.updateLocation(outside, Position.QUALITY_GOOD));
+    session.acknowledgeAlarm();
+    Test.assert(session.isAlarmMuted());
+
+    session.updateLocation(anchor, Position.QUALITY_GOOD);
+    Test.assert(!session.isAlarmMuted());
+    Test.assert(!session.isOutside());
     return true;
 }
 
@@ -143,11 +189,36 @@ function testLargerRadiusCanClearOutsideFlag(logger as Logger) as Boolean {
     Test.assert(session.startMonitoring());
     Test.assert(session.updateLocation(mid, Position.QUALITY_GOOD));
     Test.assert(session.isOutside());
+    Test.assert(session.isAlarming());
 
-    session.acknowledgeAlarm();
     session.setRadiusMeters(100);
     Test.assert(!session.isOutside());
-    Test.assert(!session.rearmIfStillOutside());
     Test.assert(session.isMonitoring());
+    Test.assert(!session.rearmIfStillOutside());
+    return true;
+}
+
+(:test)
+function testEnlargingRadiusClearsActiveAlarm(logger as Logger) as Boolean {
+    var session = new AnchorSession();
+    session.setRadiusMeters(25);
+
+    var anchor = new Position.Location({:latitude => 0.0, :longitude => 0.0, :format => :degrees});
+    var mid = new Position.Location({:latitude => 0.0005, :longitude => 0.0, :format => :degrees}); // ~55 m
+
+    session.updateLocation(anchor, Position.QUALITY_GOOD);
+    Test.assert(session.startMonitoring());
+    Test.assert(session.updateLocation(mid, Position.QUALITY_GOOD));
+    Test.assert(session.isAlarming());
+
+    // Nudge up through presets until inside (25→30→…→75/100).
+    var guard = 0;
+    while (session.isAlarming() && (guard < 20)) {
+        session.nudgeRadius(1);
+        guard += 1;
+    }
+    logger.debug("radius=" + session.getRadiusMeters() + " outside=" + session.isOutside());
+    Test.assert(session.isMonitoring());
+    Test.assert(!session.isOutside());
     return true;
 }

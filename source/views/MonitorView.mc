@@ -55,7 +55,13 @@ class MonitorView extends WatchUi.View {
         var runtimeText = (WatchUi.loadResource(Rez.Strings.RuntimeLabel) as String) + ": " + elapsed;
         dc.drawText(cx, height * 76 / 100, Graphics.FONT_XTINY, runtimeText, Graphics.TEXT_JUSTIFY_CENTER);
 
-        dc.drawText(cx, height * 88 / 100, Graphics.FONT_XTINY, WatchUi.loadResource(Rez.Strings.HintMonitorMenu) as String, Graphics.TEXT_JUSTIFY_CENTER);
+        if (_monitor.isAlarmMuted() && outside) {
+            var muted = (WatchUi.loadResource(Rez.Strings.HintAlarmMuted) as String) + " " + _monitor.getAlarmMuteRemainingSeconds().toString() + "s";
+            dc.setColor(Graphics.COLOR_YELLOW, Graphics.COLOR_TRANSPARENT);
+            dc.drawText(cx, height * 88 / 100, Graphics.FONT_XTINY, muted, Graphics.TEXT_JUSTIFY_CENTER);
+        } else {
+            dc.drawText(cx, height * 88 / 100, Graphics.FONT_XTINY, WatchUi.loadResource(Rez.Strings.HintMonitorMenu) as String, Graphics.TEXT_JUSTIFY_CENTER);
+        }
     }
 
     //! Format seconds as h:mm:ss or m:ss.

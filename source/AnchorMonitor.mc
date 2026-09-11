@@ -19,6 +19,7 @@ class AnchorMonitor {
     private var _session as AnchorSession;
     private var _appActive as Boolean = true;
     private var _alarmTimer as Timer.Timer?;
+    private var _snoozeTimer as Timer.Timer?;
     private var _alarmVisible as Boolean = false;
     private var _alarmViewPushed as Boolean = false;
 
@@ -79,14 +80,24 @@ class AnchorMonitor {
         return _session.getElapsedSeconds();
     }
 
+    public function isAlarmMuted() as Boolean {
+        return _session.isAlarmMuted();
+    }
+
+    public function getAlarmMuteRemainingSeconds() as Number {
+        return _session.getAlarmMuteRemainingSeconds();
+    }
+
     public function nudgeRadius(delta as Number) as Void {
         _session.nudgeRadius(delta);
         Application.Properties.setValue("DefaultRadiusMeters", _session.getRadiusMeters());
         WatchUi.requestUpdate();
+        dismissAlarmViewIfCleared();
     }
 
     public function setRadiusMeters(meters as Number) as Void {
         _session.setRadiusMeters(meters);
+        dismissAlarmViewIfCleared();
     }
 
     //! Update GPS information from Position callback.
@@ -95,6 +106,8 @@ class AnchorMonitor {
         var enteredAlarm = _session.updateLocation(info.position, info.accuracy);
         if (enteredAlarm) {
             enterAlarm();
+        } else {
+            dismissAlarmViewIfCleared();
         }
         WatchUi.requestUpdate();
     }
@@ -112,6 +125,7 @@ class AnchorMonitor {
         }
 
         stopAlarmEffects();
+        cancelSnoozeTimer();
         WatchUi.requestUpdate();
         return true;
     }
@@ -119,13 +133,14 @@ class AnchorMonitor {
     //! Stop monitoring and return to setup state.
     public function stopMonitoring() as Void {
         stopAlarmEffects();
+        cancelSnoozeTimer();
         _alarmVisible = false;
         _alarmViewPushed = false;
         _session.stopMonitoring();
         WatchUi.requestUpdate();
     }
 
-    //! Acknowledge alarm and return to monitoring (re-arm after view closes if still outside).
+    //! Acknowledge alarm: silence + snooze so the user can adjust radius or end.
     public function acknowledgeAlarm() as Void {
         stopAlarmEffects();
         _alarmVisible = false;
@@ -139,14 +154,30 @@ class AnchorMonitor {
         _alarmVisible = false;
         if (_session.rearmIfStillOutside()) {
             enterAlarm();
+        } else {
+            scheduleSnoozeCheck();
         }
+    }
+
+    //! Timer callback after acknowledge snooze ends.
+    public function onSnoozeExpired() as Void {
+        if (_session.rearmIfStillOutside()) {
+            enterAlarm();
+        }
+        WatchUi.requestUpdate();
     }
 
     public function isAlarmVisible() as Boolean {
         return _alarmVisible;
     }
 
+    //! True while the alarm view is on the WatchUi stack.
+    public function isAlarmViewPushed() as Boolean {
+        return _alarmViewPushed;
+    }
+
     private function enterAlarm() as Void {
+        cancelSnoozeTimer();
         _alarmVisible = true;
         pulseAlarm();
         startAlarmTimer();
@@ -155,6 +186,32 @@ class AnchorMonitor {
             WatchUi.pushView(new $.AlarmView(self), new $.AlarmDelegate(self), WatchUi.SLIDE_IMMEDIATE);
         }
         WatchUi.requestUpdate();
+    }
+
+    private function dismissAlarmViewIfCleared() as Void {
+        if (_alarmViewPushed && !_session.isAlarming()) {
+            stopAlarmEffects();
+            _alarmVisible = false;
+            WatchUi.popView(WatchUi.SLIDE_IMMEDIATE);
+        }
+    }
+
+    private function scheduleSnoozeCheck() as Void {
+        var remaining = _session.getAlarmMuteRemainingSeconds();
+        if (remaining <= 0) {
+            return;
+        }
+        if (_snoozeTimer == null) {
+            _snoozeTimer = new Timer.Timer();
+        }
+        _snoozeTimer.stop();
+        _snoozeTimer.start(method(:onSnoozeExpired), remaining * 1000, false);
+    }
+
+    private function cancelSnoozeTimer() as Void {
+        if (_snoozeTimer != null) {
+            _snoozeTimer.stop();
+        }
     }
 
     private function startAlarmTimer() as Void {

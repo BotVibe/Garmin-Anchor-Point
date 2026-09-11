@@ -26,7 +26,10 @@
     <string id="HintKeepOpen">Keep the app open — GPS pauses otherwise</string>
     <string id="HintInactive">Monitoring paused (app inactive)</string>
     <string id="HintMonitorMenu">MENU: end session</string>
-    <string id="HintAlarmAck">START: acknowledge alarm</string>
+    <string id="HintAlarmAck">START: silence 60s</string>
+    <string id="HintAlarmRadius">UP/DOWN: change radius</string>
+    <string id="HintAlarmMenu">MENU: end session</string>
+    <string id="HintAlarmMuted">Alarm paused</string>
 
     <string id="MenuStopTitle">End session</string>
     <string id="MenuEnd">End</string>
