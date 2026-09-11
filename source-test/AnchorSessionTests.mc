@@ -127,7 +127,7 @@ function testNudgeRadiusChangesPreset(logger as Logger) as Boolean {
     session.nudgeRadius(-1);
     Test.assertEqual(session.getRadiusMeters(), 50);
     session.nudgeRadius(-1);
-    Test.assertEqual(session.getRadiusMeters(), 25);
+    Test.assertEqual(session.getRadiusMeters(), 45);
     return true;
 }
 

@@ -21,15 +21,15 @@ Anchor Point is a Garmin Connect IQ watch app that helps you monitor drift while
 
 How it works
 1. Open the app and wait for a usable GPS fix.
-2. Choose a radius (15–100 m).
+2. Choose a radius (15–50 m in 5 m steps, or 75 / 100 m).
 3. Press START to set the anchor at your current position and begin monitoring.
-4. Keep the app open. If the watch moves outside the radius, the watch vibrates, plays a tone (when supported), and shows an alarm screen.
+4. Keep the app open. If the watch moves outside the radius, the watch shows an alarm screen and alerts you with tone and/or vibration (configurable in settings).
 5. End the session from the menu and optionally save it as a boating activity.
 
 Features
 • Continuous GPS monitoring while the app is open
-• Adjustable radius: 15 / 25 / 50 / 75 / 100 meters
-• On-watch vibration and tone alarm
+• Adjustable radius: 15–50 m (5 m steps), 75 m, 100 m
+• On-watch alarm: tone + vibrate (default), tone only, or vibrate only
 • Optional FIT activity recording (Boating / “Anchor Point”)
 
 Important limitations

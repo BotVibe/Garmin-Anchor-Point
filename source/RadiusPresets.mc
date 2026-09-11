@@ -3,9 +3,9 @@ import Toybox.Lang;
 //! Supported anchor-radius presets and helpers.
 module RadiusPresets {
 
-    //! @return Radius choices in meters
+    //! @return Radius choices in meters (5 m steps from 15–50, then 75 / 100)
     function values() as Array<Number> {
-        return [15, 25, 50, 75, 100] as Array<Number>;
+        return [15, 20, 25, 30, 35, 40, 45, 50, 75, 100] as Array<Number>;
     }
 
     //! Snap an arbitrary meter value to the nearest preset.

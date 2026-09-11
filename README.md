@@ -10,10 +10,10 @@ Watch-only MVP: set an anchor GPS point, monitor distance for a few hours like a
 
 - Continuous GPS while the app session is open
 - Set anchor at the current position when the fix is usable
-- Radius presets: 15 / 25 / 50 / 75 / 100 m (default 50 m, also in Garmin Connect app settings)
+- Radius presets: 15–50 m in 5 m steps, plus 75 / 100 m (default 50 m; also in Garmin Connect app settings)
 - FIT activity recording (`SPORT_BOATING`, name `Anchor Point`) so the session appears in your activity history
 - Monitor screen: distance, radius, GPS quality, runtime, inside/outside status
-- Alarm: vibration + tone + full-screen alert until acknowledged
+- Alarm: full-screen alert; style selectable in settings — tone + vibrate (default), tone only, or vibrate only
 - English UI strings
 - Run No Evil unit tests for geo, radius presets, and session state
 
@@ -44,7 +44,7 @@ source/
   AnchorMonitor.mc       # UI / FIT / attention wrapper
   AnchorSession.mc       # pure monitoring state machine
   Geo.mc                 # haversine + radius breach helpers
-  RadiusPresets.mc       # 15–100 m presets
+  RadiusPresets.mc       # 15–50 m (5 m steps), 75, 100 m
   views/                 # Setup, Monitor, Alarm
   delegates/             # input + stop menu
 source-test/             # Run No Evil (:test) methods

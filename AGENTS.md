@@ -53,7 +53,8 @@ Do not defer doc updates. Prefer English for all names, UI strings, comments aim
 
 - Language: **English** for app name, strings, docs, and commit messages.
 - Product / session recording name: `Anchor Point` (`Activity.SPORT_BOATING`).
-- Radius presets: 15 / 25 / 50 / 75 / 100 m.
+- Radius presets: 15–50 m in 5 m steps, plus 75 / 100 m.
+- Alarm style setting (`AlarmMode`): 0 = tone + vibrate (default), 1 = tone only, 2 = vibrate only.
 - App must remain open while monitoring; do not promise background geofencing unless Connect IQ capabilities change and docs are updated.
 - Phone companion / internet push are out of MVP unless explicitly requested — if added, update README + AGENTS.md immediately.
 
