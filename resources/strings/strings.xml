@@ -41,8 +41,18 @@
 
     <string id="SettingRadiusTitle">Default radius</string>
     <string id="Radius15">15 m</string>
+    <string id="Radius20">20 m</string>
     <string id="Radius25">25 m</string>
+    <string id="Radius30">30 m</string>
+    <string id="Radius35">35 m</string>
+    <string id="Radius40">40 m</string>
+    <string id="Radius45">45 m</string>
     <string id="Radius50">50 m</string>
     <string id="Radius75">75 m</string>
     <string id="Radius100">100 m</string>
+
+    <string id="SettingAlarmModeTitle">Alarm style</string>
+    <string id="AlarmModeBoth">Tone + vibrate</string>
+    <string id="AlarmModeTone">Tone only</string>
+    <string id="AlarmModeVibrate">Vibrate only</string>
 </strings>

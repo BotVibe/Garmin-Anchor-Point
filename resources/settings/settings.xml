@@ -3,10 +3,22 @@
     <setting propertyKey="@Properties.DefaultRadiusMeters" title="@Strings.SettingRadiusTitle">
         <settingConfig type="list">
             <listEntry value="15">@Strings.Radius15</listEntry>
+            <listEntry value="20">@Strings.Radius20</listEntry>
             <listEntry value="25">@Strings.Radius25</listEntry>
+            <listEntry value="30">@Strings.Radius30</listEntry>
+            <listEntry value="35">@Strings.Radius35</listEntry>
+            <listEntry value="40">@Strings.Radius40</listEntry>
+            <listEntry value="45">@Strings.Radius45</listEntry>
             <listEntry value="50">@Strings.Radius50</listEntry>
             <listEntry value="75">@Strings.Radius75</listEntry>
             <listEntry value="100">@Strings.Radius100</listEntry>
+        </settingConfig>
+    </setting>
+    <setting propertyKey="@Properties.AlarmMode" title="@Strings.SettingAlarmModeTitle">
+        <settingConfig type="list">
+            <listEntry value="0">@Strings.AlarmModeBoth</listEntry>
+            <listEntry value="1">@Strings.AlarmModeTone</listEntry>
+            <listEntry value="2">@Strings.AlarmModeVibrate</listEntry>
         </settingConfig>
     </setting>
 </settings>

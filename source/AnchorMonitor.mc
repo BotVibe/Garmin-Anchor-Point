@@ -11,6 +11,12 @@ import Toybox.WatchUi;
 class AnchorMonitor {
 
     private const ALARM_INTERVAL_MS = 2000;
+    //! AlarmMode property: tone + vibrate
+    private const ALARM_MODE_BOTH = 0;
+    //! AlarmMode property: tone only
+    private const ALARM_MODE_TONE = 1;
+    //! AlarmMode property: vibrate only
+    private const ALARM_MODE_VIBRATE = 2;
 
     private var _session as AnchorSession;
     private var _appActive as Boolean = true;
@@ -208,7 +214,11 @@ class AnchorMonitor {
     }
 
     private function pulseAlarm() as Void {
-        if (Attention has :vibrate) {
+        var mode = getAlarmMode();
+        var useVibrate = (mode == ALARM_MODE_BOTH) || (mode == ALARM_MODE_VIBRATE);
+        var useTone = (mode == ALARM_MODE_BOTH) || (mode == ALARM_MODE_TONE);
+
+        if (useVibrate && (Attention has :vibrate)) {
             var vibe = [
                 new Attention.VibeProfile(100, 200),
                 new Attention.VibeProfile(0, 100),
@@ -218,12 +228,26 @@ class AnchorMonitor {
             ];
             Attention.vibrate(vibe);
         }
-        if (Attention has :playTone) {
+        if (useTone && (Attention has :playTone)) {
             Attention.playTone(Attention.TONE_ALARM);
         }
         if (Attention has :backlight) {
             Attention.backlight(true);
         }
+    }
+
+    //! Read AlarmMode from app settings (0 both, 1 tone, 2 vibrate).
+    //! @return Normalized alarm mode constant
+    private function getAlarmMode() as Number {
+        var stored = Application.Properties.getValue("AlarmMode");
+        if (stored == null) {
+            return ALARM_MODE_BOTH;
+        }
+        var mode = stored as Number;
+        if ((mode == ALARM_MODE_TONE) || (mode == ALARM_MODE_VIBRATE)) {
+            return mode;
+        }
+        return ALARM_MODE_BOTH;
     }
 
     private function stopAlarmEffects() as Void {
