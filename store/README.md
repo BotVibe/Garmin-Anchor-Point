@@ -8,7 +8,7 @@ You still need a developer account, screenshots, and an exported `.iq` file.
 | File | Use |
 |------|-----|
 | [listing-en.md](listing-en.md) | Title, descriptions, category hints, support text |
-| [privacy-en.md](privacy-en.md) | Short privacy statement (GPS/FIT on-device) |
+| [privacy-en.md](privacy-en.md) | Short privacy statement (on-device GPS only) |
 | [assets/README.md](assets/README.md) | Screenshot / icon checklist |
 | [submission-checklist.md](submission-checklist.md) | Pre-submit checklist |
 

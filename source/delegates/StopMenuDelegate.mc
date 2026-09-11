@@ -15,12 +15,8 @@ class StopMenuDelegate extends WatchUi.Menu2InputDelegate {
     //! @param item Selected menu item
     public function onSelect(item as MenuItem) as Void {
         var id = item.getId();
-        if (id == :save) {
-            _monitor.stopMonitoring(true);
-            WatchUi.popView(WatchUi.SLIDE_IMMEDIATE);
-            WatchUi.switchToView(new $.SetupView(_monitor), new $.SetupDelegate(_monitor), WatchUi.SLIDE_RIGHT);
-        } else if (id == :discard) {
-            _monitor.stopMonitoring(false);
+        if (id == :end) {
+            _monitor.stopMonitoring();
             WatchUi.popView(WatchUi.SLIDE_IMMEDIATE);
             WatchUi.switchToView(new $.SetupView(_monitor), new $.SetupDelegate(_monitor), WatchUi.SLIDE_RIGHT);
         } else {

@@ -49,8 +49,7 @@ class MonitorDelegate extends WatchUi.BehaviorDelegate {
 
     private function showStopMenu() as Void {
         var menu = new WatchUi.Menu2({:title => WatchUi.loadResource(Rez.Strings.MenuStopTitle) as String});
-        menu.addItem(new WatchUi.MenuItem(WatchUi.loadResource(Rez.Strings.MenuSave) as String, null, :save, null));
-        menu.addItem(new WatchUi.MenuItem(WatchUi.loadResource(Rez.Strings.MenuDiscard) as String, null, :discard, null));
+        menu.addItem(new WatchUi.MenuItem(WatchUi.loadResource(Rez.Strings.MenuEnd) as String, null, :end, null));
         menu.addItem(new WatchUi.MenuItem(WatchUi.loadResource(Rez.Strings.MenuCancel) as String, null, :cancel, null));
         WatchUi.pushView(menu, new $.StopMenuDelegate(_monitor), WatchUi.SLIDE_UP);
     }

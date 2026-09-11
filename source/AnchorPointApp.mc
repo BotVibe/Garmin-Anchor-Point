@@ -26,7 +26,7 @@ class AnchorPointApp extends Application.AppBase {
         var monitor = _monitor;
         if (monitor != null) {
             if (!monitor.isSetup()) {
-                monitor.stopMonitoring(false);
+                monitor.stopMonitoring();
             }
         }
         Position.enableLocationEvents(Position.LOCATION_DISABLE, null);

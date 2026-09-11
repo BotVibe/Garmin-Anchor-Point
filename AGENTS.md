@@ -4,7 +4,7 @@ Guidance for coding agents working in this repository.
 
 ## Product
 
-**Anchor Point** is a Garmin Connect IQ `watch-app` (Monkey C). The MVP is watch-only: continuous GPS, settable radius, FIT session styled like boating, and on-watch vibration/tone alarm when the boat leaves the circle.
+**Anchor Point** is a Garmin Connect IQ `watch-app` (Monkey C). The MVP is watch-only: continuous GPS, settable radius, and on-watch vibration/tone alarm when the boat leaves the circle. There is **no** FIT / activity recording.
 
 ## Documentation maintenance (required)
 
@@ -27,7 +27,7 @@ Do not defer doc updates. Prefer English for all names, UI strings, comments aim
 | Path | Role |
 |------|------|
 | `source/AnchorPointApp.mc` | App lifecycle, GPS enable/disable |
-| `source/AnchorMonitor.mc` | UI, FIT recording, vibration/tone around session |
+| `source/AnchorMonitor.mc` | UI, vibration/tone around session |
 | `source/AnchorSession.mc` | Pure state machine (setup/monitoring/alarm) — unit-tested |
 | `source/Geo.mc` | Haversine distance, fix usability, outside-radius check |
 | `source/RadiusPresets.mc` | Radius presets + snap/nudge helpers |
@@ -35,8 +35,8 @@ Do not defer doc updates. Prefer English for all names, UI strings, comments aim
 | `source/delegates/*` | Input handling and end-session menu |
 | `source-test/*` | Run No Evil `(:test)` methods |
 | `resources/strings/strings.xml` | English UI strings |
-| `resources/settings/*` | Default radius property + Connect settings |
-| `manifest.xml` | App id, products, `Fit` + `Positioning` |
+| `resources/settings/*` | Default radius + alarm style settings |
+| `manifest.xml` | App id, products, `Positioning` |
 | `scripts/build.sh` | Normal PRG build |
 | `scripts/test.sh` | Unit-test build (`-t`) + `monkeydo -t` |
 | `store/` | Connect IQ Store listing copy, privacy draft, asset/submit checklists |
@@ -45,16 +45,17 @@ Do not defer doc updates. Prefer English for all names, UI strings, comments aim
 
 - Framework: Garmin **Run No Evil** (`Toybox.Test`), simulator only.
 - `monkey.jungle` includes `source-test`; `(:test)` symbols are omitted from non-`-t` builds.
-- Prefer testing pure logic in `Geo`, `RadiusPresets`, and `AnchorSession`. Keep UI/FIT/`Attention` side effects in `AnchorMonitor`.
+- Prefer testing pure logic in `Geo`, `RadiusPresets`, and `AnchorSession`. Keep UI/`Attention` side effects in `AnchorMonitor`.
 - When changing geofence or radius behavior, add/adjust tests in `source-test/` and update this section + README.
 - Run: `./scripts/test.sh fenix7` or VS Code **Monkey C: Run Tests**.
 
 ## Conventions
 
 - Language: **English** for app name, strings, docs, and commit messages.
-- Product / session recording name: `Anchor Point` (`Activity.SPORT_BOATING`).
+- Product name: `Anchor Point`.
 - Radius presets: 15–50 m in 5 m steps, plus 75 / 100 m.
 - Alarm style setting (`AlarmMode`): 0 = tone + vibrate (default), 1 = tone only, 2 = vibrate only.
+- No FIT / activity recording — end session simply stops monitoring.
 - App must remain open while monitoring; do not promise background geofencing unless Connect IQ capabilities change and docs are updated.
 - Phone companion / internet push are out of MVP unless explicitly requested — if added, update README + AGENTS.md immediately.
 

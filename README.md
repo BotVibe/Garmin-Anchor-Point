@@ -1,6 +1,6 @@
 # Anchor Point (Garmin Connect IQ)
 
-Watch-only MVP: set an anchor GPS point, monitor distance for a few hours like a sport session, and alarm **on the watch** if the boat drifts beyond a chosen radius.
+Watch-only MVP: set an anchor GPS point, monitor distance for a few hours, and alarm **on the watch** if the boat drifts beyond a chosen radius.
 
 ## Documentation maintenance
 
@@ -11,7 +11,6 @@ Watch-only MVP: set an anchor GPS point, monitor distance for a few hours like a
 - Continuous GPS while the app session is open
 - Set anchor at the current position when the fix is usable
 - Radius presets: 15–50 m in 5 m steps, plus 75 / 100 m (default 50 m; also in Garmin Connect app settings)
-- FIT activity recording (`SPORT_BOATING`, name `Anchor Point`) so the session appears in your activity history
 - Monitor screen: distance, radius, GPS quality, runtime, inside/outside status
 - Alarm: full-screen alert; style selectable in settings — tone + vibrate (default), tone only, or vibrate only
 - English UI strings
@@ -22,7 +21,7 @@ Watch-only MVP: set an anchor GPS point, monitor distance for a few hours like a
 - The app must stay open for the whole watch (2–3 h typical). Closing it stops monitoring.
 - On watches with multitasking, leaving the app can pause GPS; keep Anchor Point in the foreground.
 - No phone companion and no internet/Wi‑Fi remote alarm in this MVP.
-- Battery use is similar to an outdoor GPS activity.
+- Battery use is similar to other outdoor GPS activities (GPS stays on while monitoring).
 
 ## Controls
 
@@ -31,17 +30,17 @@ Watch-only MVP: set an anchor GPS point, monitor distance for a few hours like a
 | Setup | **UP/DOWN** (or swipe): change radius |
 | Setup | **START/ENTER**: set anchor and start session (needs usable GPS) |
 | Monitor | **UP/DOWN**: change radius live |
-| Monitor | **MENU** / **START** / **BACK**: end session (save / discard / cancel) |
+| Monitor | **MENU** / **START** / **BACK**: end session (End / Cancel) |
 | Alarm | **START/ENTER** / tap / **BACK**: acknowledge |
 
 ## Project layout
 
 ```
-manifest.xml             # watch-app, products, Fit + Positioning
+manifest.xml             # watch-app, products, Positioning
 monkey.jungle            # includes source + source-test
 source/
   AnchorPointApp.mc      # lifecycle + GPS
-  AnchorMonitor.mc       # UI / FIT / attention wrapper
+  AnchorMonitor.mc       # UI / attention wrapper
   AnchorSession.mc       # pure monitoring state machine
   Geo.mc                 # haversine + radius breach helpers
   RadiusPresets.mc       # 15–50 m (5 m steps), 75, 100 m
@@ -101,7 +100,7 @@ Prepared materials live in [`store/`](store/) (listing copy, privacy draft, asse
 ### Already prepared in this repo
 
 - English store listing text: [`store/listing-en.md`](store/listing-en.md)
-- Privacy draft (on-device GPS/FIT): [`store/privacy-en.md`](store/privacy-en.md)
+- Privacy draft (on-device GPS only): [`store/privacy-en.md`](store/privacy-en.md)
 - Screenshot checklist: [`store/assets/README.md`](store/assets/README.md)
 - Pre-submit checklist: [`store/submission-checklist.md`](store/submission-checklist.md)
 - App icon source: `resources/drawables/launcher_icon.svg`
@@ -116,7 +115,7 @@ Prepared materials live in [`store/`](store/) (listing copy, privacy draft, asse
    Put a real support/privacy email into `store/listing-en.md` and `store/privacy-en.md` (or host the privacy text on your site and link it).
 
 3. **Final testing**  
-   Run unit tests, then manually verify setup → monitoring → alarm → save/discard in the simulator and ideally on one real watch. Complete [`store/submission-checklist.md`](store/submission-checklist.md).
+   Run unit tests, then manually verify setup → monitoring → alarm → end session in the simulator and ideally on one real watch. Complete [`store/submission-checklist.md`](store/submission-checklist.md).
 
 4. **Capture screenshots**  
    Follow [`store/assets/README.md`](store/assets/README.md) and save images under `store/assets/` (or upload directly from disk).
@@ -136,7 +135,7 @@ Official docs: [Publishing to the Store](https://developer.garmin.com/connect-iq
 ### Review notes specific to Anchor Point
 
 - Describe the app honestly: **not** a life-saving navigation system; GPS accuracy varies; **app must stay open**.
-- Permissions used: Positioning + Fit only (no Communications / no developer cloud in MVP).
+- Permissions used: Positioning only (no Fit / Communications / developer cloud in MVP).
 - Safety-oriented wording in the prepared listing is intentional — keep those caveats if you edit the text.
 
 ## Roadmap (out of scope)

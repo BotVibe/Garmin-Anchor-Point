@@ -1,5 +1,3 @@
-import Toybox.Activity;
-import Toybox.ActivityRecording;
 import Toybox.Application;
 import Toybox.Attention;
 import Toybox.Lang;
@@ -7,7 +5,7 @@ import Toybox.Position;
 import Toybox.Timer;
 import Toybox.WatchUi;
 
-//! UI / FIT / attention wrapper around AnchorSession.
+//! UI / attention wrapper around AnchorSession.
 class AnchorMonitor {
 
     private const ALARM_INTERVAL_MS = 2000;
@@ -20,7 +18,6 @@ class AnchorMonitor {
 
     private var _session as AnchorSession;
     private var _appActive as Boolean = true;
-    private var _fitSession as ActivityRecording.Session?;
     private var _alarmTimer as Timer.Timer?;
     private var _alarmVisible as Boolean = false;
     private var _alarmViewPushed as Boolean = false;
@@ -78,10 +75,6 @@ class AnchorMonitor {
         return _appActive;
     }
 
-    public function isSessionRecording() as Boolean {
-        return (_fitSession != null) && _fitSession.isRecording();
-    }
-
     public function getElapsedSeconds() as Number {
         return _session.getElapsedSeconds();
     }
@@ -111,26 +104,11 @@ class AnchorMonitor {
         WatchUi.requestUpdate();
     }
 
-    //! Set anchor at current fix and start monitoring + FIT session.
+    //! Set anchor at current fix and start monitoring.
     //! @return true on success
     public function startMonitoring() as Boolean {
         if (!_session.startMonitoring()) {
             return false;
-        }
-
-        if (Toybox has :ActivityRecording) {
-            if (_fitSession != null) {
-                if (_fitSession.isRecording()) {
-                    _fitSession.stop();
-                }
-                _fitSession = null;
-            }
-            _fitSession = ActivityRecording.createSession({
-                :name => "Anchor Point",
-                :sport => Activity.SPORT_BOATING,
-                :subSport => Activity.SUB_SPORT_GENERIC
-            });
-            _fitSession.start();
         }
 
         stopAlarmEffects();
@@ -138,25 +116,11 @@ class AnchorMonitor {
         return true;
     }
 
-    //! Stop monitoring and optionally save the FIT session.
-    //! @param save true to save, false to discard
-    public function stopMonitoring(save as Boolean) as Void {
+    //! Stop monitoring and return to setup state.
+    public function stopMonitoring() as Void {
         stopAlarmEffects();
         _alarmVisible = false;
         _alarmViewPushed = false;
-
-        if ((Toybox has :ActivityRecording) && (_fitSession != null)) {
-            if (_fitSession.isRecording()) {
-                _fitSession.stop();
-            }
-            if (save) {
-                _fitSession.save();
-            } else {
-                _fitSession.discard();
-            }
-            _fitSession = null;
-        }
-
         _session.stopMonitoring();
         WatchUi.requestUpdate();
     }

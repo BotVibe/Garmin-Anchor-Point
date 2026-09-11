@@ -2,7 +2,7 @@ import Toybox.Lang;
 import Toybox.Position;
 import Toybox.Time;
 
-//! Pure monitoring state (no UI, timers, or FIT recording).
+//! Pure monitoring state (no UI, timers, or activity recording).
 //! Used by AnchorMonitor and covered by Run No Evil unit tests.
 class AnchorSession {
 
