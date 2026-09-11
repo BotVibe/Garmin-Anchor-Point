@@ -46,7 +46,7 @@ Do not defer doc updates. Prefer English for all names, UI strings, comments aim
 - Framework: Garmin **Run No Evil** (`Toybox.Test`), simulator only.
 - `monkey.jungle` includes `source-test`; `(:test)` symbols are omitted from non-`-t` builds.
 - Prefer testing pure logic in `Geo`, `RadiusPresets`, and `AnchorSession`. Keep UI/`Attention` side effects in `AnchorMonitor`.
-- When changing geofence or radius behavior, add/adjust tests in `source-test/` and update this section + README.
+- When changing geofence, radius, or alarm snooze/ack behavior, add/adjust tests in `source-test/` and update this section + README.
 - Run: `./scripts/test.sh fenix7` or VS Code **Monkey C: Run Tests**.
 
 ## Conventions
