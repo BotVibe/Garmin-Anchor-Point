@@ -46,7 +46,7 @@ Do not defer doc updates. Prefer English for all names, UI strings, comments aim
 - Framework: Garmin **Run No Evil** (`Toybox.Test`), simulator only.
 - `monkey.jungle` includes `source-test`; `(:test)` symbols are omitted from non-`-t` builds.
 - Prefer testing pure logic in `Geo`, `RadiusPresets`, and `AnchorSession`. Keep UI/`Attention` side effects in `AnchorMonitor`.
-- When changing geofence or radius behavior, add/adjust tests in `source-test/` and update this section + README.
+- When changing geofence, radius, or alarm snooze/ack behavior, add/adjust tests in `source-test/` and update this section + README.
 - Run: `./scripts/test.sh fenix7` or VS Code **Monkey C: Run Tests**.
 
 ## Conventions
@@ -55,6 +55,7 @@ Do not defer doc updates. Prefer English for all names, UI strings, comments aim
 - Product name: `Anchor Point`.
 - Radius presets: 15–50 m in 5 m steps, plus 75 / 100 m.
 - Alarm style setting (`AlarmMode`): 0 = tone + vibrate (default), 1 = tone only, 2 = vibrate only.
+- Acknowledge snoozes re-alarm for 60 s while still outside; alarm screen supports UP/DOWN radius and MENU to end.
 - No FIT / activity recording — end session simply stops monitoring.
 - App must remain open while monitoring; do not promise background geofencing unless Connect IQ capabilities change and docs are updated.
 - Phone companion / internet push are out of MVP unless explicitly requested — if added, update README + AGENTS.md immediately.

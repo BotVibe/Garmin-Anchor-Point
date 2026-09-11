@@ -12,6 +12,9 @@ class AnchorSession {
         STATE_ALARM
     }
 
+    //! After acknowledge, suppress re-alarm this long so radius/end stay usable.
+    const ALARM_SNOOZE_SECONDS = 60;
+
     private var _state as SessionState = STATE_SETUP;
     private var _radiusMeters as Number = 50;
     private var _radiusIndex as Number = 2;
@@ -21,6 +24,7 @@ class AnchorSession {
     private var _distanceMeters as Float = 0.0;
     private var _outside as Boolean = false;
     private var _sessionStartedAt as Number = 0;
+    private var _alarmMutedUntil as Number = 0;
 
     public function initialize() {
         setRadiusMeters(50);
@@ -78,12 +82,41 @@ class AnchorSession {
         return Time.now().value() - _sessionStartedAt;
     }
 
+    //! True while acknowledge snooze is active.
+    public function isAlarmMuted() as Boolean {
+        return getAlarmMuteRemainingSeconds() > 0;
+    }
+
+    //! Seconds left in acknowledge snooze, or 0.
+    public function getAlarmMuteRemainingSeconds() as Number {
+        if (_alarmMutedUntil <= 0) {
+            return 0;
+        }
+        var remaining = _alarmMutedUntil - Time.now().value();
+        if (remaining <= 0) {
+            _alarmMutedUntil = 0;
+            return 0;
+        }
+        return remaining;
+    }
+
+    //! Set or clear acknowledge snooze (also used by tests).
+    //! @param seconds Duration; <= 0 clears mute
+    public function muteAlarmFor(seconds as Number) as Void {
+        if (seconds <= 0) {
+            _alarmMutedUntil = 0;
+        } else {
+            _alarmMutedUntil = Time.now().value() + seconds;
+        }
+    }
+
     //! Cycle radius through presets.
     //! @param delta +1 / -1
     public function nudgeRadius(delta as Number) as Void {
         _radiusIndex = RadiusPresets.nudgeIndex(_radiusIndex, delta);
         _radiusMeters = RadiusPresets.valueAt(_radiusIndex);
         recalculate();
+        clearAlarmIfInside();
     }
 
     //! Snap radius to nearest preset.
@@ -92,6 +125,7 @@ class AnchorSession {
         _radiusIndex = RadiusPresets.indexOfNearest(meters);
         _radiusMeters = RadiusPresets.valueAt(_radiusIndex);
         recalculate();
+        clearAlarmIfInside();
     }
 
     //! Apply a GPS update.
@@ -107,7 +141,12 @@ class AnchorSession {
         var enteredAlarm = false;
         if (_state == STATE_MONITORING || _state == STATE_ALARM) {
             recalculate();
-            if (_outside && (_state == STATE_MONITORING)) {
+            if (!_outside) {
+                _alarmMutedUntil = 0;
+            }
+            if (_state == STATE_ALARM) {
+                clearAlarmIfInside();
+            } else if (_outside && !isAlarmMuted()) {
                 _state = STATE_ALARM;
                 enteredAlarm = true;
             }
@@ -126,6 +165,7 @@ class AnchorSession {
         _outside = false;
         _distanceMeters = 0.0;
         _sessionStartedAt = Time.now().value();
+        _alarmMutedUntil = 0;
         _state = STATE_MONITORING;
         return true;
     }
@@ -136,28 +176,41 @@ class AnchorSession {
         _outside = false;
         _distanceMeters = 0.0;
         _sessionStartedAt = 0;
+        _alarmMutedUntil = 0;
         _state = STATE_SETUP;
     }
 
-    //! Leave ALARM and return to MONITORING (caller may re-check breach).
+    //! Leave ALARM, return to MONITORING, and snooze re-alarm while still outside.
     public function acknowledgeAlarm() as Void {
         if (_state == STATE_ALARM) {
             _state = STATE_MONITORING;
+            muteAlarmFor(ALARM_SNOOZE_SECONDS);
         }
     }
 
-    //! After alarm UI closes: re-enter alarm if still outside.
+    //! After alarm UI closes or snooze ends: re-enter alarm if still outside and not muted.
     //! @return true if alarm should be shown again
     public function rearmIfStillOutside() as Boolean {
         if (_state != STATE_MONITORING) {
             return false;
         }
         recalculate();
-        if (_outside) {
-            _state = STATE_ALARM;
-            return true;
+        if (!_outside) {
+            _alarmMutedUntil = 0;
+            return false;
         }
-        return false;
+        if (isAlarmMuted()) {
+            return false;
+        }
+        _state = STATE_ALARM;
+        return true;
+    }
+
+    private function clearAlarmIfInside() as Void {
+        if ((_state == STATE_ALARM) && !_outside) {
+            _state = STATE_MONITORING;
+            _alarmMutedUntil = 0;
+        }
     }
 
     private function recalculate() as Void {
