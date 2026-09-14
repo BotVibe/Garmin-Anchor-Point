@@ -154,10 +154,10 @@ class AnchorSession {
         return enteredAlarm;
     }
 
-    //! Arm monitoring using the current usable fix as the anchor.
+    //! Arm monitoring using the current good-quality fix as the anchor.
     //! @return true on success
     public function startMonitoring() as Boolean {
-        if (_current == null || !Geo.isFixUsable(_accuracy)) {
+        if (_current == null || !Geo.isFixGood(_accuracy)) {
             return false;
         }
 

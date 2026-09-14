@@ -4,7 +4,7 @@ import Toybox.Test;
 
 //! Run No Evil tests for the pure monitoring state machine.
 (:test)
-function testSessionStartsOnlyWithUsableFix(logger as Logger) as Boolean {
+function testSessionStartsOnlyWithGoodFix(logger as Logger) as Boolean {
     var session = new AnchorSession();
     var loc = new Position.Location({:latitude => 54.0, :longitude => 10.0, :format => :degrees});
 
@@ -13,6 +13,10 @@ function testSessionStartsOnlyWithUsableFix(logger as Logger) as Boolean {
     Test.assert(session.isSetup());
 
     session.updateLocation(loc, Position.QUALITY_USABLE);
+    Test.assert(!session.startMonitoring());
+    Test.assert(session.isSetup());
+
+    session.updateLocation(loc, Position.QUALITY_GOOD);
     Test.assert(session.startMonitoring());
     Test.assert(session.isMonitoring());
     Test.assertEqual(session.getRadiusMeters(), 50);

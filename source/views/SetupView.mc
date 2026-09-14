@@ -28,7 +28,7 @@ class SetupView extends WatchUi.View {
 
         var gpsText = WatchUi.loadResource(Geo.qualityStringId(_monitor.getAccuracy())) as String;
         var gpsColor = Graphics.COLOR_LT_GRAY;
-        if (Geo.isFixUsable(_monitor.getAccuracy())) {
+        if (Geo.isFixGood(_monitor.getAccuracy())) {
             gpsColor = Graphics.COLOR_GREEN;
         } else if (_monitor.getAccuracy() == Position.QUALITY_POOR) {
             gpsColor = Graphics.COLOR_YELLOW;
