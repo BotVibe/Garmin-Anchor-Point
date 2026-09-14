@@ -12,19 +12,14 @@ class DisplayIdleController {
 
     private const IDLE_DIM_SECONDS = 30;
     private const IDLE_OFF_SECONDS = 40;
-    private const BACKLIGHT_REFRESH_SECONDS = 45;
     private const TICK_MS = 1000;
 
     private var _state as Number = DISPLAY_FULL;
     private var _idleSeconds as Number = 0;
-    private var _backlightOnSeconds as Number = 0;
     private var _running as Boolean = false;
     private var _timer as Timer.Timer?;
     private var _forceFull as Boolean = false;
-
-    public function getState() as Number {
-        return _state;
-    }
+    private var _backlightOn as Boolean = false;
 
     public function isOff() as Boolean {
         return _state == DISPLAY_OFF;
@@ -59,21 +54,26 @@ class DisplayIdleController {
     public function reset() as Void {
         _idleSeconds = 0;
         _forceFull = false;
-        applyState(DISPLAY_FULL);
+        _state = DISPLAY_FULL;
         setBacklight(true);
-        _backlightOnSeconds = 0;
         WatchUi.requestUpdate();
     }
 
     //! While muted or alarming, keep full and do not advance idle.
     //! @param forceFull true to pin display at full
     public function setForceFull(forceFull as Boolean) as Void {
+        if (_forceFull == forceFull) {
+            if (forceFull) {
+                _idleSeconds = 0;
+                _state = DISPLAY_FULL;
+            }
+            return;
+        }
         _forceFull = forceFull;
         if (forceFull) {
             _idleSeconds = 0;
-            applyState(DISPLAY_FULL);
+            _state = DISPLAY_FULL;
             setBacklight(true);
-            _backlightOnSeconds = 0;
         }
     }
 
@@ -85,36 +85,19 @@ class DisplayIdleController {
 
         if (_forceFull) {
             _idleSeconds = 0;
-            applyState(DISPLAY_FULL);
-            _backlightOnSeconds += 1;
-            if (_backlightOnSeconds >= BACKLIGHT_REFRESH_SECONDS) {
-                setBacklight(true);
-                _backlightOnSeconds = 0;
-            }
+            _state = DISPLAY_FULL;
             WatchUi.requestUpdate();
             return;
         }
 
         _idleSeconds += 1;
         if (_idleSeconds >= IDLE_OFF_SECONDS) {
-            applyState(DISPLAY_OFF);
+            _state = DISPLAY_OFF;
             setBacklight(false);
-            _backlightOnSeconds = 0;
         } else if (_idleSeconds >= IDLE_DIM_SECONDS) {
-            applyState(DISPLAY_DIM);
-            setBacklight(true);
-            _backlightOnSeconds += 1;
-            if (_backlightOnSeconds >= BACKLIGHT_REFRESH_SECONDS) {
-                setBacklight(true);
-                _backlightOnSeconds = 0;
-            }
+            _state = DISPLAY_DIM;
         } else {
-            applyState(DISPLAY_FULL);
-            _backlightOnSeconds += 1;
-            if (_backlightOnSeconds >= BACKLIGHT_REFRESH_SECONDS) {
-                setBacklight(true);
-                _backlightOnSeconds = 0;
-            }
+            _state = DISPLAY_FULL;
         }
         WatchUi.requestUpdate();
     }
@@ -125,11 +108,12 @@ class DisplayIdleController {
         }
     }
 
-    private function applyState(state as Number) as Void {
-        _state = state;
-    }
-
+    //! Only call Attention.backlight on actual on/off transitions.
     private function setBacklight(on as Boolean) as Void {
+        if (on == _backlightOn) {
+            return;
+        }
+        _backlightOn = on;
         if (Attention has :backlight) {
             Attention.backlight(on);
         }

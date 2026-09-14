@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- Mute screen overlap: fixed-column layout (status → ring/icon → distance → pause countdown → radius) so text no longer stacks on top of itself on round displays
+- IQ! crash hardening: `Attention.backlight` only on on/off state changes (no per-second refresh during mute/force-full; alarm pulse no longer re-asserts backlight)
+
+### Changed
+- Removed `ViewLayout` helper; setup/alarm/monitor hints use fixed Y positions
+- Dim uses darker text colors only (no dense overlay line loop); unused muted-speaker bitmap removed
+
 ## [2.1.0] - 2026-09-14
 
 ### Added
@@ -17,7 +25,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Shortened on-watch hint labels (setup/alarm/monitor) and raised them so round displays (e.g. Forerunner 965) show the full text
-- Compact hint layout helper (`ViewLayout`) stacks setup/alarm/monitor hints with a safe bottom clamp for round bezels
 - Monitoring can start only when GPS quality is `QUALITY_GOOD` (not merely `QUALITY_USABLE`)
 - Stop menu wording: Stop surveillance / Continue surveillance
 - Store listing and README cross-link the GitHub repo and the Connect IQ Store page
