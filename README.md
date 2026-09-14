@@ -36,7 +36,7 @@ Watch-only MVP: set an anchor GPS point, monitor distance for a few hours, and a
 | Setup | **UP/DOWN** (or swipe): change radius |
 | Setup | **START/ENTER**: set anchor and start session (needs **GPS good**) |
 | Monitor | **UP/DOWN**: change radius live |
-| Monitor | **MENU** / **START** / **BACK**: end session (End / Cancel) |
+| Monitor | **MENU** / **START** / **BACK**: stop menu (**Stop surveillance** / **Continue surveillance**) |
 | Monitor | **Tap**: wake display if off / reset idle timeout |
 | Alarm | **START/ENTER** / tap / **BACK**: silence for 60 s (mute UI + ring; then re-alarms if still outside) |
 | Alarm | **UP/DOWN**: change radius (clears alarm if you enlarge enough) |
@@ -106,27 +106,29 @@ Manual UI checks (alarm screen / vibration) still need the simulator or a real w
 
 ## Publish to the Connect IQ Store
 
+**Live listing:** [Anchor Point on Connect IQ Store](https://apps.garmin.com/en-US/apps/db28a9a5-5c3f-4c0a-a5cd-fae895c40d0d)
+
 Prepared materials live in [`store/`](store/) (listing copy, privacy draft, asset checklist). Agents and contributors must keep **README.md**, **AGENTS.md**, and `store/` listing docs updated together when publishing steps or product claims change.
 
 ### Already prepared in this repo
 
-- English store listing text: [`store/listing-en.md`](store/listing-en.md)
+- English store listing text: [`store/listing-en.md`](store/listing-en.md) (includes GitHub source link)
 - Privacy draft (on-device GPS only): [`store/privacy-en.md`](store/privacy-en.md)
 - Screenshot checklist: [`store/assets/README.md`](store/assets/README.md)
 - Pre-submit checklist: [`store/submission-checklist.md`](store/submission-checklist.md)
 - App icon source: `resources/drawables/launcher_icon.svg`
 - Device list / permissions: `manifest.xml`
 
-### Remaining steps (manual — need your Garmin account & local SDK)
+### Update / resubmit steps (manual — Garmin developer account & local SDK)
 
-1. **Developer account**  
-   Create/sign in at the [Garmin Connect IQ developer site](https://developer.garmin.com/connect-iq/submit-an-app/) and accept the developer agreement.
+1. **Keep listing copy in sync**  
+   After product changes, update [`store/listing-en.md`](store/listing-en.md) and paste the long description / what’s-new into the developer portal so the live Store page matches the repo.
 
-2. **Replace placeholders**  
+2. **Replace placeholders if still needed**  
    Put a real support/privacy email into `store/listing-en.md` and `store/privacy-en.md` (or host the privacy text on your site and link it).
 
 3. **Final testing**  
-   Run unit tests, then manually verify setup → monitoring → alarm → end session in the simulator and ideally on one real watch. Complete [`store/submission-checklist.md`](store/submission-checklist.md).
+   Run unit tests, then manually verify setup → monitoring → alarm → stop/continue → glance launch in the simulator and ideally on one real watch. Complete [`store/submission-checklist.md`](store/submission-checklist.md).
 
 4. **Capture screenshots**  
    Follow [`store/assets/README.md`](store/assets/README.md) and save images under `store/assets/` (or upload directly from disk).
@@ -135,11 +137,11 @@ Prepared materials live in [`store/`](store/) (listing copy, privacy draft, asse
    In VS Code: Command Palette → **Monkey C: Export Project** → choose an output folder.  
    This builds a signed `.iq` for all products in `manifest.xml` (needs SDK + device packages + developer key).
 
-6. **Upload & listing**  
-   Open [Submit an App](https://developer.garmin.com/connect-iq/submit-an-app/), upload the `.iq`, paste listing text from `store/listing-en.md`, add screenshots, set Free / no companion app / English.
+6. **Upload update**  
+   Open the [Garmin Connect IQ developer site](https://developer.garmin.com/connect-iq/submit-an-app/), upload the new `.iq`, refresh listing text from `store/listing-en.md`, screenshots, Free / no companion app / English.
 
 7. **Submit for review**  
-   Garmin typically reviews within about **72 hours**. While pending, the app is not public; you can often preview/install it yourself. Fix any rejection notes and resubmit.
+   Garmin typically reviews within about **72 hours**. Fix any rejection notes and resubmit.
 
 Official docs: [Publishing to the Store](https://developer.garmin.com/connect-iq/core-topics/publishing-to-the-store/), [App Review Guidelines](https://developer.garmin.com/connect-iq/app-review-guidelines/).
 
@@ -148,6 +150,7 @@ Official docs: [Publishing to the Store](https://developer.garmin.com/connect-iq
 - Describe the app honestly: **not** a life-saving navigation system; GPS accuracy varies; **app must stay open**.
 - Permissions used: Positioning only (no Fit / Communications / developer cloud in MVP).
 - Safety-oriented wording in the prepared listing is intentional — keep those caveats if you edit the text.
+- Start requires **GPS good** (`QUALITY_GOOD`); glance is launch/preview only.
 
 ## Roadmap (out of scope)
 

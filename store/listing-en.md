@@ -2,6 +2,9 @@
 
 Copy these fields into the Connect IQ Store submission form. Keep the tone factual and scoped to the watch-only MVP.
 
+**Live Store page:** https://apps.garmin.com/en-US/apps/db28a9a5-5c3f-4c0a-a5cd-fae895c40d0d  
+**Source repo:** https://github.com/BotVibe/Garmin-Anchor-Point
+
 ## App name
 
 Anchor Point
@@ -21,10 +24,10 @@ How it works:
 3. Start monitoring from the apps list or by tapping the Anchor Point glance. The watch stores the current position as the anchor.
 4. While monitoring, the watch shows distance to the anchor and whether you are inside or outside the radius.
 5. If the boat drifts outside the radius, the watch alarms with tone and/or vibration according to your setting.
-6. From the alarm screen you can silence for 60 seconds (display stays on with a mute icon and countdown ring), enlarge the radius with UP/DOWN, or end the session from the menu.
-7. End monitoring from the on-watch menu when you are done.
+6. From the alarm screen you can silence for 60 seconds (display stays on with a mute icon and countdown ring), enlarge the radius with UP/DOWN, or open the menu to **Stop surveillance** or **Continue surveillance**.
+7. Choose **Stop surveillance** when you are done (or **Continue surveillance** to keep monitoring).
 
-While monitoring, the display dims after 30 seconds of inactivity and turns off after 10 more seconds; tap or press a button to wake it. During an active alarm or the 60-second silence period the display stays fully on.
+While monitoring, the display dims after 30 seconds of inactivity and turns off after 10 more seconds; tap or press a button to wake it. During an active alarm or the 60-second silence period the display stays fully on. The glance is a launch shortcut only — monitoring requires the full app to stay open.
 
 Alarm style (Connect IQ settings):
 
@@ -38,6 +41,7 @@ What this app does not do (MVP):
 - No internet or remote alerts
 - No chart plotting or navigation features
 - No activity / FIT recording
+- No background monitoring while the app is closed
 
 Important: GPS quality can vary. Use this as a secondary awareness aid, not as your only safety system.
 
@@ -50,19 +54,18 @@ Suggested: Safety / Sports (Boating) — choose the closest available Connect IQ
 
 ## Keywords / tags
 
-anchor, boat, drift, GPS, marine, safety, watch alarm
+anchor, boat, drift, GPS, marine, safety, watch alarm, glance
 
 ## What’s new (for this release)
 
-- Watch-only GPS anchor monitoring
+- Glance entry: open from the glance list or the apps list
+- Start monitoring only with GPS good (highest quality)
+- Mute UI: yellow icon + countdown ring; 60 s silence while outside
+- Display idle: dim after 30 s, off after 10 s more (full during alarm/mute)
+- Stop menu: Stop surveillance / Continue surveillance
 - Radius presets: 15–50 m (5 m steps), 75 m, 100 m
 - Alarm style setting: tone+vibrate, tone only, or vibrate only
-- Continuous GPS while monitoring
-- On-watch alarm when outside the selected radius
-- Silence for 60 s with mute icon + countdown ring; adjust radius or end from the alarm screen
-- Display idle dim/off while monitoring (full during alarm/mute)
-- Open from apps list or glance list (tap glance to launch)
-- End monitoring from the watch menu
+- No FIT / activity recording
 
 ## Support / contact
 

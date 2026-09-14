@@ -62,6 +62,7 @@ Do not defer doc updates. Prefer English for all names, UI strings, comments aim
 - Start monitoring only when GPS quality is `QUALITY_GOOD` (`Geo.isFixGood`); `QUALITY_USABLE` is not enough.
 - Alarm style setting (`AlarmMode`): 0 = tone + vibrate (default), 1 = tone only, 2 = vibrate only.
 - Acknowledge snoozes re-alarm for 60 s while still outside; mute UI shows yellow muted-speaker + CCW countdown ring; display stays full during mute/alarm.
+- Stop menu labels: **Stop surveillance** / **Continue surveillance**.
 - Monitoring display idle: full for 30 s, visual dim, then black/off at 40 s; first tap while off only wakes.
 - No FIT / activity recording — end session simply stops monitoring.
 - App must remain open while monitoring; do not promise background geofencing unless Connect IQ capabilities change and docs are updated.
