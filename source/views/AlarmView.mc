@@ -38,11 +38,8 @@ class AlarmView extends WatchUi.View {
         var radiusText = (WatchUi.loadResource(Rez.Strings.RadiusLabel) as String) + ": " + _monitor.getRadiusMeters().toString() + " " + (WatchUi.loadResource(Rez.Strings.MetersUnit) as String);
         dc.drawText(cx, height * 46 / 100, Graphics.FONT_XTINY, radiusText, Graphics.TEXT_JUSTIFY_CENTER);
 
-        var hints = [
-            WatchUi.loadResource(Rez.Strings.HintAlarmAck) as String,
-            WatchUi.loadResource(Rez.Strings.HintAlarmRadius) as String,
-            WatchUi.loadResource(Rez.Strings.HintAlarmMenu) as String
-        ];
-        ViewLayout.stackHintLines(dc, cx, height * 54 / 100, Graphics.FONT_XTINY, hints);
+        dc.drawText(cx, height * 56 / 100, Graphics.FONT_XTINY, WatchUi.loadResource(Rez.Strings.HintAlarmAck) as String, Graphics.TEXT_JUSTIFY_CENTER);
+        dc.drawText(cx, height * 64 / 100, Graphics.FONT_XTINY, WatchUi.loadResource(Rez.Strings.HintAlarmRadius) as String, Graphics.TEXT_JUSTIFY_CENTER);
+        dc.drawText(cx, height * 72 / 100, Graphics.FONT_XTINY, WatchUi.loadResource(Rez.Strings.HintAlarmMenu) as String, Graphics.TEXT_JUSTIFY_CENTER);
     }
 }

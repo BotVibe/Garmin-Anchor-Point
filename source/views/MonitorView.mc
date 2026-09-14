@@ -38,16 +38,7 @@ class MonitorView extends WatchUi.View {
         dc.clear();
 
         if (muted) {
-            drawMuteRing(dc, cx, cy, width, height);
-            drawMutedSpeakerIcon(dc, cx, cy);
-            var remain = _monitor.getAlarmMuteRemainingSeconds();
-            var mutedText = (WatchUi.loadResource(Rez.Strings.HintAlarmMuted) as String) + " " + remain.toString() + "s";
-            dc.setColor(dim ? Graphics.COLOR_ORANGE : Graphics.COLOR_YELLOW, Graphics.COLOR_TRANSPARENT);
-            dc.drawText(cx, height * 72 / 100, Graphics.FONT_XTINY, mutedText, Graphics.TEXT_JUSTIFY_CENTER);
-            drawMutedChrome(dc, width, height, dim, outside);
-            if (dim) {
-                drawDimOverlay(dc, width, height);
-            }
+            drawMutedScreen(dc, cx, cy, width, height, dim, outside);
             return;
         }
 
@@ -87,17 +78,11 @@ class MonitorView extends WatchUi.View {
         var runtimeText = (WatchUi.loadResource(Rez.Strings.RuntimeLabel) as String) + ": " + elapsed;
         dc.drawText(cx, height * 72 / 100, Graphics.FONT_XTINY, runtimeText, Graphics.TEXT_JUSTIFY_CENTER);
 
-        var menuHints = [WatchUi.loadResource(Rez.Strings.HintMonitorMenu) as String];
-        ViewLayout.stackHintLines(dc, cx, height * 80 / 100, Graphics.FONT_XTINY, menuHints);
-
-        if (dim) {
-            drawDimOverlay(dc, width, height);
-        }
+        dc.drawText(cx, height * 80 / 100, Graphics.FONT_XTINY, WatchUi.loadResource(Rez.Strings.HintMonitorMenu) as String, Graphics.TEXT_JUSTIFY_CENTER);
     }
 
-    //! Compact status while muted (distance / radius under icon).
-    private function drawMutedChrome(dc as Dc, width as Number, height as Number, dim as Boolean, outside as Boolean) as Void {
-        var cx = width / 2;
+    //! Fixed-column mute layout: status, ring+icon, distance, pause text, radius.
+    private function drawMutedScreen(dc as Dc, cx as Number, cy as Number, width as Number, height as Number, dim as Boolean, outside as Boolean) as Void {
         var statusColor = outside
             ? (dim ? Graphics.COLOR_ORANGE : Graphics.COLOR_YELLOW)
             : (dim ? Graphics.COLOR_DK_GREEN : Graphics.COLOR_GREEN);
@@ -105,17 +90,25 @@ class MonitorView extends WatchUi.View {
             ? (WatchUi.loadResource(Rez.Strings.StatusWarn) as String)
             : (WatchUi.loadResource(Rez.Strings.StatusOk) as String);
         dc.setColor(statusColor, Graphics.COLOR_TRANSPARENT);
-        dc.drawText(cx, height * 10 / 100, Graphics.FONT_TINY, statusText, Graphics.TEXT_JUSTIFY_CENTER);
+        dc.drawText(cx, height * 12 / 100, Graphics.FONT_TINY, statusText, Graphics.TEXT_JUSTIFY_CENTER);
+
+        drawMuteRing(dc, cx, cy, width, height);
+        drawMutedSpeakerIcon(dc, cx, cy);
 
         var metaColor = dim ? Graphics.COLOR_DK_GRAY : Graphics.COLOR_LT_GRAY;
         var dist = _monitor.getDistanceMeters();
         var distText = (WatchUi.loadResource(Rez.Strings.DistanceLabel) as String) + ": " + dist.format("%.0f") + " " + (WatchUi.loadResource(Rez.Strings.MetersUnit) as String);
         dc.setColor(metaColor, Graphics.COLOR_TRANSPARENT);
-        var muteHints = [
-            distText,
-            (WatchUi.loadResource(Rez.Strings.RadiusLabel) as String) + ": " + _monitor.getRadiusMeters().toString() + " " + (WatchUi.loadResource(Rez.Strings.MetersUnit) as String)
-        ];
-        ViewLayout.stackHintLines(dc, cx, height * 78 / 100, Graphics.FONT_XTINY, muteHints);
+        dc.drawText(cx, height * 58 / 100, Graphics.FONT_XTINY, distText, Graphics.TEXT_JUSTIFY_CENTER);
+
+        var remain = _monitor.getAlarmMuteRemainingSeconds();
+        var mutedText = (WatchUi.loadResource(Rez.Strings.HintAlarmMuted) as String) + " " + remain.toString() + "s";
+        dc.setColor(dim ? Graphics.COLOR_ORANGE : Graphics.COLOR_YELLOW, Graphics.COLOR_TRANSPARENT);
+        dc.drawText(cx, height * 68 / 100, Graphics.FONT_XTINY, mutedText, Graphics.TEXT_JUSTIFY_CENTER);
+
+        var radiusText = (WatchUi.loadResource(Rez.Strings.RadiusLabel) as String) + ": " + _monitor.getRadiusMeters().toString() + " " + (WatchUi.loadResource(Rez.Strings.MetersUnit) as String);
+        dc.setColor(metaColor, Graphics.COLOR_TRANSPARENT);
+        dc.drawText(cx, height * 78 / 100, Graphics.FONT_XTINY, radiusText, Graphics.TEXT_JUSTIFY_CENTER);
     }
 
     //! Yellow countdown ring: full at mute start, depletes CCW from 12 o'clock.
@@ -132,25 +125,19 @@ class MonitorView extends WatchUi.View {
         }
 
         var fraction = (remaining * 1.0) / total;
+        var sweep = (fraction * 360.0).toNumber();
+        if (sweep < 1) {
+            return;
+        }
+
         dc.setColor(Graphics.COLOR_YELLOW, Graphics.COLOR_TRANSPARENT);
         if (dc has :setPenWidth) {
             dc.setPenWidth(3);
         }
 
-        if (fraction >= 0.999) {
-            dc.drawArc(cx, cy, radius, Graphics.ARC_COUNTER_CLOCKWISE, 90, 270);
-            dc.drawArc(cx, cy, radius, Graphics.ARC_COUNTER_CLOCKWISE, 270, 90);
-            return;
-        }
-
-        var depletedDeg = ((1.0 - fraction) * 360.0).toNumber();
-        var startDeg = 90 + depletedDeg;
-        var sweep = (fraction * 360.0).toNumber();
-        if (sweep < 1) {
-            return;
-        }
-        var endDeg = startDeg + sweep;
-        dc.drawArc(cx, cy, radius, Graphics.ARC_COUNTER_CLOCKWISE, startDeg, endDeg);
+        // Garmin arcs: degree 90 is 12 o'clock; deplete from there counterclockwise.
+        var startDeg = 90 + ((1.0 - fraction) * 360.0).toNumber();
+        dc.drawArc(cx, cy, radius, Graphics.ARC_COUNTER_CLOCKWISE, startDeg, startDeg + sweep);
     }
 
     //! Yellow muted-speaker icon (cone + slash) at center.
@@ -160,34 +147,20 @@ class MonitorView extends WatchUi.View {
             dc.setPenWidth(2);
         }
 
-        // Speaker body (left rectangle)
         var bodyLeft = cx - 18;
         var bodyTop = cy - 8;
         dc.fillRectangle(bodyLeft, bodyTop, 10, 16);
 
-        // Cone (triangle-ish via lines)
         var coneLeft = bodyLeft + 10;
         dc.drawLine(coneLeft, bodyTop, cx + 10, cy - 18);
         dc.drawLine(cx + 10, cy - 18, cx + 10, cy + 18);
         dc.drawLine(cx + 10, cy + 18, coneLeft, bodyTop + 16);
         dc.drawLine(coneLeft, bodyTop, coneLeft, bodyTop + 16);
 
-        // Slash through icon
         if (dc has :setPenWidth) {
             dc.setPenWidth(3);
         }
         dc.drawLine(cx - 22, cy + 20, cx + 18, cy - 20);
-    }
-
-    //! Darken the screen while still leaving content readable.
-    private function drawDimOverlay(dc as Dc, width as Number, height as Number) as Void {
-        // Checker-ish darkening without alpha: spaced horizontal bars
-        dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
-        var y = 0;
-        while (y < height) {
-            dc.drawLine(0, y, width, y);
-            y += 2;
-        }
     }
 
     //! Format seconds as h:mm:ss or m:ss.

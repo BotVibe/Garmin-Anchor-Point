@@ -31,12 +31,11 @@ Do not defer doc updates. Prefer English for all names, UI strings, comments aim
 |------|------|
 | `source/AnchorPointApp.mc` | App lifecycle, GPS enable/disable, glance entry |
 | `source/AnchorMonitor.mc` | UI, vibration/tone around session |
-| `source/DisplayIdleController.mc` | Display full → dim @30s → off @40s; mute/alarm force full |
+| `source/DisplayIdleController.mc` | Display full → dim @30s → off @40s; mute/alarm force full (backlight on state change only) |
 | `source/AnchorSession.mc` | Pure state machine (setup/monitoring/alarm) — unit-tested |
 | `source/Geo.mc` | Haversine distance, GPS quality gate (`QUALITY_GOOD` to start), outside-radius check |
 | `source/RadiusPresets.mc` | Radius presets + snap/nudge helpers |
-| `source/ViewLayout.mc` | Round-display hint stacking / safe bottom clamp |
-| `source/views/*` | Setup, Monitor, Alarm, Glance screens |
+| `source/views/*` | Setup, Monitor, Alarm, Glance screens (fixed-Y mute/hint layout) |
 | `source/delegates/*` | Input handling and end-session menu |
 | `source-test/*` | Run No Evil `(:test)` methods |
 | `resources/strings/strings.xml` | English UI strings |

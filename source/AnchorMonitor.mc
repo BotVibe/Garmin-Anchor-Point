@@ -9,11 +9,8 @@ import Toybox.WatchUi;
 class AnchorMonitor {
 
     private const ALARM_INTERVAL_MS = 2000;
-    //! AlarmMode property: tone + vibrate
     private const ALARM_MODE_BOTH = 0;
-    //! AlarmMode property: tone only
     private const ALARM_MODE_TONE = 1;
-    //! AlarmMode property: vibrate only
     private const ALARM_MODE_VIBRATE = 2;
 
     private var _session as AnchorSession;
@@ -24,7 +21,6 @@ class AnchorMonitor {
     private var _alarmVisible as Boolean = false;
     private var _alarmViewPushed as Boolean = false;
 
-    //! Constructor — loads default radius from properties.
     public function initialize() {
         _session = new $.AnchorSession();
         _displayIdle = new $.DisplayIdleController();
@@ -92,11 +88,6 @@ class AnchorMonitor {
 
     public function getAlarmMuteTotalSeconds() as Number {
         return 60;
-    }
-
-    //! Display power state: DisplayIdleController.DISPLAY_* 
-    public function getDisplayPowerState() as Number {
-        return _displayIdle.getState();
     }
 
     public function isDisplayOff() as Boolean {
@@ -182,10 +173,6 @@ class AnchorMonitor {
         _alarmVisible = false;
         _session.acknowledgeAlarm();
         syncForceFull();
-        _displayIdle.setForceFull(true);
-        if (Attention has :backlight) {
-            Attention.backlight(true);
-        }
         WatchUi.requestUpdate();
     }
 
@@ -219,7 +206,6 @@ class AnchorMonitor {
         return _alarmVisible;
     }
 
-    //! True while the alarm view is on the WatchUi stack.
     public function isAlarmViewPushed() as Boolean {
         return _alarmViewPushed;
     }
@@ -301,13 +287,8 @@ class AnchorMonitor {
         if (useTone && (Attention has :playTone)) {
             Attention.playTone(Attention.TONE_ALARM);
         }
-        if (Attention has :backlight) {
-            Attention.backlight(true);
-        }
     }
 
-    //! Read AlarmMode from app settings (0 both, 1 tone, 2 vibrate).
-    //! @return Normalized alarm mode constant
     private function getAlarmMode() as Number {
         var stored = Application.Properties.getValue("AlarmMode");
         if (stored == null) {
@@ -320,7 +301,6 @@ class AnchorMonitor {
         return ALARM_MODE_BOTH;
     }
 
-    //! Stop vibe/tone timer without forcing backlight off (idle owns backlight).
     private function stopAlarmPulse() as Void {
         if (_alarmTimer != null) {
             _alarmTimer.stop();
@@ -328,7 +308,6 @@ class AnchorMonitor {
     }
 
     private function syncForceFull() as Void {
-        var force = _session.isAlarmMuted() || _session.isAlarming();
-        _displayIdle.setForceFull(force);
+        _displayIdle.setForceFull(_session.isAlarmMuted() || _session.isAlarming());
     }
 }

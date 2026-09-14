@@ -43,11 +43,8 @@ class SetupView extends WatchUi.View {
         dc.drawText(cx, height * 36 / 100, Graphics.FONT_MEDIUM, radiusLine, Graphics.TEXT_JUSTIFY_CENTER);
 
         dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
-        var hints = [
-            WatchUi.loadResource(Rez.Strings.HintChangeRadius) as String,
-            WatchUi.loadResource(Rez.Strings.HintSetAnchor) as String,
-            WatchUi.loadResource(Rez.Strings.HintKeepOpen) as String
-        ];
-        ViewLayout.stackHintLines(dc, cx, height * 52 / 100, Graphics.FONT_XTINY, hints);
+        dc.drawText(cx, height * 52 / 100, Graphics.FONT_XTINY, WatchUi.loadResource(Rez.Strings.HintChangeRadius) as String, Graphics.TEXT_JUSTIFY_CENTER);
+        dc.drawText(cx, height * 60 / 100, Graphics.FONT_XTINY, WatchUi.loadResource(Rez.Strings.HintSetAnchor) as String, Graphics.TEXT_JUSTIFY_CENTER);
+        dc.drawText(cx, height * 68 / 100, Graphics.FONT_XTINY, WatchUi.loadResource(Rez.Strings.HintKeepOpen) as String, Graphics.TEXT_JUSTIFY_CENTER);
     }
 }
