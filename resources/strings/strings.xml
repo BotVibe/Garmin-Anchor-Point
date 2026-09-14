@@ -25,15 +25,15 @@
     <string id="HintChangeRadius">UP/DOWN: change radius</string>
     <string id="HintKeepOpen">Keep the app open — GPS pauses otherwise</string>
     <string id="HintInactive">Monitoring paused (app inactive)</string>
-    <string id="HintMonitorMenu">MENU: end session</string>
+    <string id="HintMonitorMenu">MENU: stop / continue</string>
     <string id="HintAlarmAck">START: silence 60s</string>
     <string id="HintAlarmRadius">UP/DOWN: change radius</string>
-    <string id="HintAlarmMenu">MENU: end session</string>
+    <string id="HintAlarmMenu">MENU: stop / continue</string>
     <string id="HintAlarmMuted">Alarm paused</string>
 
-    <string id="MenuStopTitle">End session</string>
-    <string id="MenuEnd">End</string>
-    <string id="MenuCancel">Cancel</string>
+    <string id="MenuStopTitle">Surveillance</string>
+    <string id="MenuEnd">Stop surveillance</string>
+    <string id="MenuCancel">Continue surveillance</string>
     <string id="MenuRadius">Change radius</string>
 
     <string id="AlarmBody">Left the anchor circle!</string>

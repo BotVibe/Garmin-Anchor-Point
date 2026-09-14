@@ -13,7 +13,7 @@ Watch-only MVP: set an anchor GPS point, monitor distance for a few hours, and a
 - Radius presets: 15–50 m in 5 m steps, plus 75 / 100 m (default 50 m; also in Garmin Connect app settings)
 - Monitor screen: distance, radius, GPS quality, runtime, inside/outside status
 - Alarm: full-screen alert; style selectable in settings — tone + vibrate (default), tone only, or vibrate only
-- Acknowledge silences the alarm for 60 s so you can enlarge the radius or end the session; radius can also be changed on the alarm screen
+- Acknowledge silences the alarm for 60 s so you can enlarge the radius or stop surveillance; radius can also be changed on the alarm screen
 - English UI strings
 - Run No Evil unit tests for geo, radius presets, and session state
 
@@ -31,10 +31,10 @@ Watch-only MVP: set an anchor GPS point, monitor distance for a few hours, and a
 | Setup | **UP/DOWN** (or swipe): change radius |
 | Setup | **START/ENTER**: set anchor and start session (needs usable GPS) |
 | Monitor | **UP/DOWN**: change radius live |
-| Monitor | **MENU** / **START** / **BACK**: end session (End / Cancel) |
+| Monitor | **MENU** / **START** / **BACK**: stop menu (**Stop surveillance** / **Continue surveillance**) |
 | Alarm | **START/ENTER** / tap / **BACK**: silence for 60 s (then re-alarms if still outside) |
 | Alarm | **UP/DOWN**: change radius (clears alarm if you enlarge enough) |
-| Alarm | **MENU**: end session (End / Cancel) |
+| Alarm | **MENU**: stop menu (**Stop surveillance** / **Continue surveillance**) |
 
 ## Project layout
 
