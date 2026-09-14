@@ -36,7 +36,7 @@ Watch-only MVP: set an anchor GPS point, monitor distance for a few hours, and a
 | Monitor | **Tap**: wake display if off / reset idle timeout |
 | Alarm | **START/ENTER** / tap / **BACK**: silence for 60 s (mute UI + ring; then re-alarms if still outside) |
 | Alarm | **UP/DOWN**: change radius (clears alarm if you enlarge enough) |
-| Alarm | **MENU**: end session (End / Cancel) |
+| Alarm | **MENU**: stop menu (**Stop surveillance** / **Continue surveillance**) |
 
 ## Project layout
 
