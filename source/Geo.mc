@@ -6,13 +6,8 @@ import Toybox.WatchUi;
 //! Geographic helpers for anchor distance checks.
 module Geo {
 
-    //! Earth radius in meters.
     const EARTH_RADIUS_M = 6371000.0d;
 
-    //! Compute great-circle distance in meters between two locations.
-    //! @param a First location
-    //! @param b Second location
-    //! @return Distance in meters
     function distanceMeters(a as Location, b as Location) as Float {
         var ra = a.toRadians();
         var rb = b.toRadians();
@@ -39,9 +34,6 @@ module Geo {
         return (EARTH_RADIUS_M * c).toFloat();
     }
 
-    //! Human-readable GPS quality label resource id.
-    //! @param quality Position.QUALITY_* value
-    //! @return ResourceId for a strings entry
     function qualityStringId(quality as Quality) as ResourceId {
         if (quality == Position.QUALITY_GOOD) {
             return Rez.Strings.GpsGood;
@@ -49,23 +41,14 @@ module Geo {
             return Rez.Strings.GpsOk;
         } else if (quality == Position.QUALITY_POOR) {
             return Rez.Strings.GpsPoor;
-        } else if (quality == Position.QUALITY_LAST_KNOWN) {
-            return Rez.Strings.GpsWaiting;
         }
         return Rez.Strings.GpsWaiting;
     }
 
-    //! True when fix is good enough to set an anchor (highest quality only).
-    //! @param quality Position.QUALITY_* value
-    //! @return true only for QUALITY_GOOD
     function isFixGood(quality as Quality) as Boolean {
         return quality == Position.QUALITY_GOOD;
     }
 
-    //! True when distance is strictly outside the allowed radius.
-    //! @param distanceMeters Current distance from anchor
-    //! @param radiusMeters Allowed radius
-    //! @return true if breached
     function isOutsideRadius(distanceMeters as Float, radiusMeters as Number) as Boolean {
         return distanceMeters > radiusMeters.toFloat();
     }

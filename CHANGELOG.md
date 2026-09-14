@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- Trimmed AI boilerplate: removed unused APIs (`getSession`, unused location/state getters, `getMonitor`, app-inactive path), dead `_alarmVisible` tracking, and restating doc comments
+- Deduplicated stop-menu construction into `AnchorMonitor.openStopMenu()`
+- Mute countdown total uses `AnchorSession.ALARM_SNOOZE_SECONDS` (no magic `60`)
+- Dropped redundant `QUALITY_LAST_KNOWN` branch in `Geo.qualityStringId` (same as default)
+
+### Removed
+- Unused `HintInactive` string (app-inactive UI was never wired)
+
 ## [2.1.1] - 2026-09-14
 
 ### Fixed

@@ -1,12 +1,10 @@
 import Toybox.Lang;
 import Toybox.WatchUi;
 
-//! Acknowledge, adjust radius, or end from the on-watch alarm.
 class AlarmDelegate extends WatchUi.BehaviorDelegate {
 
     private var _monitor as AnchorMonitor;
 
-    //! @param monitor Shared monitor state
     public function initialize(monitor as AnchorMonitor) {
         BehaviorDelegate.initialize();
         _monitor = monitor;
@@ -22,7 +20,7 @@ class AlarmDelegate extends WatchUi.BehaviorDelegate {
 
     public function onMenu() as Boolean {
         _monitor.resetDisplayIdle();
-        showStopMenu();
+        _monitor.openStopMenu();
         return true;
     }
 
@@ -44,7 +42,7 @@ class AlarmDelegate extends WatchUi.BehaviorDelegate {
             return nudgeRadius(-1);
         } else if (key == WatchUi.KEY_MENU) {
             _monitor.resetDisplayIdle();
-            showStopMenu();
+            _monitor.openStopMenu();
             return true;
         }
         return true;
@@ -65,10 +63,4 @@ class AlarmDelegate extends WatchUi.BehaviorDelegate {
         return true;
     }
 
-    private function showStopMenu() as Void {
-        var menu = new WatchUi.Menu2({:title => WatchUi.loadResource(Rez.Strings.MenuStopTitle) as String});
-        menu.addItem(new WatchUi.MenuItem(WatchUi.loadResource(Rez.Strings.MenuEnd) as String, null, :end, null));
-        menu.addItem(new WatchUi.MenuItem(WatchUi.loadResource(Rez.Strings.MenuCancel) as String, null, :cancel, null));
-        WatchUi.pushView(menu, new $.StopMenuDelegate(_monitor), WatchUi.SLIDE_UP);
-    }
 }

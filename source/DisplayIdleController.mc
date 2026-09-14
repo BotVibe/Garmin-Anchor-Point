@@ -29,7 +29,6 @@ class DisplayIdleController {
         return _state == DISPLAY_DIM;
     }
 
-    //! Start the 1 Hz idle timer (monitoring session).
     public function start() as Void {
         _running = true;
         reset();
@@ -38,7 +37,6 @@ class DisplayIdleController {
         _timer.start(method(:onTick), TICK_MS, true);
     }
 
-    //! Stop idle tracking (setup / app end).
     public function stop() as Void {
         _running = false;
         if (_timer != null) {
@@ -50,7 +48,6 @@ class DisplayIdleController {
         setBacklight(false);
     }
 
-    //! User interaction or session start — back to full brightness.
     public function reset() as Void {
         _idleSeconds = 0;
         _forceFull = false;
@@ -59,8 +56,6 @@ class DisplayIdleController {
         WatchUi.requestUpdate();
     }
 
-    //! While muted or alarming, keep full and do not advance idle.
-    //! @param forceFull true to pin display at full
     public function setForceFull(forceFull as Boolean) as Void {
         if (_forceFull == forceFull) {
             if (forceFull) {
@@ -77,7 +72,6 @@ class DisplayIdleController {
         }
     }
 
-    //! 1 Hz callback.
     public function onTick() as Void {
         if (!_running) {
             return;

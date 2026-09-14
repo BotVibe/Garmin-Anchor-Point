@@ -24,7 +24,6 @@
     <string id="HintSetAnchor">START: set &amp; start</string>
     <string id="HintChangeRadius">UP/DOWN: radius</string>
     <string id="HintKeepOpen">Keep app open for GPS</string>
-    <string id="HintInactive">Paused (app inactive)</string>
     <string id="HintMonitorMenu">MENU: stop or continue</string>
     <string id="HintAlarmAck">START: silence 60s</string>
     <string id="HintAlarmRadius">UP/DOWN: radius</string>

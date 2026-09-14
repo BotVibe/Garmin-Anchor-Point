@@ -3,21 +3,14 @@ import Toybox.Lang;
 //! Supported anchor-radius presets and helpers.
 module RadiusPresets {
 
-    //! @return Radius choices in meters (5 m steps from 15–50, then 75 / 100)
     function values() as Array<Number> {
         return [15, 20, 25, 30, 35, 40, 45, 50, 75, 100] as Array<Number>;
     }
 
-    //! Snap an arbitrary meter value to the nearest preset.
-    //! @param meters Desired radius
-    //! @return Preset radius in meters
     function snap(meters as Number) as Number {
         return values()[indexOfNearest(meters)];
     }
 
-    //! Index of the nearest preset for meters.
-    //! @param meters Desired radius
-    //! @return Index into values()
     function indexOfNearest(meters as Number) as Number {
         var options = values();
         var bestIndex = 0;
@@ -35,17 +28,11 @@ module RadiusPresets {
         return bestIndex;
     }
 
-    //! Move selection by delta with wrap-around.
-    //! @param index Current index
-    //! @param delta +1 / -1 (or other)
-    //! @return New index
     function nudgeIndex(index as Number, delta as Number) as Number {
         var size = values().size();
         return (index + delta + size) % size;
     }
 
-    //! @param index Preset index
-    //! @return Radius meters for index (clamped)
     function valueAt(index as Number) as Number {
         var options = values();
         if (index < 0) {

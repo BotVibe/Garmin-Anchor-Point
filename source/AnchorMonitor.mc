@@ -15,10 +15,8 @@ class AnchorMonitor {
 
     private var _session as AnchorSession;
     private var _displayIdle as DisplayIdleController;
-    private var _appActive as Boolean = true;
     private var _alarmTimer as Timer.Timer?;
     private var _snoozeTimer as Timer.Timer?;
-    private var _alarmVisible as Boolean = false;
     private var _alarmViewPushed as Boolean = false;
 
     public function initialize() {
@@ -30,20 +28,8 @@ class AnchorMonitor {
         }
     }
 
-    public function getSession() as AnchorSession {
-        return _session;
-    }
-
     public function isSetup() as Boolean {
         return _session.isSetup();
-    }
-
-    public function isMonitoring() as Boolean {
-        return _session.isMonitoring();
-    }
-
-    public function isAlarming() as Boolean {
-        return _session.isAlarming();
     }
 
     public function getRadiusMeters() as Number {
@@ -58,20 +44,8 @@ class AnchorMonitor {
         return _session.getAccuracy();
     }
 
-    public function getCurrentLocation() as Location? {
-        return _session.getCurrentLocation();
-    }
-
-    public function getAnchorLocation() as Location? {
-        return _session.getAnchorLocation();
-    }
-
     public function isOutside() as Boolean {
         return _session.isOutside();
-    }
-
-    public function isAppActive() as Boolean {
-        return _appActive;
     }
 
     public function getElapsedSeconds() as Number {
@@ -87,7 +61,7 @@ class AnchorMonitor {
     }
 
     public function getAlarmMuteTotalSeconds() as Number {
-        return 60;
+        return AnchorSession.ALARM_SNOOZE_SECONDS;
     }
 
     public function isDisplayOff() as Boolean {
@@ -98,7 +72,6 @@ class AnchorMonitor {
         return _displayIdle.isDim();
     }
 
-    //! Wake / reset idle timeout (user action or session start).
     public function resetDisplayIdle() as Void {
         syncForceFull();
         if (!_session.isAlarmMuted() && !_session.isAlarming()) {
@@ -117,14 +90,6 @@ class AnchorMonitor {
         dismissAlarmViewIfCleared();
     }
 
-    public function setRadiusMeters(meters as Number) as Void {
-        resetDisplayIdle();
-        _session.setRadiusMeters(meters);
-        dismissAlarmViewIfCleared();
-    }
-
-    //! Update GPS information from Position callback.
-    //! @param info Latest Position.Info
     public function onPosition(info as Position.Info) as Void {
         var enteredAlarm = _session.updateLocation(info.position, info.accuracy);
         if (enteredAlarm) {
@@ -136,13 +101,6 @@ class AnchorMonitor {
         WatchUi.requestUpdate();
     }
 
-    public function setAppActive(active as Boolean) as Void {
-        _appActive = active;
-        WatchUi.requestUpdate();
-    }
-
-    //! Set anchor at current fix and start monitoring.
-    //! @return true on success
     public function startMonitoring() as Boolean {
         if (!_session.startMonitoring()) {
             return false;
@@ -156,30 +114,24 @@ class AnchorMonitor {
         return true;
     }
 
-    //! Stop monitoring and return to setup state.
     public function stopMonitoring() as Void {
         stopAlarmPulse();
         cancelSnoozeTimer();
         _displayIdle.stop();
-        _alarmVisible = false;
         _alarmViewPushed = false;
         _session.stopMonitoring();
         WatchUi.requestUpdate();
     }
 
-    //! Acknowledge alarm: silence + snooze; keep display full with mute UI.
     public function acknowledgeAlarm() as Void {
         stopAlarmPulse();
-        _alarmVisible = false;
         _session.acknowledgeAlarm();
         syncForceFull();
         WatchUi.requestUpdate();
     }
 
-    //! Called when AlarmView is popped/hidden.
     public function onAlarmViewClosed() as Void {
         _alarmViewPushed = false;
-        _alarmVisible = false;
         if (_session.rearmIfStillOutside()) {
             enterAlarm();
         } else {
@@ -191,7 +143,6 @@ class AnchorMonitor {
         }
     }
 
-    //! Timer callback after acknowledge snooze ends.
     public function onSnoozeExpired() as Void {
         if (_session.rearmIfStillOutside()) {
             enterAlarm();
@@ -202,17 +153,12 @@ class AnchorMonitor {
         WatchUi.requestUpdate();
     }
 
-    public function isAlarmVisible() as Boolean {
-        return _alarmVisible;
-    }
-
     public function isAlarmViewPushed() as Boolean {
         return _alarmViewPushed;
     }
 
     private function enterAlarm() as Void {
         cancelSnoozeTimer();
-        _alarmVisible = true;
         syncForceFull();
         pulseAlarm();
         startAlarmTimer();
@@ -226,7 +172,6 @@ class AnchorMonitor {
     private function dismissAlarmViewIfCleared() as Void {
         if (_alarmViewPushed && !_session.isAlarming()) {
             stopAlarmPulse();
-            _alarmVisible = false;
             WatchUi.popView(WatchUi.SLIDE_IMMEDIATE);
         }
     }
@@ -257,7 +202,6 @@ class AnchorMonitor {
         _alarmTimer.start(method(:onAlarmTick), ALARM_INTERVAL_MS, true);
     }
 
-    //! Timer callback — repeat vibe/tone while alarming and outside.
     public function onAlarmTick() as Void {
         if (!_session.isAlarming()) {
             stopAlarmPulse();
@@ -305,6 +249,13 @@ class AnchorMonitor {
         if (_alarmTimer != null) {
             _alarmTimer.stop();
         }
+    }
+
+    public function openStopMenu() as Void {
+        var menu = new WatchUi.Menu2({:title => WatchUi.loadResource(Rez.Strings.MenuStopTitle) as String});
+        menu.addItem(new WatchUi.MenuItem(WatchUi.loadResource(Rez.Strings.MenuEnd) as String, null, :end, null));
+        menu.addItem(new WatchUi.MenuItem(WatchUi.loadResource(Rez.Strings.MenuCancel) as String, null, :cancel, null));
+        WatchUi.pushView(menu, new $.StopMenuDelegate(self), WatchUi.SLIDE_UP);
     }
 
     private function syncForceFull() as Void {

@@ -1,12 +1,10 @@
 import Toybox.Lang;
 import Toybox.WatchUi;
 
-//! Input handling for the monitoring screen.
 class MonitorDelegate extends WatchUi.BehaviorDelegate {
 
     private var _monitor as AnchorMonitor;
 
-    //! @param monitor Shared monitor state
     public function initialize(monitor as AnchorMonitor) {
         BehaviorDelegate.initialize();
         _monitor = monitor;
@@ -17,7 +15,7 @@ class MonitorDelegate extends WatchUi.BehaviorDelegate {
             return true;
         }
         _monitor.resetDisplayIdle();
-        showStopMenu();
+        _monitor.openStopMenu();
         return true;
     }
 
@@ -28,7 +26,7 @@ class MonitorDelegate extends WatchUi.BehaviorDelegate {
         var key = evt.getKey();
         if (key == WatchUi.KEY_ENTER || key == WatchUi.KEY_START) {
             _monitor.resetDisplayIdle();
-            showStopMenu();
+            _monitor.openStopMenu();
             return true;
         } else if (key == WatchUi.KEY_UP) {
             _monitor.nudgeRadius(1);
@@ -38,7 +36,7 @@ class MonitorDelegate extends WatchUi.BehaviorDelegate {
             return true;
         } else if (key == WatchUi.KEY_ESC) {
             _monitor.resetDisplayIdle();
-            showStopMenu();
+            _monitor.openStopMenu();
             return true;
         }
         _monitor.resetDisplayIdle();
@@ -50,7 +48,7 @@ class MonitorDelegate extends WatchUi.BehaviorDelegate {
             return true;
         }
         _monitor.resetDisplayIdle();
-        showStopMenu();
+        _monitor.openStopMenu();
         return true;
     }
 
@@ -78,8 +76,6 @@ class MonitorDelegate extends WatchUi.BehaviorDelegate {
         return true;
     }
 
-    //! First interaction while off only wakes the display.
-    //! @return true if the event was consumed as a wake
     private function wakeIfDisplayOff() as Boolean {
         if (_monitor.isDisplayOff()) {
             _monitor.resetDisplayIdle();
@@ -88,10 +84,4 @@ class MonitorDelegate extends WatchUi.BehaviorDelegate {
         return false;
     }
 
-    private function showStopMenu() as Void {
-        var menu = new WatchUi.Menu2({:title => WatchUi.loadResource(Rez.Strings.MenuStopTitle) as String});
-        menu.addItem(new WatchUi.MenuItem(WatchUi.loadResource(Rez.Strings.MenuEnd) as String, null, :end, null));
-        menu.addItem(new WatchUi.MenuItem(WatchUi.loadResource(Rez.Strings.MenuCancel) as String, null, :cancel, null));
-        WatchUi.pushView(menu, new $.StopMenuDelegate(_monitor), WatchUi.SLIDE_UP);
-    }
 }
