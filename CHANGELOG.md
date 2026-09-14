@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- Shortened on-watch hint labels (setup/alarm/monitor) and raised them so round displays (e.g. Forerunner 965) show the full text
+
 ### Added
 - Mute UI: yellow muted-speaker icon and countdown ring (depletes counterclockwise from 12 o'clock) while the alarm is silenced
 - Monitoring display idle: full brightness for 30 s, then dim, then black after 10 s more; wake on tap/controls (mute and active alarm keep full brightness)

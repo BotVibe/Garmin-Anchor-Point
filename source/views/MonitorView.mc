@@ -87,7 +87,7 @@ class MonitorView extends WatchUi.View {
         var runtimeText = (WatchUi.loadResource(Rez.Strings.RuntimeLabel) as String) + ": " + elapsed;
         dc.drawText(cx, height * 76 / 100, Graphics.FONT_XTINY, runtimeText, Graphics.TEXT_JUSTIFY_CENTER);
 
-        dc.drawText(cx, height * 88 / 100, Graphics.FONT_XTINY, WatchUi.loadResource(Rez.Strings.HintMonitorMenu) as String, Graphics.TEXT_JUSTIFY_CENTER);
+        dc.drawText(cx, height * 84 / 100, Graphics.FONT_XTINY, WatchUi.loadResource(Rez.Strings.HintMonitorMenu) as String, Graphics.TEXT_JUSTIFY_CENTER);
 
         if (dim) {
             drawDimOverlay(dc, width, height);
