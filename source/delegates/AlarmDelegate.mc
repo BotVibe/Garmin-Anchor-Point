@@ -21,6 +21,7 @@ class AlarmDelegate extends WatchUi.BehaviorDelegate {
     }
 
     public function onMenu() as Boolean {
+        _monitor.resetDisplayIdle();
         showStopMenu();
         return true;
     }
@@ -42,6 +43,7 @@ class AlarmDelegate extends WatchUi.BehaviorDelegate {
         } else if (key == WatchUi.KEY_DOWN) {
             return nudgeRadius(-1);
         } else if (key == WatchUi.KEY_MENU) {
+            _monitor.resetDisplayIdle();
             showStopMenu();
             return true;
         }

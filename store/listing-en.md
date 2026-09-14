@@ -21,8 +21,10 @@ How it works:
 3. Start monitoring. The watch stores the current position as the anchor.
 4. While monitoring, the watch shows distance to the anchor and whether you are inside or outside the radius.
 5. If the boat drifts outside the radius, the watch alarms with tone and/or vibration according to your setting.
-6. From the alarm screen you can silence for 60 seconds, enlarge the radius with UP/DOWN, or end the session from the menu.
+6. From the alarm screen you can silence for 60 seconds (display stays on with a mute icon and countdown ring), enlarge the radius with UP/DOWN, or end the session from the menu.
 7. End monitoring from the on-watch menu when you are done.
+
+While monitoring, the display dims after 30 seconds of inactivity and turns off after 10 more seconds; tap or press a button to wake it. During an active alarm or the 60-second silence period the display stays fully on.
 
 Alarm style (Connect IQ settings):
 
@@ -54,7 +56,8 @@ anchor, boat, drift, GPS, marine, safety, watch alarm
 - Alarm style setting: tone+vibrate, tone only, or vibrate only
 - Continuous GPS while monitoring
 - On-watch alarm when outside the selected radius
-- Silence for 60 s, adjust radius, or end from the alarm screen
+- Silence for 60 s with mute icon + countdown ring; adjust radius or end from the alarm screen
+- Display idle dim/off while monitoring (full during alarm/mute)
 - End monitoring from the watch menu
 
 ## Support / contact

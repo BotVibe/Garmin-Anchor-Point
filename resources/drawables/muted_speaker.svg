@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
+  <!-- Yellow muted speaker (reference asset; MonitorView draws procedurally) -->
+  <path d="M8 18h8l12-10v32L16 30H8z" fill="#FFCC00"/>
+  <line x1="10" y1="38" x2="38" y2="10" stroke="#FFCC00" stroke-width="4" stroke-linecap="round"/>
+</svg>

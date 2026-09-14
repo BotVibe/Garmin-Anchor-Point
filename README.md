@@ -13,7 +13,8 @@ Watch-only MVP: set an anchor GPS point, monitor distance for a few hours, and a
 - Radius presets: 15–50 m in 5 m steps, plus 75 / 100 m (default 50 m; also in Garmin Connect app settings)
 - Monitor screen: distance, radius, GPS quality, runtime, inside/outside status
 - Alarm: full-screen alert; style selectable in settings — tone + vibrate (default), tone only, or vibrate only
-- Acknowledge silences the alarm for 60 s so you can enlarge the radius or end the session; radius can also be changed on the alarm screen
+- Acknowledge silences the alarm for 60 s (display stays on with a yellow muted-speaker icon and countdown ring); radius can also be changed on the alarm screen
+- While monitoring: display stays full for 30 s of idle, then dims, then goes black after 10 s more; tap or any control wakes it (mute/alarm keep full brightness)
 - English UI strings
 - Run No Evil unit tests for geo, radius presets, and session state
 
@@ -32,7 +33,8 @@ Watch-only MVP: set an anchor GPS point, monitor distance for a few hours, and a
 | Setup | **START/ENTER**: set anchor and start session (needs usable GPS) |
 | Monitor | **UP/DOWN**: change radius live |
 | Monitor | **MENU** / **START** / **BACK**: end session (End / Cancel) |
-| Alarm | **START/ENTER** / tap / **BACK**: silence for 60 s (then re-alarms if still outside) |
+| Monitor | **Tap**: wake display if off / reset idle timeout |
+| Alarm | **START/ENTER** / tap / **BACK**: silence for 60 s (mute UI + ring; then re-alarms if still outside) |
 | Alarm | **UP/DOWN**: change radius (clears alarm if you enlarge enough) |
 | Alarm | **MENU**: end session (End / Cancel) |
 
@@ -44,6 +46,7 @@ monkey.jungle            # includes source + source-test
 source/
   AnchorPointApp.mc      # lifecycle + GPS
   AnchorMonitor.mc       # UI / attention wrapper
+  DisplayIdleController.mc # full → dim @30s → off @40s
   AnchorSession.mc       # pure monitoring state machine
   Geo.mc                 # haversine + radius breach helpers
   RadiusPresets.mc       # 15–50 m (5 m steps), 75, 100 m
