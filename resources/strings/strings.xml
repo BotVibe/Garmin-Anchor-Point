@@ -39,6 +39,7 @@
     <string id="AlarmBody">Left the anchor circle!</string>
     <string id="NeedGps">Waiting for good GPS</string>
     <string id="AnchorSet">Anchor set</string>
+    <string id="GlanceDetail">Tap to open · radius</string>
 
     <string id="SettingRadiusTitle">Default radius</string>
     <string id="Radius15">15 m</string>

@@ -52,6 +52,15 @@ class AnchorPointApp extends Application.AppBase {
         return [new $.SetupView(monitor), new $.SetupDelegate(monitor)];
     }
 
+    //! Glance preview for the system glance list (same app; tap launches full UI).
+    //! @return Glance view, or null if glances are unavailable
+    public function getGlanceView() as [WatchUi.GlanceView] or [WatchUi.GlanceView, WatchUi.GlanceViewDelegate] or Null {
+        if (WatchUi has :GlanceView) {
+            return [new $.AnchorGlanceView()];
+        }
+        return null;
+    }
+
     //! Access the shared monitor instance.
     public function getMonitor() as AnchorMonitor? {
         return _monitor;

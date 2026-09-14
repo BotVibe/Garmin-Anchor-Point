@@ -18,7 +18,7 @@ How it works:
 
 1. Wait for a **good** GPS fix on your watch (highest quality; “GPS OK” alone is not enough).
 2. Choose an alert radius (15–50 m in 5 m steps, plus 75 m and 100 m).
-3. Start monitoring. The watch stores the current position as the anchor.
+3. Start monitoring from the apps list or by tapping the Anchor Point glance. The watch stores the current position as the anchor.
 4. While monitoring, the watch shows distance to the anchor and whether you are inside or outside the radius.
 5. If the boat drifts outside the radius, the watch alarms with tone and/or vibration according to your setting.
 6. From the alarm screen you can silence for 60 seconds (display stays on with a mute icon and countdown ring), enlarge the radius with UP/DOWN, or end the session from the menu.
@@ -58,6 +58,7 @@ anchor, boat, drift, GPS, marine, safety, watch alarm
 - On-watch alarm when outside the selected radius
 - Silence for 60 s with mute icon + countdown ring; adjust radius or end from the alarm screen
 - Display idle dim/off while monitoring (full during alarm/mute)
+- Open from apps list or glance list (tap glance to launch)
 - End monitoring from the watch menu
 
 ## Support / contact
