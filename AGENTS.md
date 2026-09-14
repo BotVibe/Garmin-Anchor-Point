@@ -32,6 +32,7 @@ Do not defer doc updates. Prefer English for all names, UI strings, comments aim
 | `source/AnchorSession.mc` | Pure state machine (setup/monitoring/alarm) — unit-tested |
 | `source/Geo.mc` | Haversine distance, fix usability, outside-radius check |
 | `source/RadiusPresets.mc` | Radius presets + snap/nudge helpers |
+| `source/ViewLayout.mc` | Round-display hint stacking / safe bottom clamp |
 | `source/views/*` | Setup, Monitor, Alarm screens |
 | `source/delegates/*` | Input handling and end-session menu |
 | `source-test/*` | Run No Evil `(:test)` methods |
