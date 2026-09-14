@@ -11,7 +11,7 @@ module ViewLayout {
     //! @param dc Device context
     //! @param font Graphics.FONT_* constant
     //! @return Pixel height per hint line
-    function hintLineHeight(dc as Dc, font as Number) as Number {
+    function hintLineHeight(dc as Dc, font as FontDefinition) as Number {
         return dc.getFontHeight(font) + 2;
     }
 
@@ -21,7 +21,7 @@ module ViewLayout {
     //! @param font Graphics.FONT_* constant
     //! @param dc Device context
     //! @return Clamped Y
-    function clampBottomY(y as Number, height as Number, font as Number, dc as Dc) as Number {
+    function clampBottomY(y as Number, height as Number, font as FontDefinition, dc as Dc) as Number {
         var maxY = (height * SAFE_BOTTOM_FRACTION).toNumber() - dc.getFontHeight(font);
         if (maxY < 0) {
             maxY = 0;
@@ -39,7 +39,7 @@ module ViewLayout {
     //! @param font Graphics.FONT_* constant
     //! @param lines Array of String
     //! @return Y of the last drawn line
-    function stackHintLines(dc as Dc, cx as Number, startY as Number, font as Number, lines as Array) as Number {
+    function stackHintLines(dc as Dc, cx as Number, startY as Number, font as FontDefinition, lines as Array) as Number {
         var step = hintLineHeight(dc, font);
         var count = lines.size();
         var y = startY;

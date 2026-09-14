@@ -3,9 +3,14 @@ import Toybox.Graphics;
 import Toybox.Lang;
 import Toybox.WatchUi;
 
+(:glance)
 //! Compact glance preview in the watch glance list.
 //! Tap opens the full watch-app; this view does not run GPS monitoring.
 class AnchorGlanceView extends WatchUi.GlanceView {
+
+    public function initialize() {
+        GlanceView.initialize();
+    }
 
     //! @param dc Glance device context
     public function onUpdate(dc as Dc) as Void {
