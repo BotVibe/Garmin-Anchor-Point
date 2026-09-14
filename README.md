@@ -9,7 +9,7 @@ Watch-only MVP: set an anchor GPS point, monitor distance for a few hours, and a
 ## Features
 
 - Continuous GPS while the app session is open
-- Set anchor at the current position when the fix is usable
+- Set anchor at the current position when GPS quality is **good** (highest grade; “GPS OK” / usable is not enough)
 - Radius presets: 15–50 m in 5 m steps, plus 75 / 100 m (default 50 m; also in Garmin Connect app settings)
 - Monitor screen: distance, radius, GPS quality, runtime, inside/outside status
 - Alarm: full-screen alert; style selectable in settings — tone + vibrate (default), tone only, or vibrate only
@@ -30,7 +30,7 @@ Watch-only MVP: set an anchor GPS point, monitor distance for a few hours, and a
 | Screen | Action |
 |--------|--------|
 | Setup | **UP/DOWN** (or swipe): change radius |
-| Setup | **START/ENTER**: set anchor and start session (needs usable GPS) |
+| Setup | **START/ENTER**: set anchor and start session (needs **GPS good**) |
 | Monitor | **UP/DOWN**: change radius live |
 | Monitor | **MENU** / **START** / **BACK**: end session (End / Cancel) |
 | Monitor | **Tap**: wake display if off / reset idle timeout |

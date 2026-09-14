@@ -37,7 +37,7 @@
     <string id="MenuRadius">Change radius</string>
 
     <string id="AlarmBody">Left the anchor circle!</string>
-    <string id="NeedGps">Waiting for usable GPS</string>
+    <string id="NeedGps">Waiting for good GPS</string>
     <string id="AnchorSet">Anchor set</string>
 
     <string id="SettingRadiusTitle">Default radius</string>

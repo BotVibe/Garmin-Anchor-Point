@@ -16,7 +16,7 @@ Anchor Point helps you notice when your boat drifts away from the spot you ancho
 
 How it works:
 
-1. Wait for a usable GPS fix on your watch.
+1. Wait for a **good** GPS fix on your watch (highest quality; “GPS OK” alone is not enough).
 2. Choose an alert radius (15–50 m in 5 m steps, plus 75 m and 100 m).
 3. Start monitoring. The watch stores the current position as the anchor.
 4. While monitoring, the watch shows distance to the anchor and whether you are inside or outside the radius.

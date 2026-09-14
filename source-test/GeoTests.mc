@@ -39,12 +39,12 @@ function testDistanceSymmetric(logger as Logger) as Boolean {
 }
 
 (:test)
-function testFixUsable(logger as Logger) as Boolean {
-    Test.assert(Geo.isFixUsable(Position.QUALITY_USABLE));
-    Test.assert(Geo.isFixUsable(Position.QUALITY_GOOD));
-    Test.assert(!Geo.isFixUsable(Position.QUALITY_POOR));
-    Test.assert(!Geo.isFixUsable(Position.QUALITY_LAST_KNOWN));
-    Test.assert(!Geo.isFixUsable(Position.QUALITY_NOT_AVAILABLE));
+function testFixGoodRequiredToStart(logger as Logger) as Boolean {
+    Test.assert(Geo.isFixGood(Position.QUALITY_GOOD));
+    Test.assert(!Geo.isFixGood(Position.QUALITY_USABLE));
+    Test.assert(!Geo.isFixGood(Position.QUALITY_POOR));
+    Test.assert(!Geo.isFixGood(Position.QUALITY_LAST_KNOWN));
+    Test.assert(!Geo.isFixGood(Position.QUALITY_NOT_AVAILABLE));
     return true;
 }
 

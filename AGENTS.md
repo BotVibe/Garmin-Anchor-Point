@@ -30,7 +30,7 @@ Do not defer doc updates. Prefer English for all names, UI strings, comments aim
 | `source/AnchorMonitor.mc` | UI, vibration/tone around session |
 | `source/DisplayIdleController.mc` | Display full → dim @30s → off @40s; mute/alarm force full |
 | `source/AnchorSession.mc` | Pure state machine (setup/monitoring/alarm) — unit-tested |
-| `source/Geo.mc` | Haversine distance, fix usability, outside-radius check |
+| `source/Geo.mc` | Haversine distance, GPS quality gate (`QUALITY_GOOD` to start), outside-radius check |
 | `source/RadiusPresets.mc` | Radius presets + snap/nudge helpers |
 | `source/ViewLayout.mc` | Round-display hint stacking / safe bottom clamp |
 | `source/views/*` | Setup, Monitor, Alarm screens |
@@ -56,6 +56,7 @@ Do not defer doc updates. Prefer English for all names, UI strings, comments aim
 - Language: **English** for app name, strings, docs, and commit messages.
 - Product name: `Anchor Point`.
 - Radius presets: 15–50 m in 5 m steps, plus 75 / 100 m.
+- Start monitoring only when GPS quality is `QUALITY_GOOD` (`Geo.isFixGood`); `QUALITY_USABLE` is not enough.
 - Alarm style setting (`AlarmMode`): 0 = tone + vibrate (default), 1 = tone only, 2 = vibrate only.
 - Acknowledge snoozes re-alarm for 60 s while still outside; mute UI shows yellow muted-speaker + CCW countdown ring; display stays full during mute/alarm.
 - Monitoring display idle: full for 30 s, visual dim, then black/off at 40 s; first tap while off only wakes.

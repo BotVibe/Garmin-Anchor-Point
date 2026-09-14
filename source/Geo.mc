@@ -55,11 +55,11 @@ module Geo {
         return Rez.Strings.GpsWaiting;
     }
 
-    //! True when fix is good enough to set an anchor.
+    //! True when fix is good enough to set an anchor (highest quality only).
     //! @param quality Position.QUALITY_* value
-    //! @return true if usable or better
-    function isFixUsable(quality as Quality) as Boolean {
-        return (quality == Position.QUALITY_USABLE) || (quality == Position.QUALITY_GOOD);
+    //! @return true only for QUALITY_GOOD
+    function isFixGood(quality as Quality) as Boolean {
+        return quality == Position.QUALITY_GOOD;
     }
 
     //! True when distance is strictly outside the allowed radius.
