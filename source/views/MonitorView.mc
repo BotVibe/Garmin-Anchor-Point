@@ -85,9 +85,10 @@ class MonitorView extends WatchUi.View {
 
         var elapsed = formatElapsed(_monitor.getElapsedSeconds());
         var runtimeText = (WatchUi.loadResource(Rez.Strings.RuntimeLabel) as String) + ": " + elapsed;
-        dc.drawText(cx, height * 76 / 100, Graphics.FONT_XTINY, runtimeText, Graphics.TEXT_JUSTIFY_CENTER);
+        dc.drawText(cx, height * 72 / 100, Graphics.FONT_XTINY, runtimeText, Graphics.TEXT_JUSTIFY_CENTER);
 
-        dc.drawText(cx, height * 84 / 100, Graphics.FONT_XTINY, WatchUi.loadResource(Rez.Strings.HintMonitorMenu) as String, Graphics.TEXT_JUSTIFY_CENTER);
+        var menuHints = [WatchUi.loadResource(Rez.Strings.HintMonitorMenu) as String];
+        ViewLayout.stackHintLines(dc, cx, height * 80 / 100, Graphics.FONT_XTINY, menuHints);
 
         if (dim) {
             drawDimOverlay(dc, width, height);
@@ -110,10 +111,11 @@ class MonitorView extends WatchUi.View {
         var dist = _monitor.getDistanceMeters();
         var distText = (WatchUi.loadResource(Rez.Strings.DistanceLabel) as String) + ": " + dist.format("%.0f") + " " + (WatchUi.loadResource(Rez.Strings.MetersUnit) as String);
         dc.setColor(metaColor, Graphics.COLOR_TRANSPARENT);
-        dc.drawText(cx, height * 82 / 100, Graphics.FONT_XTINY, distText, Graphics.TEXT_JUSTIFY_CENTER);
-
-        var radiusText = (WatchUi.loadResource(Rez.Strings.RadiusLabel) as String) + ": " + _monitor.getRadiusMeters().toString() + " " + (WatchUi.loadResource(Rez.Strings.MetersUnit) as String);
-        dc.drawText(cx, height * 90 / 100, Graphics.FONT_XTINY, radiusText, Graphics.TEXT_JUSTIFY_CENTER);
+        var muteHints = [
+            distText,
+            (WatchUi.loadResource(Rez.Strings.RadiusLabel) as String) + ": " + _monitor.getRadiusMeters().toString() + " " + (WatchUi.loadResource(Rez.Strings.MetersUnit) as String)
+        ];
+        ViewLayout.stackHintLines(dc, cx, height * 78 / 100, Graphics.FONT_XTINY, muteHints);
     }
 
     //! Yellow countdown ring: full at mute start, depletes CCW from 12 o'clock.

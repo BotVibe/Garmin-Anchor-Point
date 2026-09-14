@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Shortened on-watch hint labels (setup/alarm/monitor) and raised them so round displays (e.g. Forerunner 965) show the full text
+- Compact hint layout helper (`ViewLayout`) stacks setup/alarm/monitor hints with a safe bottom clamp for round bezels
 
 ### Added
 - Mute UI: yellow muted-speaker icon and countdown ring (depletes counterclockwise from 12 o'clock) while the alarm is silenced

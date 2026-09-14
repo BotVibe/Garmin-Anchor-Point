@@ -47,6 +47,7 @@ source/
   AnchorPointApp.mc      # lifecycle + GPS
   AnchorMonitor.mc       # UI / attention wrapper
   DisplayIdleController.mc # full → dim @30s → off @40s
+  ViewLayout.mc          # round-safe hint stacking
   AnchorSession.mc       # pure monitoring state machine
   Geo.mc                 # haversine + radius breach helpers
   RadiusPresets.mc       # 15–50 m (5 m steps), 75, 100 m

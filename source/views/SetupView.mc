@@ -42,10 +42,12 @@ class SetupView extends WatchUi.View {
         var radiusLine = (WatchUi.loadResource(Rez.Strings.RadiusLabel) as String) + ": " + _monitor.getRadiusMeters().toString() + " " + (WatchUi.loadResource(Rez.Strings.MetersUnit) as String);
         dc.drawText(cx, height * 36 / 100, Graphics.FONT_MEDIUM, radiusLine, Graphics.TEXT_JUSTIFY_CENTER);
 
-        // Short hints, stacked above the round bezel so FR965 shows every line.
         dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
-        dc.drawText(cx, height * 54 / 100, Graphics.FONT_XTINY, WatchUi.loadResource(Rez.Strings.HintChangeRadius) as String, Graphics.TEXT_JUSTIFY_CENTER);
-        dc.drawText(cx, height * 64 / 100, Graphics.FONT_XTINY, WatchUi.loadResource(Rez.Strings.HintSetAnchor) as String, Graphics.TEXT_JUSTIFY_CENTER);
-        dc.drawText(cx, height * 74 / 100, Graphics.FONT_XTINY, WatchUi.loadResource(Rez.Strings.HintKeepOpen) as String, Graphics.TEXT_JUSTIFY_CENTER);
+        var hints = [
+            WatchUi.loadResource(Rez.Strings.HintChangeRadius) as String,
+            WatchUi.loadResource(Rez.Strings.HintSetAnchor) as String,
+            WatchUi.loadResource(Rez.Strings.HintKeepOpen) as String
+        ];
+        ViewLayout.stackHintLines(dc, cx, height * 52 / 100, Graphics.FONT_XTINY, hints);
     }
 }

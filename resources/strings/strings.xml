@@ -25,10 +25,10 @@
     <string id="HintChangeRadius">UP/DOWN: radius</string>
     <string id="HintKeepOpen">Keep app open for GPS</string>
     <string id="HintInactive">Paused (app inactive)</string>
-    <string id="HintMonitorMenu">MENU: stop/continue</string>
+    <string id="HintMonitorMenu">MENU: stop or continue</string>
     <string id="HintAlarmAck">START: silence 60s</string>
     <string id="HintAlarmRadius">UP/DOWN: radius</string>
-    <string id="HintAlarmMenu">MENU: stop/continue</string>
+    <string id="HintAlarmMenu">MENU: stop or continue</string>
     <string id="HintAlarmMuted">Alarm paused</string>
 
     <string id="MenuStopTitle">Surveillance</string>
