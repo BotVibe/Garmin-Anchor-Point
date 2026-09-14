@@ -58,9 +58,11 @@ anchor, boat, drift, GPS, marine, safety, watch alarm, glance
 
 ## What’s new (for this release)
 
+- Fixed mute-screen text overlap on round displays (clearer column layout)
+- Hardened against IQ! crashes from backlight refresh during mute/alarm
 - Glance entry: open from the glance list or the apps list
 - Start monitoring only with GPS good (highest quality)
-- Mute UI: yellow icon + countdown ring; 60 s silence while outside
+- Mute UI with countdown ring; 60 s silence while outside
 - Display idle: dim after 30 s, off after 10 s more (full during alarm/mute)
 - Stop menu: Stop surveillance / Continue surveillance
 - Radius presets: 15–50 m (5 m steps), 75 m, 100 m

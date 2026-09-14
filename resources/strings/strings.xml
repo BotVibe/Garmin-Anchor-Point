@@ -2,7 +2,7 @@
     xsi:noNamespaceSchemaLocation="https://developer.garmin.com/downloads/connect-iq/resources.xsd">
 
     <string id="AppName">Anchor Point</string>
-    <string id="AppVersion">2.1.0</string>
+    <string id="AppVersion">2.1.1</string>
 
     <string id="TitleSetup">Anchor Point</string>
     <string id="TitleMonitor">Monitoring</string>

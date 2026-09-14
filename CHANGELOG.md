@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.1.1] - 2026-09-14
+
 ### Fixed
 - Mute screen overlap: fixed-column layout (status → ring/icon → distance → pause countdown → radius) so text no longer stacks on top of itself on round displays
 - IQ! crash hardening: `Attention.backlight` only on on/off state changes (no per-second refresh during mute/force-full; alarm pulse no longer re-asserts backlight)
