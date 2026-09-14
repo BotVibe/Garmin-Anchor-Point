@@ -6,6 +6,9 @@ Guidance for coding agents working in this repository.
 
 **Anchor Point** is a Garmin Connect IQ `watch-app` (Monkey C). The MVP is watch-only: continuous GPS, settable radius, and on-watch vibration/tone alarm when the boat leaves the circle. There is **no** FIT / activity recording.
 
+- Connect IQ Store: https://apps.garmin.com/en-US/apps/db28a9a5-5c3f-4c0a-a5cd-fae895c40d0d
+- GitHub: https://github.com/BotVibe/Garmin-Anchor-Point
+
 ## Documentation maintenance (required)
 
 Keep **`README.md` and `AGENTS.md` automatically updated** whenever you change the project.

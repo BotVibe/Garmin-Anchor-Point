@@ -41,6 +41,9 @@ What this app does not do (MVP):
 
 Important: GPS quality can vary. Use this as a secondary awareness aid, not as your only safety system.
 
+Source code, documentation, and issue tracker:
+https://github.com/BotVibe/Garmin-Anchor-Point
+
 ## Category
 
 Suggested: Safety / Sports (Boating) — choose the closest available Connect IQ category for watch apps.
@@ -63,8 +66,9 @@ anchor, boat, drift, GPS, marine, safety, watch alarm
 
 ## Support / contact
 
-Use the repository Issues page for bug reports and feature requests:
+Source / docs: https://github.com/BotVibe/Garmin-Anchor-Point
 
+Bug reports and feature requests:
 https://github.com/BotVibe/Garmin-Anchor-Point/issues
 
 ## Privacy policy URL

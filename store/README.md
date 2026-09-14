@@ -3,6 +3,9 @@
 Materials in this folder are ready to paste into the Garmin developer portal.
 You still need a developer account, screenshots, and an exported `.iq` file.
 
+**Published app:** [Anchor Point on Connect IQ Store](https://apps.garmin.com/en-US/apps/db28a9a5-5c3f-4c0a-a5cd-fae895c40d0d)  
+**Source repo:** [github.com/BotVibe/Garmin-Anchor-Point](https://github.com/BotVibe/Garmin-Anchor-Point)
+
 ## Prepared here
 
 | File | Use |
