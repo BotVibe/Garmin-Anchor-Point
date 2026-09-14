@@ -28,6 +28,7 @@ Do not defer doc updates. Prefer English for all names, UI strings, comments aim
 |------|------|
 | `source/AnchorPointApp.mc` | App lifecycle, GPS enable/disable |
 | `source/AnchorMonitor.mc` | UI, vibration/tone around session |
+| `source/DisplayIdleController.mc` | Display full → dim @30s → off @40s; mute/alarm force full |
 | `source/AnchorSession.mc` | Pure state machine (setup/monitoring/alarm) — unit-tested |
 | `source/Geo.mc` | Haversine distance, fix usability, outside-radius check |
 | `source/RadiusPresets.mc` | Radius presets + snap/nudge helpers |
@@ -55,9 +56,9 @@ Do not defer doc updates. Prefer English for all names, UI strings, comments aim
 - Product name: `Anchor Point`.
 - Radius presets: 15–50 m in 5 m steps, plus 75 / 100 m.
 - Alarm style setting (`AlarmMode`): 0 = tone + vibrate (default), 1 = tone only, 2 = vibrate only.
-- Acknowledge snoozes re-alarm for 60 s while still outside; alarm screen supports UP/DOWN radius and MENU to stop or continue surveillance.
-- Stop menu labels: **Stop surveillance** / **Continue surveillance** (not End / Cancel).
-- No FIT / activity recording — stopping surveillance simply ends monitoring.
+- Acknowledge snoozes re-alarm for 60 s while still outside; mute UI shows yellow muted-speaker + CCW countdown ring; display stays full during mute/alarm.
+- Monitoring display idle: full for 30 s, visual dim, then black/off at 40 s; first tap while off only wakes.
+- No FIT / activity recording — end session simply stops monitoring.
 - App must remain open while monitoring; do not promise background geofencing unless Connect IQ capabilities change and docs are updated.
 - Phone companion / internet push are out of MVP unless explicitly requested — if added, update README + AGENTS.md immediately.
 

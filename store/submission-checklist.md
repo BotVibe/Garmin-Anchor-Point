@@ -6,7 +6,7 @@
 - [ ] App name is **Anchor Point** (`resources/strings/strings.xml`)
 - [ ] Version string updated if needed (`AppVersion`)
 - [ ] Unit tests pass: `./scripts/test.sh <device>` (or VS Code Run Tests)
-- [ ] Manual simulator pass: set anchor → move outside → alarm → silence → adjust radius / end → verify 60 s snooze before re-alarm
+- [ ] Manual simulator pass: set anchor → move outside → alarm → silence (mute icon + ring, display stays on) → adjust radius / end → verify 60 s snooze; idle dim @30s / off @40s; tap wakes
 - [ ] Sideload on at least one real watch if possible
 - [ ] Export `.iq` via **Monkey C: Export Project** (release build)
 

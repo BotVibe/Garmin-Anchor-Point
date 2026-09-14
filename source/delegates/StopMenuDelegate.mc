@@ -24,11 +24,13 @@ class StopMenuDelegate extends WatchUi.Menu2InputDelegate {
             }
             WatchUi.switchToView(new $.SetupView(_monitor), new $.SetupDelegate(_monitor), WatchUi.SLIDE_RIGHT);
         } else {
+            _monitor.resetDisplayIdle();
             WatchUi.popView(WatchUi.SLIDE_DOWN);
         }
     }
 
     public function onBack() as Void {
+        _monitor.resetDisplayIdle();
         WatchUi.popView(WatchUi.SLIDE_DOWN);
     }
 }

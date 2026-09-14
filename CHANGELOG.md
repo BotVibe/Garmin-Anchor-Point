@@ -7,8 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Changed
-- Stop menu wording: **Stop surveillance** / **Continue surveillance** (replaces End / Cancel)
+### Added
+- Mute UI: yellow muted-speaker icon and countdown ring (depletes counterclockwise from 12 o'clock) while the alarm is silenced
+- Monitoring display idle: full brightness for 30 s, then dim, then black after 10 s more; wake on tap/controls (mute and active alarm keep full brightness)
 
 ## [2.0.0] - 2026-09-11
 

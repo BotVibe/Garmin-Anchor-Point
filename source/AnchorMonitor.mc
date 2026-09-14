@@ -17,6 +17,7 @@ class AnchorMonitor {
     private const ALARM_MODE_VIBRATE = 2;
 
     private var _session as AnchorSession;
+    private var _displayIdle as DisplayIdleController;
     private var _appActive as Boolean = true;
     private var _alarmTimer as Timer.Timer?;
     private var _snoozeTimer as Timer.Timer?;
@@ -26,6 +27,7 @@ class AnchorMonitor {
     //! Constructor — loads default radius from properties.
     public function initialize() {
         _session = new $.AnchorSession();
+        _displayIdle = new $.DisplayIdleController();
         var stored = Application.Properties.getValue("DefaultRadiusMeters");
         if (stored != null) {
             _session.setRadiusMeters(stored as Number);
@@ -88,7 +90,36 @@ class AnchorMonitor {
         return _session.getAlarmMuteRemainingSeconds();
     }
 
+    public function getAlarmMuteTotalSeconds() as Number {
+        return 60;
+    }
+
+    //! Display power state: DisplayIdleController.DISPLAY_* 
+    public function getDisplayPowerState() as Number {
+        return _displayIdle.getState();
+    }
+
+    public function isDisplayOff() as Boolean {
+        return _displayIdle.isOff();
+    }
+
+    public function isDisplayDim() as Boolean {
+        return _displayIdle.isDim();
+    }
+
+    //! Wake / reset idle timeout (user action or session start).
+    public function resetDisplayIdle() as Void {
+        syncForceFull();
+        if (!_session.isAlarmMuted() && !_session.isAlarming()) {
+            _displayIdle.reset();
+        } else {
+            _displayIdle.setForceFull(true);
+            WatchUi.requestUpdate();
+        }
+    }
+
     public function nudgeRadius(delta as Number) as Void {
+        resetDisplayIdle();
         _session.nudgeRadius(delta);
         Application.Properties.setValue("DefaultRadiusMeters", _session.getRadiusMeters());
         WatchUi.requestUpdate();
@@ -96,6 +127,7 @@ class AnchorMonitor {
     }
 
     public function setRadiusMeters(meters as Number) as Void {
+        resetDisplayIdle();
         _session.setRadiusMeters(meters);
         dismissAlarmViewIfCleared();
     }
@@ -109,6 +141,7 @@ class AnchorMonitor {
         } else {
             dismissAlarmViewIfCleared();
         }
+        syncForceFull();
         WatchUi.requestUpdate();
     }
 
@@ -124,27 +157,35 @@ class AnchorMonitor {
             return false;
         }
 
-        stopAlarmEffects();
+        stopAlarmPulse();
         cancelSnoozeTimer();
+        _displayIdle.start();
+        resetDisplayIdle();
         WatchUi.requestUpdate();
         return true;
     }
 
     //! Stop monitoring and return to setup state.
     public function stopMonitoring() as Void {
-        stopAlarmEffects();
+        stopAlarmPulse();
         cancelSnoozeTimer();
+        _displayIdle.stop();
         _alarmVisible = false;
         _alarmViewPushed = false;
         _session.stopMonitoring();
         WatchUi.requestUpdate();
     }
 
-    //! Acknowledge alarm: silence + snooze so the user can adjust radius or end.
+    //! Acknowledge alarm: silence + snooze; keep display full with mute UI.
     public function acknowledgeAlarm() as Void {
-        stopAlarmEffects();
+        stopAlarmPulse();
         _alarmVisible = false;
         _session.acknowledgeAlarm();
+        syncForceFull();
+        _displayIdle.setForceFull(true);
+        if (Attention has :backlight) {
+            Attention.backlight(true);
+        }
         WatchUi.requestUpdate();
     }
 
@@ -156,6 +197,10 @@ class AnchorMonitor {
             enterAlarm();
         } else {
             scheduleSnoozeCheck();
+            syncForceFull();
+            if (!_session.isAlarmMuted()) {
+                _displayIdle.reset();
+            }
         }
     }
 
@@ -163,6 +208,9 @@ class AnchorMonitor {
     public function onSnoozeExpired() as Void {
         if (_session.rearmIfStillOutside()) {
             enterAlarm();
+        } else {
+            syncForceFull();
+            _displayIdle.reset();
         }
         WatchUi.requestUpdate();
     }
@@ -179,6 +227,7 @@ class AnchorMonitor {
     private function enterAlarm() as Void {
         cancelSnoozeTimer();
         _alarmVisible = true;
+        syncForceFull();
         pulseAlarm();
         startAlarmTimer();
         if (!_alarmViewPushed) {
@@ -190,7 +239,7 @@ class AnchorMonitor {
 
     private function dismissAlarmViewIfCleared() as Void {
         if (_alarmViewPushed && !_session.isAlarming()) {
-            stopAlarmEffects();
+            stopAlarmPulse();
             _alarmVisible = false;
             WatchUi.popView(WatchUi.SLIDE_IMMEDIATE);
         }
@@ -225,7 +274,7 @@ class AnchorMonitor {
     //! Timer callback — repeat vibe/tone while alarming and outside.
     public function onAlarmTick() as Void {
         if (!_session.isAlarming()) {
-            stopAlarmEffects();
+            stopAlarmPulse();
             return;
         }
         if (_session.isOutside()) {
@@ -271,12 +320,15 @@ class AnchorMonitor {
         return ALARM_MODE_BOTH;
     }
 
-    private function stopAlarmEffects() as Void {
+    //! Stop vibe/tone timer without forcing backlight off (idle owns backlight).
+    private function stopAlarmPulse() as Void {
         if (_alarmTimer != null) {
             _alarmTimer.stop();
         }
-        if (Attention has :backlight) {
-            Attention.backlight(false);
-        }
+    }
+
+    private function syncForceFull() as Void {
+        var force = _session.isAlarmMuted() || _session.isAlarming();
+        _displayIdle.setForceFull(force);
     }
 }
