@@ -26,14 +26,14 @@ Do not defer doc updates. Prefer English for all names, UI strings, comments aim
 
 | Path | Role |
 |------|------|
-| `source/AnchorPointApp.mc` | App lifecycle, GPS enable/disable |
+| `source/AnchorPointApp.mc` | App lifecycle, GPS enable/disable, glance entry |
 | `source/AnchorMonitor.mc` | UI, vibration/tone around session |
 | `source/DisplayIdleController.mc` | Display full → dim @30s → off @40s; mute/alarm force full |
 | `source/AnchorSession.mc` | Pure state machine (setup/monitoring/alarm) — unit-tested |
 | `source/Geo.mc` | Haversine distance, GPS quality gate (`QUALITY_GOOD` to start), outside-radius check |
 | `source/RadiusPresets.mc` | Radius presets + snap/nudge helpers |
 | `source/ViewLayout.mc` | Round-display hint stacking / safe bottom clamp |
-| `source/views/*` | Setup, Monitor, Alarm screens |
+| `source/views/*` | Setup, Monitor, Alarm, Glance screens |
 | `source/delegates/*` | Input handling and end-session menu |
 | `source-test/*` | Run No Evil `(:test)` methods |
 | `resources/strings/strings.xml` | English UI strings |
@@ -62,6 +62,7 @@ Do not defer doc updates. Prefer English for all names, UI strings, comments aim
 - Monitoring display idle: full for 30 s, visual dim, then black/off at 40 s; first tap while off only wakes.
 - No FIT / activity recording — end session simply stops monitoring.
 - App must remain open while monitoring; do not promise background geofencing unless Connect IQ capabilities change and docs are updated.
+- On glance-capable devices, provide `getGlanceView()` so the app appears in the glance list as well as the apps list; glance is preview/launch only (no background GPS).
 - Phone companion / internet push are out of MVP unless explicitly requested — if added, update README + AGENTS.md immediately.
 
 ## Build notes

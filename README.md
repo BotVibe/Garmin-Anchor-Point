@@ -9,6 +9,7 @@ Watch-only MVP: set an anchor GPS point, monitor distance for a few hours, and a
 ## Features
 
 - Continuous GPS while the app session is open
+- Launch from the **apps / activities list** or from the **glance list** (tap glance to open the full app)
 - Set anchor at the current position when GPS quality is **good** (highest grade; “GPS OK” / usable is not enough)
 - Radius presets: 15–50 m in 5 m steps, plus 75 / 100 m (default 50 m; also in Garmin Connect app settings)
 - Monitor screen: distance, radius, GPS quality, runtime, inside/outside status
@@ -44,14 +45,14 @@ Watch-only MVP: set an anchor GPS point, monitor distance for a few hours, and a
 manifest.xml             # watch-app, products, Positioning
 monkey.jungle            # includes source + source-test
 source/
-  AnchorPointApp.mc      # lifecycle + GPS
+  AnchorPointApp.mc      # lifecycle + GPS + glance entry
   AnchorMonitor.mc       # UI / attention wrapper
   DisplayIdleController.mc # full → dim @30s → off @40s
   ViewLayout.mc          # round-safe hint stacking
   AnchorSession.mc       # pure monitoring state machine
   Geo.mc                 # haversine + radius breach helpers
   RadiusPresets.mc       # 15–50 m (5 m steps), 75, 100 m
-  views/                 # Setup, Monitor, Alarm
+  views/                 # Setup, Monitor, Alarm, Glance
   delegates/             # input + stop menu
 source-test/             # Run No Evil (:test) methods
 resources/               # strings, icon, settings
