@@ -60,6 +60,7 @@ Do not defer doc updates. Prefer English for all names, UI strings, comments aim
 - Radius presets: 15–50 m in 5 m steps, plus 75 / 100 m.
 - Start monitoring only when GPS quality is `QUALITY_GOOD` (`Geo.isFixGood`); `QUALITY_USABLE` is not enough.
 - Alarm style setting (`AlarmMode`): 0 = tone + vibrate (default), 1 = tone only, 2 = vibrate only.
+- Alarm pulse plays `Attention.TONE_LOUD_BEEP` before vibrate (tone-first; avoid `TONE_ALARM`, which is often silent for CIQ apps). System Alert Tones must be On for sound outside a FIT activity.
 - Acknowledge snoozes re-alarm for 60 s while still outside; mute UI shows yellow muted-speaker + CCW countdown ring; display stays full during mute/alarm.
 - Stop menu labels: **Stop surveillance** / **Continue surveillance**.
 - Monitoring display idle: full for 30 s, visual dim, then black/off at 40 s; first tap while off only wakes.
