@@ -3,7 +3,6 @@ import Toybox.Position;
 import Toybox.Time;
 
 //! Pure monitoring state (no UI, timers, or activity recording).
-//! Used by AnchorMonitor and covered by Run No Evil unit tests.
 class AnchorSession {
 
     enum SessionState {
@@ -30,10 +29,6 @@ class AnchorSession {
         setRadiusMeters(50);
     }
 
-    public function getState() as SessionState {
-        return _state;
-    }
-
     public function isSetup() as Boolean {
         return _state == STATE_SETUP;
     }
@@ -50,20 +45,12 @@ class AnchorSession {
         return _radiusMeters;
     }
 
-    public function getRadiusIndex() as Number {
-        return _radiusIndex;
-    }
-
     public function getDistanceMeters() as Float {
         return _distanceMeters;
     }
 
     public function getAccuracy() as Quality {
         return _accuracy;
-    }
-
-    public function getCurrentLocation() as Location? {
-        return _current;
     }
 
     public function getAnchorLocation() as Location? {
@@ -74,7 +61,6 @@ class AnchorSession {
         return _outside;
     }
 
-    //! Elapsed monitoring seconds, or 0 if not started.
     public function getElapsedSeconds() as Number {
         if (_sessionStartedAt <= 0) {
             return 0;
@@ -82,12 +68,10 @@ class AnchorSession {
         return Time.now().value() - _sessionStartedAt;
     }
 
-    //! True while acknowledge snooze is active.
     public function isAlarmMuted() as Boolean {
         return getAlarmMuteRemainingSeconds() > 0;
     }
 
-    //! Seconds left in acknowledge snooze, or 0.
     public function getAlarmMuteRemainingSeconds() as Number {
         if (_alarmMutedUntil <= 0) {
             return 0;
@@ -100,8 +84,6 @@ class AnchorSession {
         return remaining;
     }
 
-    //! Set or clear acknowledge snooze (also used by tests).
-    //! @param seconds Duration; <= 0 clears mute
     public function muteAlarmFor(seconds as Number) as Void {
         if (seconds <= 0) {
             _alarmMutedUntil = 0;
@@ -110,8 +92,6 @@ class AnchorSession {
         }
     }
 
-    //! Cycle radius through presets.
-    //! @param delta +1 / -1
     public function nudgeRadius(delta as Number) as Void {
         _radiusIndex = RadiusPresets.nudgeIndex(_radiusIndex, delta);
         _radiusMeters = RadiusPresets.valueAt(_radiusIndex);
@@ -119,8 +99,6 @@ class AnchorSession {
         clearAlarmIfInside();
     }
 
-    //! Snap radius to nearest preset.
-    //! @param meters Desired radius
     public function setRadiusMeters(meters as Number) as Void {
         _radiusIndex = RadiusPresets.indexOfNearest(meters);
         _radiusMeters = RadiusPresets.valueAt(_radiusIndex);
@@ -128,10 +106,6 @@ class AnchorSession {
         clearAlarmIfInside();
     }
 
-    //! Apply a GPS update.
-    //! @param location Latest location (may be null to keep previous)
-    //! @param accuracy Position.QUALITY_* value
-    //! @return true if this update caused a transition into ALARM
     public function updateLocation(location as Location?, accuracy as Quality) as Boolean {
         _accuracy = accuracy;
         if (location != null) {
@@ -154,8 +128,6 @@ class AnchorSession {
         return enteredAlarm;
     }
 
-    //! Arm monitoring using the current good-quality fix as the anchor.
-    //! @return true on success
     public function startMonitoring() as Boolean {
         if (_current == null || !Geo.isFixGood(_accuracy)) {
             return false;
@@ -170,7 +142,6 @@ class AnchorSession {
         return true;
     }
 
-    //! Stop monitoring and clear anchor state.
     public function stopMonitoring() as Void {
         _anchor = null;
         _outside = false;
@@ -180,7 +151,6 @@ class AnchorSession {
         _state = STATE_SETUP;
     }
 
-    //! Leave ALARM, return to MONITORING, and snooze re-alarm while still outside.
     public function acknowledgeAlarm() as Void {
         if (_state == STATE_ALARM) {
             _state = STATE_MONITORING;
@@ -188,8 +158,6 @@ class AnchorSession {
         }
     }
 
-    //! After alarm UI closes or snooze ends: re-enter alarm if still outside and not muted.
-    //! @return true if alarm should be shown again
     public function rearmIfStillOutside() as Boolean {
         if (_state != STATE_MONITORING) {
             return false;

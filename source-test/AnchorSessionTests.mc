@@ -2,7 +2,6 @@ import Toybox.Lang;
 import Toybox.Position;
 import Toybox.Test;
 
-//! Run No Evil tests for the pure monitoring state machine.
 (:test)
 function testSessionStartsOnlyWithGoodFix(logger as Logger) as Boolean {
     var session = new AnchorSession();

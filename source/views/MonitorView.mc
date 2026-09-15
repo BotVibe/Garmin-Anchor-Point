@@ -2,18 +2,16 @@ import Toybox.Graphics;
 import Toybox.Lang;
 import Toybox.WatchUi;
 
-//! Live monitoring screen while the anchor session is active.
+//! Live monitoring screen.
 class MonitorView extends WatchUi.View {
 
     private var _monitor as AnchorMonitor;
 
-    //! @param monitor Shared monitor state
     public function initialize(monitor as AnchorMonitor) {
         View.initialize();
         _monitor = monitor;
     }
 
-    //! @param dc Device context
     public function onUpdate(dc as Dc) as Void {
         var width = dc.getWidth();
         var height = dc.getHeight();
@@ -46,11 +44,6 @@ class MonitorView extends WatchUi.View {
         dc.setColor(titleColor, Graphics.COLOR_TRANSPARENT);
         dc.drawText(cx, height * 6 / 100, Graphics.FONT_TINY, WatchUi.loadResource(Rez.Strings.TitleMonitor) as String, Graphics.TEXT_JUSTIFY_CENTER);
 
-        if (!_monitor.isAppActive()) {
-            dc.setColor(Graphics.COLOR_ORANGE, Graphics.COLOR_TRANSPARENT);
-            dc.drawText(cx, height * 16 / 100, Graphics.FONT_XTINY, WatchUi.loadResource(Rez.Strings.HintInactive) as String, Graphics.TEXT_JUSTIFY_CENTER);
-        }
-
         var statusColor = outside
             ? (dim ? Graphics.COLOR_ORANGE : Graphics.COLOR_YELLOW)
             : (dim ? Graphics.COLOR_DK_GREEN : Graphics.COLOR_GREEN);
@@ -81,7 +74,6 @@ class MonitorView extends WatchUi.View {
         dc.drawText(cx, height * 80 / 100, Graphics.FONT_XTINY, WatchUi.loadResource(Rez.Strings.HintMonitorMenu) as String, Graphics.TEXT_JUSTIFY_CENTER);
     }
 
-    //! Fixed-column mute layout: status, ring+icon, distance, pause text, radius.
     private function drawMutedScreen(dc as Dc, cx as Number, cy as Number, width as Number, height as Number, dim as Boolean, outside as Boolean) as Void {
         var statusColor = outside
             ? (dim ? Graphics.COLOR_ORANGE : Graphics.COLOR_YELLOW)
@@ -111,7 +103,6 @@ class MonitorView extends WatchUi.View {
         dc.drawText(cx, height * 78 / 100, Graphics.FONT_XTINY, radiusText, Graphics.TEXT_JUSTIFY_CENTER);
     }
 
-    //! Yellow countdown ring: full at mute start, depletes CCW from 12 o'clock.
     private function drawMuteRing(dc as Dc, cx as Number, cy as Number, width as Number, height as Number) as Void {
         var remaining = _monitor.getAlarmMuteRemainingSeconds();
         var total = _monitor.getAlarmMuteTotalSeconds();
@@ -140,7 +131,6 @@ class MonitorView extends WatchUi.View {
         dc.drawArc(cx, cy, radius, Graphics.ARC_COUNTER_CLOCKWISE, startDeg, startDeg + sweep);
     }
 
-    //! Yellow muted-speaker icon (cone + slash) at center.
     private function drawMutedSpeakerIcon(dc as Dc, cx as Number, cy as Number) as Void {
         dc.setColor(Graphics.COLOR_YELLOW, Graphics.COLOR_TRANSPARENT);
         if (dc has :setPenWidth) {
@@ -163,9 +153,6 @@ class MonitorView extends WatchUi.View {
         dc.drawLine(cx - 22, cy + 20, cx + 18, cy - 20);
     }
 
-    //! Format seconds as h:mm:ss or m:ss.
-    //! @param totalSeconds Elapsed seconds
-    //! @return Formatted string
     private function formatElapsed(totalSeconds as Number) as String {
         var hours = totalSeconds / 3600;
         var minutes = (totalSeconds % 3600) / 60;
@@ -176,8 +163,6 @@ class MonitorView extends WatchUi.View {
         return minutes.toString() + ":" + pad2(seconds);
     }
 
-    //! @param value Non-negative integer
-    //! @return Two-digit zero-padded string
     private function pad2(value as Number) as String {
         if (value < 10) {
             return "0" + value.toString();

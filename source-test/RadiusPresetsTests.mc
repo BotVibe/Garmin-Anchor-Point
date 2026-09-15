@@ -1,7 +1,6 @@
 import Toybox.Lang;
 import Toybox.Test;
 
-//! Run No Evil tests for radius preset helpers.
 (:test)
 function testRadiusPresetValues(logger as Logger) as Boolean {
     var values = RadiusPresets.values();

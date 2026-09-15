@@ -12,7 +12,6 @@ class AnchorGlanceView extends WatchUi.GlanceView {
         GlanceView.initialize();
     }
 
-    //! @param dc Glance device context
     public function onUpdate(dc as Dc) as Void {
         var height = dc.getHeight();
 

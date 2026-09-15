@@ -7,13 +7,11 @@ class SetupDelegate extends WatchUi.BehaviorDelegate {
 
     private var _monitor as AnchorMonitor;
 
-    //! @param monitor Shared monitor state
     public function initialize(monitor as AnchorMonitor) {
         BehaviorDelegate.initialize();
         _monitor = monitor;
     }
 
-    //! Start monitoring when SELECT/ENTER is pressed.
     public function onSelect() as Boolean {
         return tryStart();
     }

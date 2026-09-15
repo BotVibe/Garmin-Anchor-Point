@@ -8,20 +8,15 @@ class AnchorPointApp extends Application.AppBase {
 
     private var _monitor as AnchorMonitor?;
 
-    //! Constructor
     public function initialize() {
         AppBase.initialize();
     }
 
-    //! Enable continuous GPS when the app starts.
-    //! @param state Startup arguments
     public function onStart(state as Dictionary?) as Void {
         _monitor = new $.AnchorMonitor();
         Position.enableLocationEvents(Position.LOCATION_CONTINUOUS, method(:onPosition));
     }
 
-    //! Disable GPS and stop any open session.
-    //! @param state Shutdown arguments
     public function onStop(state as Dictionary?) as Void {
         var monitor = _monitor;
         if (monitor != null) {
@@ -33,8 +28,6 @@ class AnchorPointApp extends Application.AppBase {
         _monitor = null;
     }
 
-    //! Forward GPS updates to the monitor.
-    //! @param info Position.Info
     public function onPosition(info as Position.Info) as Void {
         var monitor = _monitor;
         if (monitor != null) {
@@ -42,7 +35,6 @@ class AnchorPointApp extends Application.AppBase {
         }
     }
 
-    //! @return Initial setup view and delegate
     public function getInitialView() as [Views] or [Views, InputDelegates] {
         var monitor = _monitor;
         if (monitor == null) {
@@ -53,8 +45,6 @@ class AnchorPointApp extends Application.AppBase {
     }
 
     (:glance)
-    //! Glance preview for the system glance list (same app; tap launches full UI).
-    //! @return Glance view, or null if glances are unavailable
     public function getGlanceView() as [WatchUi.GlanceView] or [WatchUi.GlanceView, WatchUi.GlanceViewDelegate] or Null {
         if (WatchUi has :GlanceView) {
             return [new $.AnchorGlanceView()];
@@ -62,8 +52,4 @@ class AnchorPointApp extends Application.AppBase {
         return null;
     }
 
-    //! Access the shared monitor instance.
-    public function getMonitor() as AnchorMonitor? {
-        return _monitor;
-    }
 }

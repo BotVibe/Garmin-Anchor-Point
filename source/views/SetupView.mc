@@ -8,13 +8,11 @@ class SetupView extends WatchUi.View {
 
     private var _monitor as AnchorMonitor;
 
-    //! @param monitor Shared monitor state
     public function initialize(monitor as AnchorMonitor) {
         View.initialize();
         _monitor = monitor;
     }
 
-    //! @param dc Device context
     public function onUpdate(dc as Dc) as Void {
         var width = dc.getWidth();
         var height = dc.getHeight();

@@ -2,7 +2,6 @@ import Toybox.Lang;
 import Toybox.Position;
 import Toybox.Test;
 
-//! Run No Evil tests for geographic helpers.
 (:test)
 function testDistanceSamePoint(logger as Logger) as Boolean {
     var a = new Position.Location({:latitude => 54.0, :longitude => 10.0, :format => :degrees});

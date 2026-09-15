@@ -6,13 +6,11 @@ class StopMenuDelegate extends WatchUi.Menu2InputDelegate {
 
     private var _monitor as AnchorMonitor;
 
-    //! @param monitor Shared monitor state
     public function initialize(monitor as AnchorMonitor) {
         Menu2InputDelegate.initialize();
         _monitor = monitor;
     }
 
-    //! @param item Selected menu item
     public function onSelect(item as MenuItem) as Void {
         var id = item.getId();
         if (id == :end) {
