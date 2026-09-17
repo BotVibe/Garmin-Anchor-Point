@@ -35,6 +35,8 @@ Alarm style (Connect IQ settings):
 - Tone only
 - Vibrate only
 
+For audible alarms, the watch system setting **Alert Tones** must be **On** (not only “During Activity”), because this app does not record a FIT activity.
+
 What this app does not do (MVP):
 
 - No phone companion app

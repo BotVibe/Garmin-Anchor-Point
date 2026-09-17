@@ -218,6 +218,12 @@ class AnchorMonitor {
         var useVibrate = (mode == ALARM_MODE_BOTH) || (mode == ALARM_MODE_VIBRATE);
         var useTone = (mode == ALARM_MODE_BOTH) || (mode == ALARM_MODE_TONE);
 
+        // Tone before vibrate: on many devices vibrate preempts a simultaneous playTone.
+        // TONE_LOUD_BEEP is the documented alert tone and is audible on beeper and speaker watches;
+        // TONE_ALARM is often gated/silent for Connect IQ apps.
+        if (useTone && (Attention has :playTone)) {
+            Attention.playTone(Attention.TONE_LOUD_BEEP);
+        }
         if (useVibrate && (Attention has :vibrate)) {
             var vibe = [
                 new Attention.VibeProfile(100, 200),
@@ -227,9 +233,6 @@ class AnchorMonitor {
                 new Attention.VibeProfile(100, 400)
             ];
             Attention.vibrate(vibe);
-        }
-        if (useTone && (Attention has :playTone)) {
-            Attention.playTone(Attention.TONE_ALARM);
         }
     }
 
