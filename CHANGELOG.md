@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- Rewrote Connect IQ Store listing: shorter copy and clearer, sequential how-to steps
+
 ### Fixed
 - Alarm tone: play `TONE_LOUD_BEEP` before vibrate (was `TONE_ALARM` after vibrate, which is often silent for Connect IQ apps)
 
