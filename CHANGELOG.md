@@ -7,11 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Changed
-- Rewrote Connect IQ Store listing: shorter copy and clearer, sequential how-to steps
+## [2.1.2] - 2026-09-17
 
 ### Fixed
 - Alarm tone: play `TONE_LOUD_BEEP` before vibrate (was `TONE_ALARM` after vibrate, which is often silent for Connect IQ apps)
+- Compile: expose mute duration via `getAlarmMuteTotalSeconds()` (Monkey C cannot read class `const` as `AnchorSession.ALARM_SNOOZE_SECONDS`)
+
+### Changed
+- Rewrote Connect IQ Store listing: shorter copy and clearer, sequential how-to steps
+- Refreshed store screenshots to match current on-watch UI strings and layout
 
 ## [2.1.1] - 2026-09-14
 

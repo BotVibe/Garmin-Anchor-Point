@@ -72,6 +72,10 @@ class AnchorSession {
         return getAlarmMuteRemainingSeconds() > 0;
     }
 
+    public function getAlarmMuteTotalSeconds() as Number {
+        return ALARM_SNOOZE_SECONDS;
+    }
+
     public function getAlarmMuteRemainingSeconds() as Number {
         if (_alarmMutedUntil <= 0) {
             return 0;

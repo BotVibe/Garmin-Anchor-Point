@@ -61,7 +61,7 @@ class AnchorMonitor {
     }
 
     public function getAlarmMuteTotalSeconds() as Number {
-        return AnchorSession.ALARM_SNOOZE_SECONDS;
+        return _session.getAlarmMuteTotalSeconds();
     }
 
     public function isDisplayOff() as Boolean {

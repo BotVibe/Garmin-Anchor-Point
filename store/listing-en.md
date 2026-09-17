@@ -47,8 +47,7 @@ anchor, boat, drift, GPS, marine, safety, watch alarm
 
 - Clearer store listing and usage steps
 - Reliable alarm beep (`TONE_LOUD_BEEP`) before vibrate
-- Mute-screen layout and backlight crash hardening
-- Glance launch, GPS-good start, 60 s silence, idle dim/off
+- Fresh screenshots matching the current on-watch UI
 
 ## Support / contact
 
