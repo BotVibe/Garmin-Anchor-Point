@@ -7,6 +7,9 @@ DEVICE="${1:-fenix7}"
 OUT_DIR="${ROOT}/bin"
 OUT_PRG="${OUT_DIR}/AnchorPoint-${DEVICE}-tests.prg"
 
+echo "Checking eng/deu/fre string resource parity"
+"${ROOT}/scripts/check-string-parity.sh"
+
 if [[ -z "${CIQ_SDK_HOME:-}" ]]; then
   if [[ -f "${HOME}/.Garmin/ConnectIQ/current-sdk.cfg" ]]; then
     CIQ_SDK_HOME="$(cat "${HOME}/.Garmin/ConnectIQ/current-sdk.cfg")"

@@ -19,8 +19,8 @@ Watch-only MVP: set an anchor GPS point, monitor distance for a few hours, and a
 - Alarm: full-screen alert; style selectable in settings — tone + vibrate (default), tone only, or vibrate only (watch **Alert Tones** must be On, not only During Activity)
 - Acknowledge silences the alarm for 60 s (display stays on with a yellow muted-speaker icon and countdown ring); radius can also be changed on the alarm screen
 - While monitoring: display stays full for 30 s of idle, then dims, then goes black after 10 s more; tap or any control wakes it (mute/alarm keep full brightness)
-- English UI strings
-- Run No Evil unit tests for geo, radius presets, and session state
+- UI and Garmin Connect settings follow the watch language: English (default), German, French
+- Run No Evil unit tests for geo, radius presets, and session state; string-id parity check across eng/deu/fre
 
 ## Important limits
 
@@ -57,10 +57,13 @@ source/
   views/                 # Setup, Monitor, Alarm, Glance
   delegates/             # input + stop menu
 source-test/             # Run No Evil (:test) methods
-resources/               # strings, icon, settings
+resources/               # English default strings, icon, settings
+resources-deu/           # German string overrides
+resources-fre/           # French string overrides
 scripts/build.sh         # normal PRG build
-scripts/test.sh          # build with -t and run monkeydo -t
-store/                   # Connect IQ Store listing, privacy, checklists
+scripts/test.sh          # string parity + build with -t + monkeydo -t
+scripts/check-string-parity.sh  # eng/deu/fre string-id check
+store/                   # Connect IQ Store listing (EN/DE/FR), privacy, checklists
 AGENTS.md                # guidance for coding agents
 ```
 
@@ -90,6 +93,7 @@ Coverage today:
 - `GeoTests.mc` — distance, symmetry, fix quality, outside-radius boundary, GPS string ids
 - `RadiusPresetsTests.mc` — preset list, snap-to-nearest, wrap-around nudge
 - `AnchorSessionTests.mc` — arming rules, breach → alarm, acknowledge/rearm, stop, radius nudge, enlarging radius
+- `scripts/check-string-parity.sh` — every string id in `resources/` exists in `resources-deu/` and `resources-fre/` (and vice versa); runs at the start of `test.sh`
 
 ```bash
 # Build + run tests in the simulator (needs device package + GUI for simulator):
@@ -97,6 +101,9 @@ Coverage today:
 
 # Build test PRG only:
 SKIP_SIMULATOR=1 ./scripts/test.sh fenix7
+
+# String-id parity only:
+./scripts/check-string-parity.sh
 ```
 
 In VS Code: **Monkey C: Run Tests** (Test Explorer).
@@ -111,12 +118,12 @@ Prepared materials live in [`store/`](store/) (listing copy, privacy draft, asse
 
 ### Already prepared in this repo
 
-- English store listing text: [`store/listing-en.md`](store/listing-en.md) (includes GitHub source link)
+- Store listing text: [`store/listing-en.md`](store/listing-en.md) (master), [`store/listing-de.md`](store/listing-de.md), [`store/listing-fr.md`](store/listing-fr.md) — screenshots/images are English
 - Privacy draft (on-device GPS only): [`store/privacy-en.md`](store/privacy-en.md)
 - Screenshot checklist: [`store/assets/README.md`](store/assets/README.md)
 - Pre-submit checklist: [`store/submission-checklist.md`](store/submission-checklist.md)
 - App icon source: `resources/drawables/launcher_icon.svg`
-- Device list / permissions: `manifest.xml`
+- Device list / permissions / languages (`eng`, `deu`, `fre`): `manifest.xml`
 
 ### Update / resubmit steps (manual — Garmin developer account & local SDK)
 
@@ -137,7 +144,7 @@ Prepared materials live in [`store/`](store/) (listing copy, privacy draft, asse
    This builds a signed `.iq` for all products in `manifest.xml` (needs SDK + device packages + developer key).
 
 6. **Upload update**  
-   Open the [Garmin Connect IQ developer site](https://developer.garmin.com/connect-iq/submit-an-app/), upload the new `.iq`, refresh listing text from `store/listing-en.md`, screenshots, Free / no companion app / English.
+   Open the [Garmin Connect IQ developer site](https://developer.garmin.com/connect-iq/submit-an-app/), upload the new `.iq`, refresh listing text from `store/listing-en.md` (and DE/FR from `listing-de.md` / `listing-fr.md` when the portal supports those locales), screenshots (English UI), Free / no companion app / languages eng+deu+fre.
 
 7. **Submit for review**  
    Garmin typically reviews within about **72 hours**. Fix any rejection notes and resubmit.

@@ -16,6 +16,7 @@
 
     <string id="RadiusLabel">Radius</string>
     <string id="MetersUnit">m</string>
+    <string id="SecondsUnit">s</string>
     <string id="DistanceLabel">Distance</string>
     <string id="StatusOk">INSIDE</string>
     <string id="StatusWarn">OUTSIDE</string>

@@ -23,7 +23,7 @@ Update both files in the **same change** when any of the following moves:
 - Supported devices, permissions, or API assumptions
 - Scope boundaries (what is in / out of MVP)
 
-Do not defer doc updates. Prefer English for all names, UI strings, comments aimed at contributors, README, and this file. When store-facing claims change, update `store/listing-en.md` and `store/privacy-en.md` in the same change.
+Do not defer doc updates. Prefer English for contributor-facing docs, comments, and commit messages. On-watch and Connect settings strings are localized (eng default + deu + fre). When store-facing claims change, update `store/listing-en.md` (master), `store/listing-de.md`, `store/listing-fr.md`, and `store/privacy-en.md` in the same change. Store screenshots/images remain English.
 
 ## Code map
 
@@ -38,12 +38,15 @@ Do not defer doc updates. Prefer English for all names, UI strings, comments aim
 | `source/views/*` | Setup, Monitor, Alarm, Glance screens (fixed-Y mute/hint layout) |
 | `source/delegates/*` | Input handling and end-session menu |
 | `source-test/*` | Run No Evil `(:test)` methods |
-| `resources/strings/strings.xml` | English UI strings |
-| `resources/settings/*` | Default radius + alarm style settings |
-| `manifest.xml` | App id, products, `Positioning` |
+| `resources/strings/strings.xml` | English (default) UI + settings strings |
+| `resources-deu/strings/strings.xml` | German overrides |
+| `resources-fre/strings/strings.xml` | French overrides |
+| `resources/settings/*` | Default radius + alarm style settings (`@Strings.*` titles/list entries) |
+| `manifest.xml` | App id, products, `Positioning`, languages `eng`/`deu`/`fre` |
 | `scripts/build.sh` | Normal PRG build |
-| `scripts/test.sh` | Unit-test build (`-t`) + `monkeydo -t` |
-| `store/` | Connect IQ Store listing copy, privacy draft, asset/submit checklists |
+| `scripts/test.sh` | String parity + unit-test build (`-t`) + `monkeydo -t` |
+| `scripts/check-string-parity.sh` | Bidirectional string-id check eng↔deu↔fre |
+| `store/` | Connect IQ Store listing (EN/DE/FR), privacy draft, asset/submit checklists |
 
 ## Testing
 
@@ -51,12 +54,15 @@ Do not defer doc updates. Prefer English for all names, UI strings, comments aim
 - `monkey.jungle` includes `source-test`; `(:test)` symbols are omitted from non-`-t` builds.
 - Prefer testing pure logic in `Geo`, `RadiusPresets`, and `AnchorSession`. Keep UI/`Attention` side effects in `AnchorMonitor`.
 - When changing geofence, radius, or alarm snooze/ack behavior, add/adjust tests in `source-test/` and update this section + README.
+- When adding or renaming UI/settings strings, update `resources/`, `resources-deu/`, and `resources-fre/` together and keep `./scripts/check-string-parity.sh` green.
 - Run: `./scripts/test.sh fenix7` or VS Code **Monkey C: Run Tests**.
 
 ## Conventions
 
-- Language: **English** for app name, strings, docs, and commit messages.
-- Product name: `Anchor Point`.
+- Product name: `Anchor Point` (unchanged across locales).
+- Watch UI + Connect settings: English default (`resources/`), German (`resources-deu/`), French (`resources-fre/`); follow the watch language. No hard-coded user-facing text in Monkey C.
+- Contributor docs, comments, and commit messages: **English**.
+- Device-specific resources (if added later): `resources-<device|-family>-<lang>` so jungle qualifiers still resolve (language last).
 - Radius presets: 15–50 m in 5 m steps, plus 75 / 100 m.
 - Start monitoring only when GPS quality is `QUALITY_GOOD` (`Geo.isFixGood`); `QUALITY_USABLE` is not enough.
 - Alarm style setting (`AlarmMode`): 0 = tone + vibrate (default), 1 = tone only, 2 = vibrate only.

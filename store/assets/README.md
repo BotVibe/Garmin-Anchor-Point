@@ -13,7 +13,7 @@ PNG/JPG files here are copied into `release/connectiq/store/` on every release b
 | `screenshot-menu.png` | End-session menu |
 | `promo-banner.png` | Optional 16:9 listing banner |
 
-Screenshots are listing mockups matching in-app strings. Prefer re-capturing from the Connect IQ Simulator on a real device target before final store submission if the portal rejects mockups.
+Screenshots are listing mockups matching the **English** in-app UI (store images stay English even though the app also ships German and French). Prefer re-capturing from the Connect IQ Simulator on a real device target before final store submission if the portal rejects mockups.
 
 ## Regenerate icons only
 

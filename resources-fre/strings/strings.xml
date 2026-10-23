@@ -1,0 +1,60 @@
+<strings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="https://developer.garmin.com/downloads/connect-iq/resources.xsd">
+
+    <string id="AppName">Anchor Point</string>
+    <string id="AppVersion">2.1.2</string>
+
+    <string id="TitleSetup">Anchor Point</string>
+    <string id="TitleMonitor">Surveillance</string>
+    <string id="TitleAlarm">ALARME</string>
+
+    <string id="GpsWaiting">Acquisition GPS…</string>
+    <string id="GpsPoor">GPS faible</string>
+    <string id="GpsOk">GPS OK</string>
+    <string id="GpsGood">GPS bon</string>
+    <string id="GpsUnknown">GPS inconnu</string>
+
+    <string id="RadiusLabel">Rayon</string>
+    <string id="MetersUnit">m</string>
+    <string id="SecondsUnit">s</string>
+    <string id="DistanceLabel">Distance</string>
+    <string id="StatusOk">DEDANS</string>
+    <string id="StatusWarn">DEHORS</string>
+    <string id="RuntimeLabel">Durée</string>
+
+    <string id="HintSetAnchor">START: fixer &amp; démarrer</string>
+    <string id="HintChangeRadius">UP/DOWN: rayon</string>
+    <string id="HintKeepOpen">Garder l'app ouverte (GPS)</string>
+    <string id="HintMonitorMenu">MENU: arrêter ou continuer</string>
+    <string id="HintAlarmAck">START: silence 60s</string>
+    <string id="HintAlarmRadius">UP/DOWN: rayon</string>
+    <string id="HintAlarmMenu">MENU: arrêter ou continuer</string>
+    <string id="HintAlarmMuted">Alarme en pause</string>
+
+    <string id="MenuStopTitle">Surveillance</string>
+    <string id="MenuEnd">Arrêter la surveillance</string>
+    <string id="MenuCancel">Continuer la surveillance</string>
+    <string id="MenuRadius">Changer le rayon</string>
+
+    <string id="AlarmBody">Hors du cercle d'ancrage !</string>
+    <string id="NeedGps">En attente d'un GPS bon</string>
+    <string id="AnchorSet">Ancre fixée</string>
+    <string id="GlanceDetail">Toucher pour ouvrir · rayon</string>
+
+    <string id="SettingRadiusTitle">Rayon par défaut</string>
+    <string id="Radius15">15 m</string>
+    <string id="Radius20">20 m</string>
+    <string id="Radius25">25 m</string>
+    <string id="Radius30">30 m</string>
+    <string id="Radius35">35 m</string>
+    <string id="Radius40">40 m</string>
+    <string id="Radius45">45 m</string>
+    <string id="Radius50">50 m</string>
+    <string id="Radius75">75 m</string>
+    <string id="Radius100">100 m</string>
+
+    <string id="SettingAlarmModeTitle">Style d'alarme</string>
+    <string id="AlarmModeBoth">Son + vibration</string>
+    <string id="AlarmModeTone">Son uniquement</string>
+    <string id="AlarmModeVibrate">Vibration uniquement</string>
+</strings>
