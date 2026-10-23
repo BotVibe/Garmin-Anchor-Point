@@ -12,11 +12,11 @@
 
 ## Listing
 
-- [ ] Paste text from [listing-en.md](listing-en.md)
+- [ ] Paste text from [listing-en.md](listing-en.md) (master); also [listing-de.md](listing-de.md) / [listing-fr.md](listing-fr.md) when the portal supports those locales
 - [ ] Replace support / privacy emails with real addresses
 - [ ] Host or paste [privacy-en.md](privacy-en.md) if the portal asks for a privacy policy URL
-- [ ] Upload screenshots from [assets/](assets/)
-- [ ] Mark price Free; no companion app; no ANT+
+- [ ] Upload screenshots from [assets/](assets/) (English UI)
+- [ ] Mark price Free; no companion app; no ANT+; languages eng + deu + fre
 
 ## Safety / accuracy (review risk)
 

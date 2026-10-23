@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- German (`resources-deu`) and French (`resources-fre`) UI/settings strings; watch language selects locale (English default in `resources/`)
+- Connect IQ Store listing drafts: `store/listing-de.md`, `store/listing-fr.md`
+- `scripts/check-string-parity.sh` — bidirectional string-id check across eng/deu/fre (run from `test.sh`)
+
+### Changed
+- Manifest languages: `eng`, `deu`, `fre`; `monkey.jungle` registers language resource paths
+- Hard-coded mute countdown `s` suffix replaced with `SecondsUnit` string resource
+
 ## [2.1.2] - 2026-09-17
 
 ### Fixed

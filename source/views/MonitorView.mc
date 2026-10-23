@@ -94,7 +94,7 @@ class MonitorView extends WatchUi.View {
         dc.drawText(cx, height * 58 / 100, Graphics.FONT_XTINY, distText, Graphics.TEXT_JUSTIFY_CENTER);
 
         var remain = _monitor.getAlarmMuteRemainingSeconds();
-        var mutedText = (WatchUi.loadResource(Rez.Strings.HintAlarmMuted) as String) + " " + remain.toString() + "s";
+        var mutedText = (WatchUi.loadResource(Rez.Strings.HintAlarmMuted) as String) + " " + remain.toString() + (WatchUi.loadResource(Rez.Strings.SecondsUnit) as String);
         dc.setColor(dim ? Graphics.COLOR_ORANGE : Graphics.COLOR_YELLOW, Graphics.COLOR_TRANSPARENT);
         dc.drawText(cx, height * 68 / 100, Graphics.FONT_XTINY, mutedText, Graphics.TEXT_JUSTIFY_CENTER);
 

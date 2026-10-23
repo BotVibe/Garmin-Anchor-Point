@@ -48,6 +48,14 @@ anchor, boat, drift, GPS, marine, safety, watch alarm
 - Clearer store listing and usage steps
 - Reliable alarm beep (`TONE_LOUD_BEEP`) before vibrate
 - Fresh screenshots matching the current on-watch UI
+- UI and Connect settings in English, German, and French (follows the watch language)
+
+## Store locales
+
+- English (this file) is the master listing text.
+- German: [listing-de.md](listing-de.md)
+- French: [listing-fr.md](listing-fr.md)
+- Screenshots/images in `store/assets/` show the English UI.
 
 ## Support / contact
 

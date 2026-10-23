@@ -1,3 +1,10 @@
 project.manifest = manifest.xml
 base.sourcePath = source;source-test
 base.resourcePath = resources
+
+# Language overrides (ISO 639-2). Declare the same codes in manifest.xml.
+# Device-specific locales (e.g. resources-fenix7-deu) still resolve via the
+# default jungle qualifier chain when those folders exist; keep them as
+# resources-<device|-family>-<lang> so they stay last in the qualifier order.
+base.lang.deu = $(base.lang.deu);resources-deu
+base.lang.fre = $(base.lang.fre);resources-fre
