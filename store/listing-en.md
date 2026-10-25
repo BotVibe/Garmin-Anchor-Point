@@ -23,13 +23,15 @@ How to use:
 2. Wait until the watch shows **GPS good**.
 3. Set the radius with UP/DOWN (15–50 m in 5 m steps, or 75 / 100 m).
 4. Press START to set the anchor and begin monitoring.
-5. Leave the app open. The watch shows distance and inside/outside status.
+5. Leave the app open. The watch shows distance and INSIDE/OUTSIDE status.
 6. If you drift out, the alarm sounds and/or vibrates. Press START to silence for 60 seconds, UP/DOWN to change the radius, or MENU to stop or continue.
 7. When finished, open the menu and choose **Stop surveillance**.
 
 Keep the app in the foreground the whole time — closing it stops monitoring. For sound, set the watch **Alert Tones** to **On** (not only “During Activity”).
 
 This is a secondary awareness aid. GPS can vary; do not rely on it as your only safety system.
+
+Languages: English, German, and French. The app and its Garmin Connect settings follow the watch language.
 
 No phone app, no remote alerts, no charts, no FIT recording, no background monitoring when closed.
 
@@ -45,10 +47,9 @@ anchor, boat, drift, GPS, marine, safety, watch alarm
 
 ## What’s new (for this release)
 
-- Clearer store listing and usage steps
-- Reliable alarm beep (`TONE_LOUD_BEEP`) before vibrate
-- Fresh screenshots matching the current on-watch UI
-- UI and Connect settings in English, German, and French (follows the watch language)
+Version 2.2.0:
+
+- Anchor Point is now available in English, German, and French. The app and its Garmin Connect settings follow your watch language (English for all other languages).
 
 ## Store locales
 

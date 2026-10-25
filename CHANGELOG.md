@@ -7,10 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.2.0] - 2026-10-25
+
 ### Added
-- German (`resources-deu`) and French (`resources-fre`) UI/settings strings; watch language selects locale (English default in `resources/`)
-- Connect IQ Store listing drafts: `store/listing-de.md`, `store/listing-fr.md`
-- `scripts/check-string-parity.sh` — bidirectional string-id check across eng/deu/fre (run from `test.sh`)
+- German (`resources-deu`) and French (`resources-fre`) UI and Garmin Connect settings strings; the watch language selects the locale (English default in `resources/`)
+- Connect IQ Store listing in German and French: `store/listing-de.md`, `store/listing-fr.md` (English remains the master listing; store images show the English UI)
+- `scripts/check-string-parity.sh`: bidirectional string-id check across eng/deu/fre (run from `test.sh`)
+- `scripts/check-manifest-languages.sh`: fails if a `resources-<lang>` folder is not declared in `manifest.xml` / `monkey.jungle` (run from `test.sh`)
 
 ### Changed
 - Manifest languages: `eng`, `deu`, `fre`; `monkey.jungle` registers language resource paths

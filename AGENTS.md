@@ -46,6 +46,7 @@ Do not defer doc updates. Prefer English for contributor-facing docs, comments, 
 | `scripts/build.sh` | Normal PRG build |
 | `scripts/test.sh` | String parity + unit-test build (`-t`) + `monkeydo -t` |
 | `scripts/check-string-parity.sh` | Bidirectional string-id check eng↔deu↔fre |
+| `scripts/check-manifest-languages.sh` | Fails if a `resources-<lang>` is missing from `manifest.xml` languages |
 | `store/` | Connect IQ Store listing (EN/DE/FR), privacy draft, asset/submit checklists |
 
 ## Testing

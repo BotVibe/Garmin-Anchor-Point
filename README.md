@@ -20,7 +20,7 @@ Watch-only MVP: set an anchor GPS point, monitor distance for a few hours, and a
 - Acknowledge silences the alarm for 60 s (display stays on with a yellow muted-speaker icon and countdown ring); radius can also be changed on the alarm screen
 - While monitoring: display stays full for 30 s of idle, then dims, then goes black after 10 s more; tap or any control wakes it (mute/alarm keep full brightness)
 - UI and Garmin Connect settings follow the watch language: English (default), German, French
-- Run No Evil unit tests for geo, radius presets, and session state; string-id parity check across eng/deu/fre
+- Run No Evil unit tests for geo, radius presets, and session state; string-id parity check across eng/deu/fre; manifest language check
 
 ## Important limits
 
@@ -61,8 +61,9 @@ resources/               # English default strings, icon, settings
 resources-deu/           # German string overrides
 resources-fre/           # French string overrides
 scripts/build.sh         # normal PRG build
-scripts/test.sh          # string parity + build with -t + monkeydo -t
+scripts/test.sh          # string parity + manifest languages + build with -t + monkeydo -t
 scripts/check-string-parity.sh  # eng/deu/fre string-id check
+scripts/check-manifest-languages.sh  # every resources-<lang> declared in manifest.xml
 store/                   # Connect IQ Store listing (EN/DE/FR), privacy, checklists
 AGENTS.md                # guidance for coding agents
 ```
@@ -94,6 +95,7 @@ Coverage today:
 - `RadiusPresetsTests.mc` — preset list, snap-to-nearest, wrap-around nudge
 - `AnchorSessionTests.mc` — arming rules, breach → alarm, acknowledge/rearm, stop, radius nudge, enlarging radius
 - `scripts/check-string-parity.sh` — every string id in `resources/` exists in `resources-deu/` and `resources-fre/` (and vice versa); runs at the start of `test.sh`
+- `scripts/check-manifest-languages.sh` — every `resources-<lang>` folder with strings is declared in `manifest.xml` `<iq:languages>` (and registered in `monkey.jungle`); otherwise monkeyc silently drops those strings. Runs from `test.sh`
 
 ```bash
 # Build + run tests in the simulator (needs device package + GUI for simulator):

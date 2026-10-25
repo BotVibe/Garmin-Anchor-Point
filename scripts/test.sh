@@ -10,6 +10,9 @@ OUT_PRG="${OUT_DIR}/AnchorPoint-${DEVICE}-tests.prg"
 echo "Checking eng/deu/fre string resource parity"
 "${ROOT}/scripts/check-string-parity.sh"
 
+echo "Checking manifest declares every resources-<lang> language"
+"${ROOT}/scripts/check-manifest-languages.sh"
+
 if [[ -z "${CIQ_SDK_HOME:-}" ]]; then
   if [[ -f "${HOME}/.Garmin/ConnectIQ/current-sdk.cfg" ]]; then
     CIQ_SDK_HOME="$(cat "${HOME}/.Garmin/ConnectIQ/current-sdk.cfg")"

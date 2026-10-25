@@ -31,6 +31,8 @@ Die App muss die ganze Zeit im Vordergrund bleiben — Schließen beendet die Ü
 
 Dies ist eine zusätzliche Orientierungshilfe. GPS kann schwanken; verlassen Sie sich nicht allein darauf als Sicherheitssystem.
 
+Sprachen: Englisch, Deutsch und Französisch. Die App und ihre Einstellungen in Garmin Connect folgen der Sprache der Uhr.
+
 Keine Telefon-App, keine Fernalarme, keine Karten, keine FIT-Aufzeichnung, keine Hintergrundüberwachung bei geschlossener App.
 
 Quellcode und Issues: https://github.com/BotVibe/Garmin-Anchor-Point
@@ -45,10 +47,9 @@ Anker, Boot, Drift, GPS, Marine, Sicherheit, Uhrenalarm, Ankerwache
 
 ## Neu in dieser Version
 
-- Klarere Store-Beschreibung und Nutzungsschritte
-- Zuverlässiger Alarmton (`TONE_LOUD_BEEP`) vor der Vibration
-- Aktualisierte Screenshots zur aktuellen Watch-UI
-- UI und Einstellungen auf Deutsch, Englisch und Französisch (folgt der Uhrensprache)
+Version 2.2.0:
+
+- Anchor Point gibt es jetzt auf Englisch, Deutsch und Französisch. Die App und ihre Einstellungen in Garmin Connect folgen der Sprache Ihrer Uhr (bei allen anderen Sprachen Englisch).
 
 ## Support / Kontakt
 

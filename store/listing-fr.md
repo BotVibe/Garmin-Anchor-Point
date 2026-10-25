@@ -31,6 +31,8 @@ Gardez l’app au premier plan tout le temps — la fermer arrête la surveillan
 
 Ceci est une aide de conscience secondaire. Le GPS peut varier ; ne vous y fiez pas comme seul système de sécurité.
 
+Langues : anglais, allemand et français. L’app et ses réglages dans Garmin Connect suivent la langue de la montre.
+
 Pas d’app téléphone, pas d’alertes à distance, pas de cartes, pas d’enregistrement FIT, pas de surveillance en arrière-plan une fois fermée.
 
 Source et issues : https://github.com/BotVibe/Garmin-Anchor-Point
@@ -45,10 +47,9 @@ ancre, bateau, dérive, GPS, marine, sécurité, alarme montre, mouillage
 
 ## Nouveautés (pour cette version)
 
-- Fiche Store plus claire et étapes d’utilisation séquentielles
-- Bip d’alarme fiable (`TONE_LOUD_BEEP`) avant la vibration
-- Captures d’écran actualisées selon l’UI montre actuelle
-- Interface et réglages en anglais, allemand et français (suivent la langue de la montre)
+Version 2.2.0 :
+
+- Anchor Point est désormais disponible en anglais, allemand et français. L’app et ses réglages dans Garmin Connect suivent la langue de votre montre (anglais pour toutes les autres langues).
 
 ## Support / contact
 
