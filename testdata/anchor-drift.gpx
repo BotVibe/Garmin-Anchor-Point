@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx version="1.1" creator="anchor-point-smoke">
+  <trk><name>drift</name><trkseg>
+    <trkpt lat="54.323300" lon="10.139400"><time>2026-10-25T12:00:00Z</time></trkpt>
+    <trkpt lat="54.323300" lon="10.139400"><time>2026-10-25T12:00:10Z</time></trkpt>
+    <trkpt lat="54.323300" lon="10.139400"><time>2026-10-25T12:00:20Z</time></trkpt>
+    <trkpt lat="54.324200" lon="10.139400"><time>2026-10-25T12:00:40Z</time></trkpt>
+    <trkpt lat="54.325200" lon="10.139400"><time>2026-10-25T12:01:00Z</time></trkpt>
+    <trkpt lat="54.326200" lon="10.139400"><time>2026-10-25T12:01:20Z</time></trkpt>
+  </trkseg></trk>
+</gpx>

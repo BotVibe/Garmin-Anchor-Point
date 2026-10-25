@@ -61,9 +61,12 @@ resources/               # English default strings, icon, settings
 resources-deu/           # German string overrides
 resources-fre/           # French string overrides
 scripts/build.sh         # normal PRG build
-scripts/test.sh          # string parity + manifest languages + build with -t + monkeydo -t
+scripts/test.sh          # string parity + manifest languages + layout budgets + build with -t + monkeydo -t
 scripts/check-string-parity.sh  # eng/deu/fre string-id check
 scripts/check-manifest-languages.sh  # every resources-<lang> declared in manifest.xml
+scripts/check-string-layout.py  # eng/deu/fre on-watch/settings width budgets (fenix7/venu3)
+scripts/sim_smoke.py     # optional Connect IQ simulator smoke (locale bake + OCR)
+testdata/                # sample GPX for simulator Activity Data drift tests
 store/                   # Connect IQ Store listing (EN/DE/FR), privacy, checklists
 AGENTS.md                # guidance for coding agents
 ```
@@ -94,8 +97,10 @@ Coverage today:
 - `GeoTests.mc` — distance, symmetry, fix quality, outside-radius boundary, GPS string ids
 - `RadiusPresetsTests.mc` — preset list, snap-to-nearest, wrap-around nudge
 - `AnchorSessionTests.mc` — arming rules, breach → alarm, acknowledge/rearm, stop, radius nudge, enlarging radius
+- `StringResourceTests.mc` — every UI/settings `Rez.Strings.*` resolves non-empty in the active simulator language
 - `scripts/check-string-parity.sh` — every string id in `resources/` exists in `resources-deu/` and `resources-fre/` (and vice versa); runs at the start of `test.sh`
 - `scripts/check-manifest-languages.sh` — every `resources-<lang>` folder with strings is declared in `manifest.xml` `<iq:languages>` (and registered in `monkey.jungle`); otherwise monkeyc silently drops those strings. Runs from `test.sh`
+- `scripts/check-string-layout.py` — conservative pixel-width budgets for on-watch and settings strings (eng/deu/fre × fenix7/venu3); runs from `test.sh`
 
 ```bash
 # Build + run tests in the simulator (needs device package + GUI for simulator):

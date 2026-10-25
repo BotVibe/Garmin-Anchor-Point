@@ -22,24 +22,24 @@
     <string id="StatusWarn">AUSSERHALB</string>
     <string id="RuntimeLabel">Laufzeit</string>
 
-    <string id="HintSetAnchor">START: setzen &amp; starten</string>
+    <string id="HintSetAnchor">START: setzen &amp; start</string>
     <string id="HintChangeRadius">UP/DOWN: Radius</string>
-    <string id="HintKeepOpen">App für GPS geöffnet lassen</string>
-    <string id="HintMonitorMenu">MENÜ: stoppen oder fortsetzen</string>
+    <string id="HintKeepOpen">GPS: App offen lassen</string>
+    <string id="HintMonitorMenu">MENÜ: stoppen/fortsetzen</string>
     <string id="HintAlarmAck">START: 60s stumm</string>
     <string id="HintAlarmRadius">UP/DOWN: Radius</string>
-    <string id="HintAlarmMenu">MENÜ: stoppen oder fortsetzen</string>
+    <string id="HintAlarmMenu">MENÜ: stoppen/fortsetzen</string>
     <string id="HintAlarmMuted">Alarm pausiert</string>
 
     <string id="MenuStopTitle">Überwachung</string>
-    <string id="MenuEnd">Überwachung beenden</string>
-    <string id="MenuCancel">Überwachung fortsetzen</string>
+    <string id="MenuEnd">Überw. beenden</string>
+    <string id="MenuCancel">Überw. fortsetzen</string>
     <string id="MenuRadius">Radius ändern</string>
 
     <string id="AlarmBody">Ankerkreis verlassen!</string>
     <string id="NeedGps">Warte auf gutes GPS</string>
     <string id="AnchorSet">Anker gesetzt</string>
-    <string id="GlanceDetail" scope="glance">Tippen zum Öffnen · Radius</string>
+    <string id="GlanceDetail" scope="glance">Tippen · Radius</string>
 
     <string id="SettingRadiusTitle">Standardradius</string>
     <string id="Radius15">15 m</string>

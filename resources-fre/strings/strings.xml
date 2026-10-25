@@ -24,22 +24,22 @@
 
     <string id="HintSetAnchor">START: fixer &amp; démarrer</string>
     <string id="HintChangeRadius">UP/DOWN: rayon</string>
-    <string id="HintKeepOpen">Garder l'app ouverte (GPS)</string>
-    <string id="HintMonitorMenu">MENU: arrêter ou continuer</string>
+    <string id="HintKeepOpen">GPS: garder l'app ouverte</string>
+    <string id="HintMonitorMenu">MENU: arrêter/continuer</string>
     <string id="HintAlarmAck">START: silence 60s</string>
     <string id="HintAlarmRadius">UP/DOWN: rayon</string>
-    <string id="HintAlarmMenu">MENU: arrêter ou continuer</string>
+    <string id="HintAlarmMenu">MENU: arrêter/continuer</string>
     <string id="HintAlarmMuted">Alarme en pause</string>
 
     <string id="MenuStopTitle">Surveillance</string>
-    <string id="MenuEnd">Arrêter la surveillance</string>
-    <string id="MenuCancel">Continuer la surveillance</string>
+    <string id="MenuEnd">Arrêter surveillance</string>
+    <string id="MenuCancel">Continuer surveillance</string>
     <string id="MenuRadius">Changer le rayon</string>
 
-    <string id="AlarmBody">Hors du cercle d'ancrage !</string>
+    <string id="AlarmBody">Hors zone d'ancrage!</string>
     <string id="NeedGps">En attente d'un GPS bon</string>
     <string id="AnchorSet">Ancre fixée</string>
-    <string id="GlanceDetail" scope="glance">Toucher pour ouvrir · rayon</string>
+    <string id="GlanceDetail" scope="glance">Toucher · rayon</string>
 
     <string id="SettingRadiusTitle">Rayon par défaut</string>
     <string id="Radius15">15 m</string>

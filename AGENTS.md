@@ -44,9 +44,12 @@ Do not defer doc updates. Prefer English for contributor-facing docs, comments, 
 | `resources/settings/*` | Default radius + alarm style settings (`@Strings.*` titles/list entries) |
 | `manifest.xml` | App id, products, `Positioning`, languages `eng`/`deu`/`fre` |
 | `scripts/build.sh` | Normal PRG build |
-| `scripts/test.sh` | String parity + unit-test build (`-t`) + `monkeydo -t` |
+| `scripts/test.sh` | String parity + manifest languages + layout budgets + unit-test build (`-t`) + `monkeydo -t` |
 | `scripts/check-string-parity.sh` | Bidirectional string-id check eng↔deu↔fre |
 | `scripts/check-manifest-languages.sh` | Fails if a `resources-<lang>` is missing from `manifest.xml` languages |
+| `scripts/check-string-layout.py` | eng/deu/fre on-watch/settings width budgets (fenix7/venu3) |
+| `scripts/sim_smoke.py` | Optional simulator smoke (force-locale bake + OCR menus) |
+| `testdata/` | Sample GPX for simulator Activity Data drift tests |
 | `store/` | Connect IQ Store listing (EN/DE/FR), privacy draft, asset/submit checklists |
 
 ## Testing
@@ -55,7 +58,8 @@ Do not defer doc updates. Prefer English for contributor-facing docs, comments, 
 - `monkey.jungle` includes `source-test`; `(:test)` symbols are omitted from non-`-t` builds.
 - Prefer testing pure logic in `Geo`, `RadiusPresets`, and `AnchorSession`. Keep UI/`Attention` side effects in `AnchorMonitor`.
 - When changing geofence, radius, or alarm snooze/ack behavior, add/adjust tests in `source-test/` and update this section + README.
-- When adding or renaming UI/settings strings, update `resources/`, `resources-deu/`, and `resources-fre/` together and keep `./scripts/check-string-parity.sh` green.
+- When adding or renaming UI/settings strings, update `resources/`, `resources-deu/`, and `resources-fre/` together and keep `./scripts/check-string-parity.sh` and `python3 scripts/check-string-layout.py` green.
+- `StringResourceTests.mc` asserts every UI/settings string resolves; re-run after switching simulator language when validating locales.
 - Run: `./scripts/test.sh fenix7` or VS Code **Monkey C: Run Tests**.
 
 ## Conventions

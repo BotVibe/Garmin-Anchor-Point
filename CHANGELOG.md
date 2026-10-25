@@ -13,6 +13,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Glance IQ! crash: do not construct `AnchorMonitor` / enable GPS in `onStart`/`onStop` (glance and full app share those entry points; non-`(:glance)` types are unavailable in the glance process)
 - Glance IQ! crash: mark glance UI strings (`AppName`, `GlanceDetail`, `MetersUnit`) with `scope="glance"` so `Rez` resolves in the glance process
 - Glance layout: small left inset so title/detail are less likely to clip against round-display chrome
+- Shorten German/French glance hints and stop-menu labels so they fit round 260px displays (fenix7 family)
+- Shorten English/French alarm body copy so it fits fenix7 tiny-font width
+
+### Added
+- `scripts/check-string-layout.py` layout budget check for eng/deu/fre (run from `test.sh`)
+- `scripts/sim_smoke.py` Connect IQ simulator smoke driver (locale bake + OCR menus)
+- `StringResourceTests.mc`: assert every UI/settings string resolves in the active simulator language
+- `testdata/anchor-drift.gpx` sample track for simulator Activity Data drift tests
 
 ## [2.2.0] - 2026-10-25
 

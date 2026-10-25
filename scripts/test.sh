@@ -13,6 +13,9 @@ echo "Checking eng/deu/fre string resource parity"
 echo "Checking manifest declares every resources-<lang> language"
 "${ROOT}/scripts/check-manifest-languages.sh"
 
+echo "Checking eng/deu/fre on-watch string layout budgets"
+python3 "${ROOT}/scripts/check-string-layout.py"
+
 if [[ -z "${CIQ_SDK_HOME:-}" ]]; then
   if [[ -f "${HOME}/.Garmin/ConnectIQ/current-sdk.cfg" ]]; then
     CIQ_SDK_HOME="$(cat "${HOME}/.Garmin/ConnectIQ/current-sdk.cfg")"
