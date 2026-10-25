@@ -21,7 +21,9 @@ fi
 MONKEYC="${CIQ_SDK_HOME}/bin/monkeyc"
 KEY="${CIQ_PRIVATE_KEY:-}"
 if [[ -z "${KEY}" ]]; then
-  if [[ -f "${HOME}/garmin/developer_key_rsa.pem" ]]; then
+  if [[ -f "${HOME}/garmin/developer_key.der" ]]; then
+    KEY="${HOME}/garmin/developer_key.der"
+  elif [[ -f "${HOME}/garmin/developer_key_rsa.pem" ]]; then
     KEY="${HOME}/garmin/developer_key_rsa.pem"
   else
     KEY="${HOME}/garmin/developer_key.pem"
@@ -39,11 +41,13 @@ fi
 
 mkdir -p "${OUT_DIR}"
 echo "Building for ${DEVICE} using SDK at ${CIQ_SDK_HOME}"
+# jungle base.excludeAnnotations strips (:test) and (:smoke); -x is incompatible with -f.
 "${MONKEYC}" \
   -f "${ROOT}/monkey.jungle" \
   -d "${DEVICE}" \
   -o "${OUT_PRG}" \
   -y "${KEY}" \
+  -r \
   -w \
   -l 1
 

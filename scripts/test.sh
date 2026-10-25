@@ -33,7 +33,9 @@ CONNECTIQ="${CIQ_SDK_HOME}/bin/connectiq"
 
 KEY="${CIQ_PRIVATE_KEY:-}"
 if [[ -z "${KEY}" ]]; then
-  if [[ -f "${HOME}/garmin/developer_key_rsa.pem" ]]; then
+  if [[ -f "${HOME}/garmin/developer_key.der" ]]; then
+    KEY="${HOME}/garmin/developer_key.der"
+  elif [[ -f "${HOME}/garmin/developer_key_rsa.pem" ]]; then
     KEY="${HOME}/garmin/developer_key_rsa.pem"
   else
     KEY="${HOME}/garmin/developer_key.pem"
@@ -51,8 +53,10 @@ fi
 
 mkdir -p "${OUT_DIR}"
 echo "Building unit-test PRG for ${DEVICE}"
+# test.jungle keeps (:smoke) seed helpers for testSmokeSeedsProduceExpectedStates;
+# monkey.jungle excludes smoke for release/store builds.
 "${MONKEYC}" \
-  -f "${ROOT}/monkey.jungle" \
+  -f "${ROOT}/test.jungle" \
   -d "${DEVICE}" \
   -o "${OUT_PRG}" \
   -y "${KEY}" \

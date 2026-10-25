@@ -2,6 +2,11 @@ project.manifest = manifest.xml
 base.sourcePath = source;source-test
 base.resourcePath = resources
 
+# Strip Run No Evil (:test) and UI-smoke (:smoke) from release/store builds.
+# monkeyc -x is incompatible with -f jungles; exclusions must live here.
+# Unit-test builds use test.jungle (keeps :smoke so seed helpers compile with -t).
+base.excludeAnnotations = test;smoke
+
 # Language overrides (ISO 639-2). Declare the same codes in manifest.xml.
 # Device-specific locales (e.g. resources-fenix7-deu) still resolve via the
 # default jungle qualifier chain when those folders exist; keep them as

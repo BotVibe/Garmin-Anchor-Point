@@ -38,16 +38,23 @@ Do not defer doc updates. Prefer English for contributor-facing docs, comments, 
 | `source/views/*` | Setup, Monitor, Alarm, Glance screens (fixed-Y mute/hint layout) |
 | `source/delegates/*` | Input handling and end-session menu |
 | `source-test/*` | Run No Evil `(:test)` methods |
+| `source-smoke/*` | UI-smoke entry (`SmokeAnchorPointApp`) — only via `smoke.jungle` |
 | `resources/strings/strings.xml` | English (default) UI + settings strings |
 | `resources-deu/strings/strings.xml` | German overrides |
 | `resources-fre/strings/strings.xml` | French overrides |
 | `resources/settings/*` | Default radius + alarm style settings (`@Strings.*` titles/list entries) |
 | `manifest.xml` | App id, products, `Positioning`, languages `eng`/`deu`/`fre` |
-| `scripts/build.sh` | Normal PRG build |
+| `monkey.jungle` | Release/store build; `base.excludeAnnotations = test;smoke` |
+| `test.jungle` | Unit-test build; keeps `(:smoke)` seeds for `-t` |
+| `smoke.jungle` / `smoke-manifest.xml` | Deterministic UI harness (not for store) |
+| `scripts/build.sh` | Normal/release PRG build (`-r`; no smoke symbols) |
+| `scripts/build-smoke.sh` | UI-smoke PRG for simulator screenshots |
+| `scripts/verify-release-builds.sh` | Build every manifest product; assert no smoke symbols |
 | `scripts/test.sh` | String parity + manifest languages + layout budgets + unit-test build (`-t`) + `monkeydo -t` |
 | `scripts/check-string-parity.sh` | Bidirectional string-id check eng↔deu↔fre |
 | `scripts/check-manifest-languages.sh` | Fails if a `resources-<lang>` is missing from `manifest.xml` languages |
 | `scripts/check-string-layout.py` | eng/deu/fre on-watch/settings width budgets (fenix7/venu3) |
+| `scripts/sim_ui_states.py` | Deterministic EN/DE/FR screenshots via smoke harness (fenix7 + venu3) |
 | `scripts/sim_smoke.py` | Optional simulator smoke (force-locale bake + OCR menus) |
 | `scripts/sim_locale_shots.py` | Trilingual screenshots via `~/.Garmin/ConnectIQ/simulator.ini` `Language=` (0≈eng, 6=fre, 7=deu) |
 | `testdata/` | Sample GPX for simulator Activity Data drift tests |
@@ -56,8 +63,9 @@ Do not defer doc updates. Prefer English for contributor-facing docs, comments, 
 ## Testing
 
 - Framework: Garmin **Run No Evil** (`Toybox.Test`), simulator only.
-- `monkey.jungle` includes `source-test`; `(:test)` symbols are omitted from non-`-t` builds.
+- `monkey.jungle` includes `source-test` but excludes `test` and `smoke` annotations for release; `test.jungle` keeps `(:smoke)` so unit tests can call session seed helpers under `-t`.
 - Prefer testing pure logic in `Geo`, `RadiusPresets`, and `AnchorSession`. Keep UI/`Attention` side effects in `AnchorMonitor`.
+- Deterministic UI screenshots (setup / inside / outside / alarm / mute / menu × eng/deu/fre × fenix7/venu3): `./scripts/build-smoke.sh <device>` then `python3 scripts/sim_ui_states.py`. Release must stay clean: `./scripts/verify-release-builds.sh`.
 - When changing geofence, radius, or alarm snooze/ack behavior, add/adjust tests in `source-test/` and update this section + README.
 - When adding or renaming UI/settings strings, update `resources/`, `resources-deu/`, and `resources-fre/` together and keep `./scripts/check-string-parity.sh` and `python3 scripts/check-string-layout.py` green.
 - `StringResourceTests.mc` asserts every UI/settings string resolves; re-run after switching simulator language when validating locales.
@@ -74,7 +82,7 @@ Do not defer doc updates. Prefer English for contributor-facing docs, comments, 
 - Alarm style setting (`AlarmMode`): 0 = tone + vibrate (default), 1 = tone only, 2 = vibrate only.
 - Alarm pulse plays `Attention.TONE_LOUD_BEEP` before vibrate (tone-first; avoid `TONE_ALARM`, which is often silent for CIQ apps). System Alert Tones must be On for sound outside a FIT activity.
 - Acknowledge snoozes re-alarm for 60 s while still outside; mute UI shows yellow muted-speaker + CCW countdown ring; display stays full during mute/alarm.
-- Stop menu labels: **Stop surveillance** / **Continue surveillance**.
+- Stop menu labels: **Stop surveillance** / **Continue** (short cancel label so Menu2 fits round 260px bezels; DE/FR similarly abbreviated).
 - Monitoring display idle: full for 30 s, visual dim, then black/off at 40 s; first tap while off only wakes.
 - No FIT / activity recording — end session simply stops monitoring.
 - App must remain open while monitoring; do not promise background geofencing unless Connect IQ capabilities change and docs are updated.

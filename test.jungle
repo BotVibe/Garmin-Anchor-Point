@@ -1,0 +1,8 @@
+# Unit-test jungle: includes (:smoke) seed helpers so AnchorSessionTests can
+# call them under monkeyc -t. Release builds use monkey.jungle (excludes smoke).
+project.manifest = manifest.xml
+base.sourcePath = source;source-test
+base.resourcePath = resources
+base.excludeAnnotations = test
+base.lang.deu = $(base.lang.deu);resources-deu
+base.lang.fre = $(base.lang.fre);resources-fre

@@ -33,7 +33,7 @@
 
     <string id="MenuStopTitle">Surveillance</string>
     <string id="MenuEnd">Arrêter surveillance</string>
-    <string id="MenuCancel">Continuer surveillance</string>
+    <string id="MenuCancel">Continuer</string>
     <string id="MenuRadius">Changer le rayon</string>
 
     <string id="AlarmBody">Hors zone d'ancrage!</string>

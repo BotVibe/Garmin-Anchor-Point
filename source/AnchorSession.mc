@@ -194,4 +194,75 @@ class AnchorSession {
         _distanceMeters = Geo.distanceMeters(_anchor, _current);
         _outside = Geo.isOutsideRadius(_distanceMeters, _radiusMeters);
     }
+
+    //! UI-smoke only (`:smoke`, excluded from release via monkeyc -x smoke).
+    (:smoke)
+    public function seedSetupGoodGps() as Void {
+        _state = STATE_SETUP;
+        _anchor = null;
+        _current = locDegrees(54.3233, 10.1394);
+        _accuracy = Position.QUALITY_GOOD;
+        _distanceMeters = 0.0;
+        _outside = false;
+        _sessionStartedAt = 0;
+        _alarmMutedUntil = 0;
+        setRadiusMeters(50);
+    }
+
+    //! UI-smoke only. Monitoring inside the radius (~11 m).
+    (:smoke)
+    public function seedMonitoringInside() as Void {
+        setRadiusMeters(50);
+        _accuracy = Position.QUALITY_GOOD;
+        _anchor = locDegrees(54.3233, 10.1394);
+        _current = locDegrees(54.3234, 10.1394);
+        _sessionStartedAt = Time.now().value() - 125;
+        _alarmMutedUntil = 0;
+        _state = STATE_MONITORING;
+        recalculate();
+    }
+
+    //! UI-smoke only. Monitoring OUTSIDE without entering ALARM (forced state).
+    (:smoke)
+    public function seedMonitoringOutside() as Void {
+        setRadiusMeters(50);
+        _accuracy = Position.QUALITY_GOOD;
+        _anchor = locDegrees(54.3233, 10.1394);
+        _current = locDegrees(54.3250, 10.1394); // ~189 m
+        _sessionStartedAt = Time.now().value() - 300;
+        _alarmMutedUntil = 0;
+        _state = STATE_MONITORING;
+        recalculate();
+    }
+
+    //! UI-smoke only. Active drift alarm while outside.
+    (:smoke)
+    public function seedAlarmOutside() as Void {
+        setRadiusMeters(50);
+        _accuracy = Position.QUALITY_GOOD;
+        _anchor = locDegrees(54.3233, 10.1394);
+        _current = locDegrees(54.3250, 10.1394);
+        _sessionStartedAt = Time.now().value() - 400;
+        _alarmMutedUntil = 0;
+        _state = STATE_ALARM;
+        recalculate();
+    }
+
+    //! UI-smoke only. Mute countdown while still outside (~45 s remaining).
+    (:smoke)
+    public function seedMutedOutside() as Void {
+        setRadiusMeters(50);
+        _accuracy = Position.QUALITY_GOOD;
+        _anchor = locDegrees(54.3233, 10.1394);
+        _current = locDegrees(54.3250, 10.1394);
+        _sessionStartedAt = Time.now().value() - 450;
+        _state = STATE_MONITORING;
+        recalculate();
+        muteAlarmFor(45);
+    }
+
+    (:smoke)
+    public function locDegrees(lat as Float, lon as Float) as Location {
+        return new Position.Location({:latitude => lat, :longitude => lon, :format => :degrees});
+    }
 }

@@ -33,7 +33,7 @@
 
     <string id="MenuStopTitle">Surveillance</string>
     <string id="MenuEnd">Stop surveillance</string>
-    <string id="MenuCancel">Continue surveillance</string>
+    <string id="MenuCancel">Continue</string>
     <string id="MenuRadius">Change radius</string>
 
     <string id="AlarmBody">Outside anchor circle!</string>

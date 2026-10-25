@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!-- Smoke-only manifest: UI state harness entry. Not used for store/release builds. -->
+<iq:manifest xmlns:iq="http://www.garmin.com/xml/connectiq" version="3">
+    <iq:application
+        id="3B30061EC0D6454CA93C0B1D19B26606"
+        type="watch-app"
+        name="@Strings.AppName"
+        entry="SmokeAnchorPointApp"
+        launcherIcon="@Drawables.LauncherIcon"
+        minApiLevel="3.2.0">
+
+        <iq:products>
+            <iq:product id="fenix7"/>
+            <iq:product id="venu3"/>
+        </iq:products>
+
+        <iq:permissions>
+            <iq:uses-permission id="Positioning"/>
+        </iq:permissions>
+
+        <iq:languages>
+            <iq:language>eng</iq:language>
+            <iq:language>deu</iq:language>
+            <iq:language>fre</iq:language>
+        </iq:languages>
+
+        <iq:barrels/>
+    </iq:application>
+</iq:manifest>

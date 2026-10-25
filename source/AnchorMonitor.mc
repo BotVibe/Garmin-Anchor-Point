@@ -264,4 +264,32 @@ class AnchorMonitor {
     private function syncForceFull() as Void {
         _displayIdle.setForceFull(_session.isAlarmMuted() || _session.isAlarming());
     }
+
+    //! UI-smoke only (`:smoke`). Expose session for deterministic seeding.
+    (:smoke)
+    public function smokeSession() as AnchorSession {
+        return _session;
+    }
+
+    //! UI-smoke only. Reset timers/views bookkeeping before a seeded screen.
+    (:smoke)
+    public function smokePrepare() as Void {
+        stopAlarmPulse();
+        cancelSnoozeTimer();
+        _alarmViewPushed = false;
+    }
+
+    //! UI-smoke only. Mark alarm view as pushed without Attention pulse.
+    (:smoke)
+    public function smokeMarkAlarmPushed() as Void {
+        _alarmViewPushed = true;
+        _displayIdle.setForceFull(true);
+    }
+
+    //! UI-smoke only. Start display-idle (optionally forced full for mute/outside).
+    (:smoke)
+    public function smokeArmDisplay(forceFull as Boolean) as Void {
+        _displayIdle.start();
+        _displayIdle.setForceFull(forceFull);
+    }
 }

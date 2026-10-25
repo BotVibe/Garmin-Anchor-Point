@@ -3,6 +3,36 @@ import Toybox.Position;
 import Toybox.Test;
 
 (:test)
+function testSmokeSeedsProduceExpectedStates(logger as Logger) as Boolean {
+    var session = new AnchorSession();
+
+    session.seedSetupGoodGps();
+    Test.assert(session.isSetup());
+    Test.assert(Geo.isFixGood(session.getAccuracy()));
+
+    session.seedMonitoringInside();
+    Test.assert(session.isMonitoring());
+    Test.assert(!session.isOutside());
+    Test.assert(session.getDistanceMeters() < 50.0);
+
+    session.seedMonitoringOutside();
+    Test.assert(session.isMonitoring());
+    Test.assert(session.isOutside());
+    Test.assert(session.getDistanceMeters() > 50.0);
+
+    session.seedAlarmOutside();
+    Test.assert(session.isAlarming());
+    Test.assert(session.isOutside());
+
+    session.seedMutedOutside();
+    Test.assert(session.isMonitoring());
+    Test.assert(session.isOutside());
+    Test.assert(session.isAlarmMuted());
+    Test.assert(session.getAlarmMuteRemainingSeconds() > 0);
+    return true;
+}
+
+(:test)
 function testSessionStartsOnlyWithGoodFix(logger as Logger) as Boolean {
     var session = new AnchorSession();
     var loc = new Position.Location({:latitude => 54.0, :longitude => 10.0, :format => :degrees});
