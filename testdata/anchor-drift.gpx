@@ -1,11 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<gpx version="1.1" creator="anchor-point-smoke">
-  <trk><name>drift</name><trkseg>
-    <trkpt lat="54.323300" lon="10.139400"><time>2026-10-25T12:00:00Z</time></trkpt>
-    <trkpt lat="54.323300" lon="10.139400"><time>2026-10-25T12:00:10Z</time></trkpt>
-    <trkpt lat="54.323300" lon="10.139400"><time>2026-10-25T12:00:20Z</time></trkpt>
-    <trkpt lat="54.324200" lon="10.139400"><time>2026-10-25T12:00:40Z</time></trkpt>
-    <trkpt lat="54.325200" lon="10.139400"><time>2026-10-25T12:01:00Z</time></trkpt>
-    <trkpt lat="54.326200" lon="10.139400"><time>2026-10-25T12:01:20Z</time></trkpt>
-  </trkseg></trk>
+<gpx version="1.1" creator="AnchorPoint" xmlns="http://www.topografix.com/GPX/1/1">
+  <metadata><name>anchor-drift</name></metadata>
+  <trk>
+    <name>anchor-drift</name>
+    <trkseg>
+      <trkpt lat="54.323300" lon="10.139400"><ele>5</ele><time>2026-10-25T12:00:00Z</time></trkpt>
+      <trkpt lat="54.323300" lon="10.139400"><ele>5</ele><time>2026-10-25T12:00:05Z</time></trkpt>
+      <trkpt lat="54.323300" lon="10.139400"><ele>5</ele><time>2026-10-25T12:00:10Z</time></trkpt>
+      <trkpt lat="54.323300" lon="10.139400"><ele>5</ele><time>2026-10-25T12:00:15Z</time></trkpt>
+      <trkpt lat="54.323300" lon="10.139400"><ele>5</ele><time>2026-10-25T12:00:20Z</time></trkpt>
+      <trkpt lat="54.323500" lon="10.139400"><ele>5</ele><time>2026-10-25T12:00:30Z</time></trkpt>
+      <trkpt lat="54.323800" lon="10.139400"><ele>5</ele><time>2026-10-25T12:00:45Z</time></trkpt>
+      <trkpt lat="54.324200" lon="10.139400"><ele>5</ele><time>2026-10-25T12:01:00Z</time></trkpt>
+      <trkpt lat="54.324800" lon="10.139400"><ele>5</ele><time>2026-10-25T12:01:20Z</time></trkpt>
+      <trkpt lat="54.325500" lon="10.139400"><ele>5</ele><time>2026-10-25T12:01:40Z</time></trkpt>
+      <trkpt lat="54.326500" lon="10.139400"><ele>5</ele><time>2026-10-25T12:02:00Z</time></trkpt>
+    </trkseg>
+  </trk>
 </gpx>

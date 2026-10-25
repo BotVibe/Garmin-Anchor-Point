@@ -209,7 +209,10 @@ def set_gps_good() -> bool:
 
 
 def start_activity_data() -> None:
-    """Simulation → Activity Data (best-effort)."""
+    """Simulation → Activity Data: set Data Source to FIT/GPX Playable File, load GPX, play.
+
+    File dialogs run inside the Docker simulator, so use /app/... paths.
+    """
     x, y, w, h, wid = win_geom()
     activate(wid)
     key(wid, "Escape", "Escape")
@@ -219,15 +222,49 @@ def start_activity_data() -> None:
     path = shot("_simulation-menu.png")
     hit = find_text_click(path, "Activity")
     if hit:
+        # Prefer "Activity Data" (often the 2nd Activity* row); click then refine via OCR.
         cx, cy, tok = hit
         click(cx, cy)
         print(f"  simulation '{tok}'")
-        time.sleep(0.8)
-        # Try to hit a play control if a window opened — press space/return
-        key(wid, "Return")
-        time.sleep(0.5)
+        time.sleep(1.0)
     else:
-        key(wid, "Escape")
+        click(900, 351)
+        time.sleep(1.0)
+    path = shot("_actdata.png")
+    hit = find_text_click(path, "Simulation")
+    if hit:
+        click(hit[0], hit[1])
+        time.sleep(0.5)
+        path = shot("_src-menu.png")
+        hit2 = find_text_click(path, "Playable") or find_text_click(path, "GPX")
+        if hit2:
+            click(hit2[0], hit2[1])
+            time.sleep(0.7)
+    path = shot("_actdata2.png")
+    before = set(sh("wmctrl -lG").splitlines())
+    hit = find_text_click(path, "Load")
+    if hit:
+        click(hit[0], hit[1])
+        for _ in range(30):
+            time.sleep(0.2)
+            if set(sh("wmctrl -lG").splitlines()) - before:
+                break
+        run(["xdotool", "search", "--name", "Open FIT or GPX", "windowactivate", "--sync"], check=False)
+        time.sleep(0.2)
+        run(["xdotool", "key", "ctrl+l"], check=False)
+        time.sleep(0.2)
+        run(["xdotool", "key", "ctrl+a"], check=False)
+        run(["xdotool", "type", "--delay", "4", "/app/testdata/anchor-drift.gpx"], check=False)
+        time.sleep(0.15)
+        run(["xdotool", "key", "Return"], check=False)
+        time.sleep(1.2)
+        for line in sh("wmctrl -lG").splitlines():
+            parts = line.split(None, 7)
+            if len(parts) >= 6 and parts[4] == "515":
+                dx, dy, dw, dh = map(int, parts[2:6])
+                click(dx + 32, dy + dh - 42)  # playback triangle
+                time.sleep(0.8)
+                break
     key(wid, "Escape")
 
 
