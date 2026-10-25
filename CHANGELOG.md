@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - `scripts/check-string-layout.py` layout budget check for eng/deu/fre (run from `test.sh`)
 - `scripts/sim_smoke.py` Connect IQ simulator smoke driver (locale bake + OCR menus)
+- `scripts/sim_locale_shots.py` trilingual screenshot helper (simulator.ini `Language=` + OCR)
 - `StringResourceTests.mc`: assert every UI/settings string resolves in the active simulator language
 - `testdata/anchor-drift.gpx` sample track for simulator Activity Data drift tests
 

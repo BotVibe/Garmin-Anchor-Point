@@ -49,6 +49,7 @@ Do not defer doc updates. Prefer English for contributor-facing docs, comments, 
 | `scripts/check-manifest-languages.sh` | Fails if a `resources-<lang>` is missing from `manifest.xml` languages |
 | `scripts/check-string-layout.py` | eng/deu/fre on-watch/settings width budgets (fenix7/venu3) |
 | `scripts/sim_smoke.py` | Optional simulator smoke (force-locale bake + OCR menus) |
+| `scripts/sim_locale_shots.py` | Trilingual screenshots via `~/.Garmin/ConnectIQ/simulator.ini` `Language=` (0≈eng, 6=fre, 7=deu) |
 | `testdata/` | Sample GPX for simulator Activity Data drift tests |
 | `store/` | Connect IQ Store listing (EN/DE/FR), privacy draft, asset/submit checklists |
 

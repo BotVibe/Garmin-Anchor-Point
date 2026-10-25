@@ -66,6 +66,7 @@ scripts/check-string-parity.sh  # eng/deu/fre string-id check
 scripts/check-manifest-languages.sh  # every resources-<lang> declared in manifest.xml
 scripts/check-string-layout.py  # eng/deu/fre on-watch/settings width budgets (fenix7/venu3)
 scripts/sim_smoke.py     # optional Connect IQ simulator smoke (locale bake + OCR)
+scripts/sim_locale_shots.py  # trilingual screenshots via simulator.ini Language=
 testdata/                # sample GPX for simulator Activity Data drift tests
 store/                   # Connect IQ Store listing (EN/DE/FR), privacy, checklists
 AGENTS.md                # guidance for coding agents
