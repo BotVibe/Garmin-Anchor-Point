@@ -47,6 +47,10 @@ anchor, boat, drift, GPS, marine, safety, watch alarm
 
 ## What’s new (for this release)
 
+Version 2.2.1:
+
+- Fixed glance IQ! crashes on glance-capable watches (safe app startup + glance-scoped UI strings).
+
 Version 2.2.0:
 
 - Anchor Point is now available in English, German, and French. The app and its Garmin Connect settings follow your watch language (English for all other languages).

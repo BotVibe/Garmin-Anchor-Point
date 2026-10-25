@@ -158,7 +158,7 @@ Official docs: [Publishing to the Store](https://developer.garmin.com/connect-iq
 - Describe the app honestly: **not** a life-saving navigation system; GPS accuracy varies; **app must stay open**.
 - Permissions used: Positioning only (no Fit / Communications / developer cloud in MVP).
 - Safety-oriented wording in the prepared listing is intentional — keep those caveats if you edit the text.
-- Start requires **GPS good** (`QUALITY_GOOD`); glance is launch/preview only.
+- Start requires **GPS good** (`QUALITY_GOOD`); glance is launch/preview only (no GPS in the glance process; strings used there need `scope="glance"`).
 
 ## Roadmap (out of scope)
 

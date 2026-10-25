@@ -12,18 +12,15 @@ class AnchorPointApp extends Application.AppBase {
         AppBase.initialize();
     }
 
+    //! Glance and the full app share onStart/onStop. Keep these glance-safe:
+    //! do not construct AnchorMonitor (or other non-(:glance) types) here, or the
+    //! glance process crashes with "Class not available to 'Glance'".
     public function onStart(state as Dictionary?) as Void {
-        _monitor = new $.AnchorMonitor();
-        Position.enableLocationEvents(Position.LOCATION_CONTINUOUS, method(:onPosition));
     }
 
     public function onStop(state as Dictionary?) as Void {
-        var monitor = _monitor;
-        if (monitor != null) {
-            if (!monitor.isSetup()) {
-                monitor.stopMonitoring();
-            }
-        }
+        // Tear down GPS only — session/timer cleanup lives in AnchorMonitor and is
+        // invoked from the full-app stop menu before exit when monitoring.
         Position.enableLocationEvents(Position.LOCATION_DISABLE, null);
         _monitor = null;
     }
@@ -41,6 +38,7 @@ class AnchorPointApp extends Application.AppBase {
             monitor = new $.AnchorMonitor();
             _monitor = monitor;
         }
+        Position.enableLocationEvents(Position.LOCATION_CONTINUOUS, method(:onPosition));
         return [new $.SetupView(monitor), new $.SetupDelegate(monitor)];
     }
 

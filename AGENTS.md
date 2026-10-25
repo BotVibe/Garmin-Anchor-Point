@@ -74,6 +74,7 @@ Do not defer doc updates. Prefer English for contributor-facing docs, comments, 
 - No FIT / activity recording — end session simply stops monitoring.
 - App must remain open while monitoring; do not promise background geofencing unless Connect IQ capabilities change and docs are updated.
 - On glance-capable devices, provide `getGlanceView()` so the app appears in the glance list as well as the apps list; glance is preview/launch only (no background GPS).
+- Glance process shares `onStart`/`onStop` with the full app: keep those entry points free of non-`(:glance)` types (construct `AnchorMonitor` / enable GPS only from `getInitialView`). Strings used by the glance view must set `scope="glance"` (or `background`) or `Rez` is unavailable at runtime.
 - Phone companion / internet push are out of MVP unless explicitly requested — if added, update README + AGENTS.md immediately.
 
 ## Build notes
