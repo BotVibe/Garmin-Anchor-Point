@@ -3,6 +3,7 @@
 project.manifest = smoke-manifest.xml
 base.sourcePath = source;source-smoke
 base.resourcePath = resources
-base.excludeAnnotations = test
+# Drop :test and :glance so monkeydo opens getInitialView (no glance chrome).
+base.excludeAnnotations = test;glance
 base.lang.deu = $(base.lang.deu);resources-deu
 base.lang.fre = $(base.lang.fre);resources-fre

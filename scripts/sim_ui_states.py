@@ -1,11 +1,9 @@
 #!/usr/bin/env python3
 """Deterministic UI-state screenshots via the smoke harness PRG.
 
-For each device × language: restart sim with simulator.ini Language=,
-load AnchorPoint-<device>-smoke.prg, screenshot setup then advance with
-Enter through monitor-inside, monitor-outside, alarm, mute, menu.
-
-Glance is captured from the release PRG (same Language=).
+Smoke PRG omits getGlanceView so monkeydo opens the seeded full-app view
+directly (no glance double-click). Glance screenshots use the release PRG.
+Each capture uses a fresh simulator container.
 """
 from __future__ import annotations
 
@@ -23,10 +21,10 @@ SDK = Path(
     or Path.home().joinpath(".Garmin/ConnectIQ/current-sdk.cfg").read_text().strip()
 )
 INI = Path.home() / ".Garmin/ConnectIQ/simulator.ini"
+PHASE_FILE = ROOT / "source-smoke" / "SmokePhase.mc"
 DISPLAY = os.environ.get("DISPLAY", ":1")
 ENV = {**os.environ, "DISPLAY": DISPLAY, "PATH": f"{SDK}/bin:{os.environ.get('PATH', '')}"}
 
-# Empirically: Language=0 eng, 6 fre, 7 deu on CIQ simulator 9.2
 LANG_CODE = {"eng": 0, "deu": 7, "fre": 6}
 
 SCREENS = [
@@ -37,42 +35,44 @@ SCREENS = [
     "mute",
     "menu",
 ]
+SCREEN_PHASE = {name: i for i, name in enumerate(SCREENS)}
 
 EXPECT = {
     "glance": {
-        "eng": [r"Anchor Point", r"Tap to open|radius"],
-        "deu": [r"Anchor Point", r"Tippen|Radius"],
-        "fre": [r"Anchor Point", r"Toucher|rayon"],
+        "eng": [[r"Anchor Point", r"Tap to open"]],
+        "deu": [[r"Anchor Point", r"Tippen"]],
+        "fre": [[r"Anchor Point", r"Toucher"]],
     },
     "setup": {
-        "eng": [r"Anchor Point", r"Radius|GPS|START|Keep app"],
-        "deu": [r"Anchor Point", r"Radius|GPS|setzen|offen|empfangen"],
-        "fre": [r"Anchor Point", r"Rayon|GPS|fixer|ouverte|Acquisition"],
+        "eng": [[r"Keep app open"]],
+        "deu": [[r"offen lassen|App offen"]],
+        "fre": [[r"garder|ouverte"]],
     },
     "monitor-inside": {
-        "eng": [r"Monitoring|INSIDE|Distance"],
-        "deu": [r"Überwachung|INNERHALB|Distanz"],
-        "fre": [r"Surveillance|DEDANS|Distance"],
+        # Prefer status word; fall back to seeded distance (colored OCR is flaky).
+        "eng": [[r"INSIDE"], [r"Distance:\s*11\s*m", r"Monitoring|GPS good"]],
+        "deu": [[r"INNERHALB"], [r"(Distanz|Distance):\s*11"]],
+        "fre": [[r"DEDANS"], [r"Distance:\s*11\s*m"]],
     },
     "monitor-outside": {
-        "eng": [r"OUTSIDE|Distance|Monitoring"],
-        "deu": [r"AUSSERHALB|Distanz|Überwachung"],
-        "fre": [r"DEHORS|Distance|Surveillance"],
+        "eng": [[r"OUTSIDE"], [r"Distance:\s*189\s*m", r"Monitoring"]],
+        "deu": [[r"AUSSERHALB|AUßERHALB|AUSSER"], [r"(Distanz|Distance):\s*189"]],
+        "fre": [[r"DEHORS"], [r"Distance:\s*189\s*m"]],
     },
     "alarm": {
-        "eng": [r"ALARM|Outside anchor|silence"],
-        "deu": [r"ALARM|Ankerkreis|stumm"],
-        "fre": [r"ALARME|ancrage|silence|zone"],
+        "eng": [[r"\bALARM\b"]],
+        "deu": [[r"\bALARM\b"]],
+        "fre": [[r"ALARME"]],
     },
     "mute": {
-        "eng": [r"paused|OUTSIDE|INSIDE"],
-        "deu": [r"pausiert|AUSSERHALB|INNERHALB"],
-        "fre": [r"pause|DEHORS|DEDANS"],
+        "eng": [[r"Alarm paused|paused\s*\d"], [r"Distance:\s*189\s*m", r"paused|OUTSIDE"]],
+        "deu": [[r"pausiert"], [r"(Distanz|Distance):\s*189", r"pausiert|AUSSER"]],
+        "fre": [[r"Alarme en pause|en pause"], [r"Distance:\s*189", r"pause|DEHORS"]],
     },
     "menu": {
-        "eng": [r"Stop surveillance|Continue|Surveillance"],
-        "deu": [r"Überw\.|Überwachung"],
-        "fre": [r"Arrêter|Continuer|Surveillance"],
+        "eng": [[r"Stop surveillance"]],
+        "deu": [[r"beenden|Überwachung|Uberwachung|Uberw"]],
+        "fre": [[r"Arrêter|Arreter|surveillance|Continuer"]],
     },
 }
 
@@ -98,9 +98,21 @@ def win_geom():
 
 
 def shot(name: str) -> Path:
+    """Capture desktop to ART/name. Unlink first — scrot never overwrites."""
     ART.mkdir(parents=True, exist_ok=True)
     path = ART / name
-    run(["scrot", str(path)])
+    if path.exists():
+        path.unlink()
+    # Remove scrot's _NNN sidecars from earlier buggy runs for this stem.
+    stem = path.stem
+    for stale in ART.glob(f"{stem}_*.png"):
+        try:
+            stale.unlink()
+        except OSError:
+            pass
+    run(["scrot", str(path)], check=True)
+    if not path.exists():
+        raise RuntimeError(f"scrot did not write {path}")
     return path
 
 
@@ -110,21 +122,51 @@ def crop_win(src: Path, dest: Path, x, y, w, h):
     Image.open(src).crop((x, y, x + w, y + h)).save(dest)
 
 
+def ocr_preprocess(path: Path) -> Path:
+    """Grayscale tuned for CIQ UI: white/green/yellow on black or red.
+
+    Max-RGB washes yellow into red backgrounds; use max(G,B) plus luminance
+    so status / mute countdown text stays readable for tesseract.
+    """
+    from PIL import Image
+    import numpy as np
+
+    im = Image.open(path).convert("RGB")
+    arr = np.asarray(im, dtype=np.uint16)
+    r, g, b = arr[:, :, 0], arr[:, :, 1], arr[:, :, 2]
+    # Yellow/green/cyan/white on red or black.
+    chroma = np.maximum(g, b)
+    white = np.minimum(np.minimum(r, g), b)
+    bright = np.maximum(chroma, white).astype(np.uint8)
+    out = Image.fromarray(bright, mode="L")
+    out = out.point(lambda v: 0 if v < 50 else (255 if v > 160 else int((v - 50) * 255 / 110)))
+    prep = path.with_name(path.stem + "-ocr.png")
+    out.save(prep)
+    return prep
+
+
 def ocr(path: Path) -> str:
-    p = run(["tesseract", str(path), "stdout"], capture_output=True, text=True)
-    return p.stdout or ""
+    prep = ocr_preprocess(path)
+    texts = []
+    for img in (prep, path):
+        for psm in ("6", "11"):
+            p = run(
+                ["tesseract", str(img), "stdout", "--psm", psm],
+                capture_output=True,
+                text=True,
+            )
+            texts.append(p.stdout or "")
+    return "\n".join(texts)
 
 
-def expect(path: Path, screen: str, loc: str, label: str) -> bool:
-    text = ocr(path)
-    pats = EXPECT[screen][loc]
-    ok = any(re.search(p, text, re.I) for p in pats)
-    print(f"  [{'PASS' if ok else 'FAIL'}] {label}: {text[:140]!r}")
-    return ok
+def matches(text: str, screen: str, loc: str) -> bool:
+    for group in EXPECT[screen][loc]:
+        if all(re.search(p, text, re.I) for p in group):
+            return True
+    return False
 
 
 def set_language(code: int):
-    # simulator.ini is often root-owned when the Docker sim writes it.
     try:
         text = INI.read_text() if INI.exists() else ""
     except PermissionError:
@@ -139,8 +181,31 @@ def set_language(code: int):
     run(["sudo", "chmod", "666", str(INI)], check=False)
 
 
+def write_phase(phase: int):
+    PHASE_FILE.write_text(
+        "import Toybox.Lang;\n\n"
+        "//! Overwritten by scripts/sim_ui_states.py before each single-screen capture.\n"
+        "//! 0=setup 1=inside 2=outside 3=alarm 4=mute 5=menu\n"
+        "module SmokePhase {\n"
+        f"    const PHASE as Number = {phase};\n"
+        "}\n"
+    )
+
+
+def dismiss_audio_prompts():
+    out = sh("xdotool search --name 'Activity Audio Prompts'")
+    for wid in out.split():
+        if wid.isdigit():
+            run(["xdotool", "windowkill", wid], check=False)
+
+
 def restart_sim():
     run("sudo docker rm -f ciq-sim >/dev/null 2>&1", shell=True)
+    time.sleep(0.5)
+    for name in ("CIQ Simulator", "Activity Audio Prompts"):
+        for wid in sh(f"xdotool search --name '{name}'").split():
+            if wid.isdigit():
+                run(["xdotool", "windowkill", wid], check=False)
     run("xhost +local:root >/dev/null 2>&1", shell=True)
     sdk = str(SDK)
     cmd = (
@@ -157,98 +222,111 @@ def restart_sim():
         "-lc 'export PATH=/sdk/bin:$PATH; /sdk/bin/simulator >/tmp/sim.log 2>&1; sleep infinity'"
     )
     run(cmd, shell=True, check=True)
-    time.sleep(7)
+    time.sleep(8)
 
 
-def monkeydo(prg_host: Path, device: str, timeout: float = 22):
-    app_prg = "/app/" + str(prg_host.relative_to(ROOT))
-    cmd = (
-        "sudo docker exec ciq-sim bash -lc "
-        f"'export PATH=/sdk/bin:$PATH; timeout {int(timeout)} monkeydo {app_prg} {device}'"
-    )
-    try:
-        run(cmd, shell=True, timeout=timeout + 5)
-    except subprocess.TimeoutExpired:
-        pass
-    time.sleep(1.8)
+def face_crop(win_crop: Path) -> Path:
+    """Tighter square around the round face — better OCR, less bezel chrome."""
+    from PIL import Image
+
+    im = Image.open(win_crop)
+    w, h = im.size
+    side = min(w, h) * 55 // 100
+    cx, cy = w // 2, h * 48 // 100
+    box = (cx - side // 2, cy - side // 2, cx + side // 2, cy + side // 2)
+    out = win_crop.with_name(win_crop.stem + "-face.png")
+    im.crop(box).save(out)
+    return out
 
 
-def focus_sim():
-    run("wmctrl -a 'CIQ Simulator'", shell=True, check=False)
-    time.sleep(0.2)
+def save_crop(prefix: str, screen: str) -> tuple[Path, str]:
+    dismiss_audio_prompts()
+    x, y, w, h, _ = win_geom()
+    p = shot(f"{prefix}-{screen}.png")
+    crop = ART / f"{prefix}-{screen}-crop.png"
+    crop_win(p, crop, x, y, w, h)
+    # OCR the face; keep full-window crop as the review artifact.
+    return crop, ocr(face_crop(crop))
 
 
-def press_enter(wid: str):
-    focus_sim()
-    run(["xdotool", "windowactivate", "--sync", wid], check=False)
-    time.sleep(0.15)
-    run(["xdotool", "key", "--window", wid, "Return"], check=False)
-    time.sleep(1.5)
-
-
-def open_full_app(x: int, y: int, wid: str):
-    """Leave glance and enter the full-app initial view."""
-    run(["xdotool", "windowactivate", "--sync", wid], check=False)
-    time.sleep(0.15)
-    # Glance row / watch face — same offset that works for fenix7 release opens.
-    run(["xdotool", "mousemove", "--sync", str(x + 150), str(y + 197), "click", "1"], check=False)
-    time.sleep(0.45)
-    run(["xdotool", "key", "--window", wid, "Return"], check=False)
-    time.sleep(1.5)
-
-
-def on_setup(path: Path, loc: str) -> bool:
-    text = ocr(path)
-    return any(re.search(p, text, re.I) for p in EXPECT["setup"][loc])
-
-
-def capture_pair(device: str, loc: str) -> dict[str, bool]:
-    res = {}
+def capture_glance(device: str, loc: str) -> bool:
+    """Release PRG shows glance on load (has getGlanceView)."""
     prefix = f"{device}-{loc}"
-    set_language(LANG_CODE[loc])
-    restart_sim()
-
-    # Glance from release PRG
     release = ROOT / "bin" / f"AnchorPoint-{device}.prg"
     if not release.exists():
         run([str(ROOT / "scripts/build.sh"), device], check=True)
-    monkeydo(release, device)
-    x, y, w, h, wid = win_geom()
-    p = shot(f"{prefix}-glance.png")
-    crop_win(p, ART / f"{prefix}-glance-crop.png", x, y, w, h)
-    res["glance"] = expect(p, "glance", loc, f"{prefix} glance")
+    restart_sim()
+    proc = subprocess.Popen(
+        "sudo docker exec ciq-sim bash -lc "
+        f"'export PATH=/sdk/bin:$PATH; timeout 35 monkeydo /app/bin/AnchorPoint-{device}.prg {device}'",
+        shell=True,
+        env=ENV,
+    )
+    try:
+        time.sleep(12)
+        ok = False
+        last = ""
+        for _ in range(8):
+            _, last = save_crop(prefix, "glance")
+            if matches(last, "glance", loc):
+                ok = True
+                break
+            time.sleep(0.6)
+        print(f"  [{'PASS' if ok else 'FAIL'}] {prefix} glance: {last[:160]!r}", flush=True)
+        return ok
+    finally:
+        try:
+            proc.terminate()
+            proc.wait(timeout=3)
+        except Exception:
+            pass
 
-    # Smoke harness for the rest
-    smoke = ROOT / "bin" / f"AnchorPoint-{device}-smoke.prg"
-    if not smoke.exists():
-        run([str(ROOT / "scripts/build-smoke.sh"), device], check=True)
-    monkeydo(smoke, device)
-    x, y, w, h, wid = win_geom()
-    time.sleep(0.4)
 
-    # Smoke often lands on glance first — open full app to reach seeded setup.
-    p_probe = shot(f"_probe-{prefix}.png")
-    if not on_setup(p_probe, loc):
-        open_full_app(x, y, wid)
-        x, y, w, h, wid = win_geom()
-        # Retry once if still glance
-        p_probe = shot(f"_probe2-{prefix}.png")
-        if not on_setup(p_probe, loc):
-            open_full_app(x, y, wid)
-            x, y, w, h, wid = win_geom()
-            time.sleep(0.5)
+def capture_one(device: str, loc: str, screen: str) -> bool:
+    """Smoke PRG opens seeded view directly (no glance)."""
+    prefix = f"{device}-{loc}"
+    write_phase(SCREEN_PHASE[screen])
+    run([str(ROOT / "scripts/build-smoke.sh"), device], check=True)
+    restart_sim()
+    proc = subprocess.Popen(
+        "sudo docker exec ciq-sim bash -lc "
+        f"'export PATH=/sdk/bin:$PATH; timeout 70 monkeydo /app/bin/AnchorPoint-{device}-smoke.prg {device}'",
+        shell=True,
+        env=ENV,
+    )
+    try:
+        # Direct full-app load; allow a few seconds for first paint / menu push.
+        time.sleep(10 if screen != "menu" else 12)
+        last = ""
+        ok = False
+        for attempt in range(10):
+            dismiss_audio_prompts()
+            _, last = save_crop(prefix, screen)
+            if matches(last, screen, loc):
+                ok = True
+                break
+            # Still on splash / blank? wait longer.
+            time.sleep(1.0)
+        print(f"  [{'PASS' if ok else 'FAIL'}] {prefix} {screen}: {last[:160]!r}", flush=True)
+        return ok
+    finally:
+        try:
+            proc.terminate()
+            proc.wait(timeout=3)
+        except Exception:
+            pass
 
-    for i, screen in enumerate(SCREENS):
-        if i > 0:
-            # Focus watch face then Enter so SmokeNavDelegate receives the key.
-            run(["xdotool", "mousemove", "--sync", str(x + w // 2), str(y + h // 2), "click", "1"], check=False)
-            time.sleep(0.25)
-            press_enter(wid)
-            x, y, w, h, wid = win_geom()
-        p = shot(f"{prefix}-{screen}.png")
-        crop_win(p, ART / f"{prefix}-{screen}-crop.png", x, y, w, h)
-        res[screen] = expect(p, screen, loc, f"{prefix} {screen}")
 
+def capture_pair(device: str, loc: str) -> dict[str, bool]:
+    set_language(LANG_CODE[loc])
+    res = {"glance": capture_glance(device, loc)}
+    for screen in SCREENS:
+        try:
+            res[screen] = capture_one(device, loc, screen)
+        except Exception as e:
+            print(f"  [FAIL] {device}-{loc} {screen}: ERROR {e}", flush=True)
+            res[screen] = False
+    write_phase(0)
     return res
 
 
@@ -257,30 +335,30 @@ def main() -> int:
     locales = [l.strip() for l in os.environ.get("SMOKE_LOCALES", "eng,deu,fre").split(",") if l.strip()]
     ART.mkdir(parents=True, exist_ok=True)
 
-    # Ensure smoke + release PRGs exist
     for d in devices:
-        run([str(ROOT / "scripts/build-smoke.sh"), d], check=True)
         run([str(ROOT / "scripts/build.sh"), d], check=True)
 
     summary = {}
     for loc in locales:
         for d in devices:
-            print(f"\n===== {d} / {loc} =====")
+            print(f"\n===== {d} / {loc} =====", flush=True)
             try:
                 summary[f"{d}/{loc}"] = capture_pair(d, loc)
             except Exception as e:
-                print(f"  ERROR: {e}")
+                print(f"  ERROR: {e}", flush=True)
                 summary[f"{d}/{loc}"] = {s: False for s in ["glance"] + SCREENS}
 
-    print("\n======== SUMMARY ========")
+    write_phase(0)
+
+    print("\n======== SUMMARY ========", flush=True)
     fails = 0
     for key, res in summary.items():
         for screen, ok in res.items():
             mark = "PASS" if ok else "FAIL"
             if not ok:
                 fails += 1
-            print(f"{mark}  {key:14s}  {screen}")
-    print(f"fails={fails}")
+            print(f"{mark}  {key:14s}  {screen}", flush=True)
+    print(f"fails={fails}", flush=True)
     return 1 if fails else 0
 
 

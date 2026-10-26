@@ -1,84 +1,61 @@
 import Toybox.Lang;
 import Toybox.WatchUi;
 
-//! Advances UI-smoke phases on START/Enter / tap.
-//! Phase order: setup → monitor-inside → monitor-outside → alarm → mute → menu → …
+//! Applies one UI-smoke phase. Phase selected via SmokePhase.PHASE at build time.
+//! 0=setup 1=inside 2=outside 3=alarm 4=mute 5=menu
 class SmokeNavDelegate extends WatchUi.BehaviorDelegate {
 
     private var _monitor as AnchorMonitor;
-    private var _phase as Number = 0;
-    private var _onMonitor as Boolean = false;
 
     public function initialize(monitor as AnchorMonitor) {
         BehaviorDelegate.initialize();
         _monitor = monitor;
     }
 
+    //! Seed session + return the view for this phase (used from getInitialView).
+    public function applyPhaseToView(phase as Number) as WatchUi.Views {
+        _monitor.smokePrepare();
+        if (phase == 0) {
+            _monitor.smokeSession().seedSetupGoodGps();
+            return new $.SetupView(_monitor);
+        } else if (phase == 1) {
+            _monitor.smokeSession().seedMonitoringInside();
+            _monitor.smokeArmDisplay(false);
+            return new $.MonitorView(_monitor);
+        } else if (phase == 2) {
+            _monitor.smokeSession().seedMonitoringOutside();
+            _monitor.smokeArmDisplay(true);
+            return new $.MonitorView(_monitor);
+        } else if (phase == 3) {
+            _monitor.smokeSession().seedAlarmOutside();
+            _monitor.smokeMarkAlarmPushed();
+            return new $.AlarmView(_monitor);
+        } else if (phase == 4) {
+            _monitor.smokeSession().seedMutedOutside();
+            _monitor.smokeArmDisplay(true);
+            return new $.MonitorView(_monitor);
+        } else {
+            _monitor.smokeSession().seedMonitoringInside();
+            _monitor.smokeArmDisplay(false);
+            // Push menu after the monitor view is shown — caller uses onLayout/onShow.
+            // Return monitor; open menu from onShow via a one-shot.
+            return new $.SmokeMenuHostView(_monitor, self);
+        }
+    }
+
+    public function openMenu() as Void {
+        _monitor.openStopMenu();
+    }
+
     public function onSelect() as Boolean {
-        return advance();
+        return true;
     }
 
     public function onKey(evt as KeyEvent) as Boolean {
-        var key = evt.getKey();
-        if ((key == WatchUi.KEY_ENTER) || (key == WatchUi.KEY_START)) {
-            return advance();
-        }
-        if (key == WatchUi.KEY_ESC) {
-            return false;
-        }
         return true;
     }
 
     public function onTap(evt as ClickEvent) as Boolean {
-        return advance();
-    }
-
-    private function advance() as Boolean {
-        _phase = (_phase + 1) % 6;
-        applyPhase();
         return true;
-    }
-
-    private function showMonitor(forceFull as Boolean) as Void {
-        _monitor.smokeArmDisplay(forceFull);
-        if (_onMonitor) {
-            // Already on MonitorView — reseeding + requestUpdate refreshes the same view.
-            WatchUi.requestUpdate();
-        } else {
-            WatchUi.switchToView(new $.MonitorView(_monitor), self, WatchUi.SLIDE_IMMEDIATE);
-            _onMonitor = true;
-        }
-    }
-
-    public function applyPhase() as Void {
-        _monitor.smokePrepare();
-        if (_phase == 0) {
-            _onMonitor = false;
-            _monitor.smokeSession().seedSetupGoodGps();
-            WatchUi.switchToView(new $.SetupView(_monitor), self, WatchUi.SLIDE_IMMEDIATE);
-        } else if (_phase == 1) {
-            _monitor.smokeSession().seedMonitoringInside();
-            showMonitor(false);
-        } else if (_phase == 2) {
-            _monitor.smokeSession().seedMonitoringOutside();
-            showMonitor(true);
-        } else if (_phase == 3) {
-            _onMonitor = false;
-            _monitor.smokeSession().seedAlarmOutside();
-            _monitor.smokeMarkAlarmPushed();
-            WatchUi.switchToView(new $.AlarmView(_monitor), self, WatchUi.SLIDE_IMMEDIATE);
-        } else if (_phase == 4) {
-            // Seed mute before leaving AlarmView so onHide → rearmIfStillOutside stays quiet.
-            _monitor.smokeSession().seedMutedOutside();
-            showMonitor(true);
-        } else {
-            _monitor.smokeSession().seedMonitoringInside();
-            showMonitor(false);
-            _monitor.openStopMenu();
-        }
-    }
-
-    public function getPhase() as Number {
-        return _phase;
     }
 }

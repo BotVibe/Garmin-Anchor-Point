@@ -65,7 +65,7 @@ Do not defer doc updates. Prefer English for contributor-facing docs, comments, 
 - Framework: Garmin **Run No Evil** (`Toybox.Test`), simulator only.
 - `monkey.jungle` includes `source-test` but excludes `test` and `smoke` annotations for release; `test.jungle` keeps `(:smoke)` so unit tests can call session seed helpers under `-t`.
 - Prefer testing pure logic in `Geo`, `RadiusPresets`, and `AnchorSession`. Keep UI/`Attention` side effects in `AnchorMonitor`.
-- Deterministic UI screenshots (setup / inside / outside / alarm / mute / menu × eng/deu/fre × fenix7/venu3): `./scripts/build-smoke.sh <device>` then `python3 scripts/sim_ui_states.py`. Release must stay clean: `./scripts/verify-release-builds.sh`.
+- Deterministic UI screenshots (glance + setup / inside / outside / alarm / mute / menu × eng/deu/fre × fenix7/venu3): `python3 scripts/sim_ui_states.py`. Smoke PRG omits `getGlanceView` / `:glance` so monkeydo opens each seeded full-app view directly; glance shots use the release PRG. Release must stay clean: `./scripts/verify-release-builds.sh`.
 - When changing geofence, radius, or alarm snooze/ack behavior, add/adjust tests in `source-test/` and update this section + README.
 - When adding or renaming UI/settings strings, update `resources/`, `resources-deu/`, and `resources-fre/` together and keep `./scripts/check-string-parity.sh` and `python3 scripts/check-string-layout.py` green.
 - `StringResourceTests.mc` asserts every UI/settings string resolves; re-run after switching simulator language when validating locales.

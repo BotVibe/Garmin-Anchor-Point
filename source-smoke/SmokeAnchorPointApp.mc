@@ -2,9 +2,11 @@ import Toybox.Application;
 import Toybox.Lang;
 import Toybox.WatchUi;
 
-//! Smoke-only app entry (smoke-manifest.xml / smoke.jungle). Cycles deterministic
-//! UI states via START/Enter so an external script can screenshot each screen.
-//! Not included in release builds (monkey.jungle excludes source-smoke/).
+//! Smoke-only app entry (smoke-manifest.xml / smoke.jungle).
+//! Shows one seeded UI state from SmokePhase.PHASE (no auto-advance).
+//! Intentionally omits getGlanceView so monkeydo opens getInitialView directly
+//! (no flaky glance double-click). Glance screenshots use the release PRG.
+//! Not included in release builds.
 class SmokeAnchorPointApp extends Application.AppBase {
 
     public function initialize() {
@@ -19,16 +21,8 @@ class SmokeAnchorPointApp extends Application.AppBase {
 
     public function getInitialView() as [Views] or [Views, InputDelegates] {
         var monitor = new $.AnchorMonitor();
-        monitor.smokeSession().seedSetupGoodGps();
         var delegate = new $.SmokeNavDelegate(monitor);
-        return [new $.SetupView(monitor), delegate];
-    }
-
-    (:glance)
-    public function getGlanceView() as [WatchUi.GlanceView] or [WatchUi.GlanceView, WatchUi.GlanceViewDelegate] or Null {
-        if (WatchUi has :GlanceView) {
-            return [new $.AnchorGlanceView()];
-        }
-        return null;
+        var view = delegate.applyPhaseToView($.SmokePhase.PHASE);
+        return [view, delegate];
     }
 }
