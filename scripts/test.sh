@@ -13,6 +13,9 @@ echo "Checking eng/deu/fre string resource parity"
 echo "Checking manifest declares every resources-<lang> language"
 "${ROOT}/scripts/check-manifest-languages.sh"
 
+echo "Checking eng/deu/fre on-watch string layout budgets"
+python3 "${ROOT}/scripts/check-string-layout.py"
+
 if [[ -z "${CIQ_SDK_HOME:-}" ]]; then
   if [[ -f "${HOME}/.Garmin/ConnectIQ/current-sdk.cfg" ]]; then
     CIQ_SDK_HOME="$(cat "${HOME}/.Garmin/ConnectIQ/current-sdk.cfg")"
@@ -30,7 +33,9 @@ CONNECTIQ="${CIQ_SDK_HOME}/bin/connectiq"
 
 KEY="${CIQ_PRIVATE_KEY:-}"
 if [[ -z "${KEY}" ]]; then
-  if [[ -f "${HOME}/garmin/developer_key_rsa.pem" ]]; then
+  if [[ -f "${HOME}/garmin/developer_key.der" ]]; then
+    KEY="${HOME}/garmin/developer_key.der"
+  elif [[ -f "${HOME}/garmin/developer_key_rsa.pem" ]]; then
     KEY="${HOME}/garmin/developer_key_rsa.pem"
   else
     KEY="${HOME}/garmin/developer_key.pem"
@@ -48,8 +53,10 @@ fi
 
 mkdir -p "${OUT_DIR}"
 echo "Building unit-test PRG for ${DEVICE}"
+# test.jungle keeps (:smoke) seed helpers for testSmokeSeedsProduceExpectedStates;
+# monkey.jungle excludes smoke for release/store builds.
 "${MONKEYC}" \
-  -f "${ROOT}/monkey.jungle" \
+  -f "${ROOT}/test.jungle" \
   -d "${DEVICE}" \
   -o "${OUT_PRG}" \
   -y "${KEY}" \

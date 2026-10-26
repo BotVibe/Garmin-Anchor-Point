@@ -1,8 +1,8 @@
 <strings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="https://developer.garmin.com/downloads/connect-iq/resources.xsd">
 
-    <string id="AppName">Anchor Point</string>
-    <string id="AppVersion">2.2.0</string>
+    <string id="AppName" scope="glance">Anchor Point</string>
+    <string id="AppVersion">2.2.1</string>
 
     <string id="TitleSetup">Anchor Point</string>
     <string id="TitleMonitor">Monitoring</string>
@@ -15,7 +15,7 @@
     <string id="GpsUnknown">GPS unknown</string>
 
     <string id="RadiusLabel">Radius</string>
-    <string id="MetersUnit">m</string>
+    <string id="MetersUnit" scope="glance">m</string>
     <string id="SecondsUnit">s</string>
     <string id="DistanceLabel">Distance</string>
     <string id="StatusOk">INSIDE</string>
@@ -33,13 +33,13 @@
 
     <string id="MenuStopTitle">Surveillance</string>
     <string id="MenuEnd">Stop surveillance</string>
-    <string id="MenuCancel">Continue surveillance</string>
+    <string id="MenuCancel">Continue</string>
     <string id="MenuRadius">Change radius</string>
 
-    <string id="AlarmBody">Left the anchor circle!</string>
+    <string id="AlarmBody">Outside anchor circle!</string>
     <string id="NeedGps">Waiting for good GPS</string>
     <string id="AnchorSet">Anchor set</string>
-    <string id="GlanceDetail">Tap to open · radius</string>
+    <string id="GlanceDetail" scope="glance">Tap to open</string>
 
     <string id="SettingRadiusTitle">Default radius</string>
     <string id="Radius15">15 m</string>

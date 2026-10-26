@@ -1,8 +1,8 @@
 <strings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="https://developer.garmin.com/downloads/connect-iq/resources.xsd">
 
-    <string id="AppName">Anchor Point</string>
-    <string id="AppVersion">2.2.0</string>
+    <string id="AppName" scope="glance">Anchor Point</string>
+    <string id="AppVersion">2.2.1</string>
 
     <string id="TitleSetup">Anchor Point</string>
     <string id="TitleMonitor">Surveillance</string>
@@ -15,7 +15,7 @@
     <string id="GpsUnknown">GPS inconnu</string>
 
     <string id="RadiusLabel">Rayon</string>
-    <string id="MetersUnit">m</string>
+    <string id="MetersUnit" scope="glance">m</string>
     <string id="SecondsUnit">s</string>
     <string id="DistanceLabel">Distance</string>
     <string id="StatusOk">DEDANS</string>
@@ -24,22 +24,22 @@
 
     <string id="HintSetAnchor">START: fixer &amp; démarrer</string>
     <string id="HintChangeRadius">UP/DOWN: rayon</string>
-    <string id="HintKeepOpen">Garder l'app ouverte (GPS)</string>
-    <string id="HintMonitorMenu">MENU: arrêter ou continuer</string>
+    <string id="HintKeepOpen">GPS: garder l'app ouverte</string>
+    <string id="HintMonitorMenu">MENU: arrêter/continuer</string>
     <string id="HintAlarmAck">START: silence 60s</string>
     <string id="HintAlarmRadius">UP/DOWN: rayon</string>
-    <string id="HintAlarmMenu">MENU: arrêter ou continuer</string>
+    <string id="HintAlarmMenu">MENU: arrêter/continuer</string>
     <string id="HintAlarmMuted">Alarme en pause</string>
 
     <string id="MenuStopTitle">Surveillance</string>
-    <string id="MenuEnd">Arrêter la surveillance</string>
-    <string id="MenuCancel">Continuer la surveillance</string>
+    <string id="MenuEnd">Arrêter surveillance</string>
+    <string id="MenuCancel">Continuer</string>
     <string id="MenuRadius">Changer le rayon</string>
 
-    <string id="AlarmBody">Hors du cercle d'ancrage !</string>
+    <string id="AlarmBody">Hors zone d'ancrage!</string>
     <string id="NeedGps">En attente d'un GPS bon</string>
     <string id="AnchorSet">Ancre fixée</string>
-    <string id="GlanceDetail">Toucher pour ouvrir · rayon</string>
+    <string id="GlanceDetail" scope="glance">Toucher</string>
 
     <string id="SettingRadiusTitle">Rayon par défaut</string>
     <string id="Radius15">15 m</string>

@@ -1,0 +1,9 @@
+# UI-smoke harness build (deterministic screenshots). NOT for store/release.
+# Keeps (:smoke) seed APIs; excludes (:test). Entry is SmokeAnchorPointApp.
+project.manifest = smoke-manifest.xml
+base.sourcePath = source;source-smoke
+base.resourcePath = resources
+# Drop :test and :glance so monkeydo opens getInitialView (no glance chrome).
+base.excludeAnnotations = test;glance
+base.lang.deu = $(base.lang.deu);resources-deu
+base.lang.fre = $(base.lang.fre);resources-fre

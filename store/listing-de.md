@@ -47,6 +47,10 @@ Anker, Boot, Drift, GPS, Marine, Sicherheit, Uhrenalarm, Ankerwache
 
 ## Neu in dieser Version
 
+Version 2.2.1:
+
+- Glance-IQ!-Abstürze auf glance-fähigen Uhren behoben (sicherer App-Start + Glance-scoped UI-Strings).
+
 Version 2.2.0:
 
 - Anchor Point gibt es jetzt auf Englisch, Deutsch und Französisch. Die App und ihre Einstellungen in Garmin Connect folgen der Sprache Ihrer Uhr (bei allen anderen Sprachen Englisch).

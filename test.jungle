@@ -1,0 +1,9 @@
+# Unit-test jungle: keeps (:smoke) seed helpers and does NOT exclude (:test)
+# so monkeyc -t can link Run No Evil methods in source-test/.
+# Release builds use monkey.jungle (excludes test;smoke).
+project.manifest = manifest.xml
+base.sourcePath = source;source-test
+base.resourcePath = resources
+# Do not set excludeAnnotations=test here — that strips (:test) even with -t.
+base.lang.deu = $(base.lang.deu);resources-deu
+base.lang.fre = $(base.lang.fre);resources-fre

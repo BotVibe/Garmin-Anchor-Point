@@ -7,6 +7,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.2.1] - 2026-10-25
+
+### Fixed
+- Glance IQ! crash: do not construct `AnchorMonitor` / enable GPS in `onStart`/`onStop` (glance and full app share those entry points; non-`(:glance)` types are unavailable in the glance process)
+- Glance IQ! crash: mark glance UI strings (`AppName`, `GlanceDetail`, `MetersUnit`) with `scope="glance"` so `Rez` resolves in the glance process
+- Glance layout: small left inset so title/detail are less likely to clip against round-display chrome
+- Glance layout: two-line hint + radius so the venu3 glance strip does not clip “radius 50 m”
+- Shorten German/French glance hints and stop-menu labels so they fit round 260px displays (fenix7 family)
+- Shorten English/French alarm body copy so it fits fenix7 tiny-font width
+- Shorten stop-menu cancel labels (Continue / Continuer) so Menu2 rows are not clipped on round 260px bezels
+
+### Added
+- `scripts/check-string-layout.py` layout budget check for eng/deu/fre (run from `test.sh`)
+- `scripts/sim_smoke.py` Connect IQ simulator smoke driver (locale bake + OCR menus)
+- `scripts/sim_locale_shots.py` trilingual screenshot helper (simulator.ini `Language=` + OCR)
+- `scripts/sim_ui_states.py` + `smoke.jungle` / `source-smoke/`: deterministic UI screenshots (setup/monitor/alarm/mute/menu) via `(:smoke)` session seeds (stripped from release via `base.excludeAnnotations`)
+- `scripts/build-smoke.sh`, `scripts/verify-release-builds.sh`, `test.jungle` (unit tests keep `:smoke` seeds)
+- `StringResourceTests.mc`: assert every UI/settings string resolves in the active simulator language
+- `testdata/anchor-drift.gpx` sample track for simulator Activity Data drift tests
+
 ## [2.2.0] - 2026-10-25
 
 ### Added

@@ -23,3 +23,4 @@ developer_key.pem
 !release/
 !release/connectiq/
 !release/connectiq/**
+scripts/__pycache__/

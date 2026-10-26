@@ -36,11 +36,11 @@ Watch-only MVP: set an anchor GPS point, monitor distance for a few hours, and a
 | Setup | **UP/DOWN** (or swipe): change radius |
 | Setup | **START/ENTER**: set anchor and start session (needs **GPS good**) |
 | Monitor | **UP/DOWN**: change radius live |
-| Monitor | **MENU** / **START** / **BACK**: stop menu (**Stop surveillance** / **Continue surveillance**) |
+| Monitor | **MENU** / **START** / **BACK**: stop menu (**Stop surveillance** / **Continue**) |
 | Monitor | **Tap**: wake display if off / reset idle timeout |
 | Alarm | **START/ENTER** / tap / **BACK**: silence for 60 s (mute UI + ring; then re-alarms if still outside) |
 | Alarm | **UP/DOWN**: change radius (clears alarm if you enlarge enough) |
-| Alarm | **MENU**: stop menu (**Stop surveillance** / **Continue surveillance**) |
+| Alarm | **MENU**: stop menu (**Stop surveillance** / **Continue**) |
 
 ## Project layout
 
@@ -57,13 +57,24 @@ source/
   views/                 # Setup, Monitor, Alarm, Glance
   delegates/             # input + stop menu
 source-test/             # Run No Evil (:test) methods
+source-smoke/            # UI-smoke app entry (smoke.jungle only; not in release)
 resources/               # English default strings, icon, settings
 resources-deu/           # German string overrides
 resources-fre/           # French string overrides
-scripts/build.sh         # normal PRG build
-scripts/test.sh          # string parity + manifest languages + build with -t + monkeydo -t
+monkey.jungle            # release/store (excludes :test and :smoke)
+test.jungle              # unit-test build (keeps :smoke seeds)
+smoke.jungle             # deterministic UI harness (not for store)
+scripts/build.sh         # normal/release PRG build
+scripts/build-smoke.sh   # UI-smoke PRG for simulator screenshots
+scripts/verify-release-builds.sh  # all manifest products; no smoke symbols
+scripts/test.sh          # string parity + manifest languages + layout budgets + build with -t + monkeydo -t
 scripts/check-string-parity.sh  # eng/deu/fre string-id check
 scripts/check-manifest-languages.sh  # every resources-<lang> declared in manifest.xml
+scripts/check-string-layout.py  # eng/deu/fre on-watch/settings width budgets (fenix7/venu3)
+scripts/sim_ui_states.py # deterministic EN/DE/FR UI screenshots via smoke harness
+scripts/sim_smoke.py     # optional Connect IQ simulator smoke (locale bake + OCR)
+scripts/sim_locale_shots.py  # trilingual screenshots via simulator.ini Language=
+testdata/                # sample GPX for simulator Activity Data drift tests
 store/                   # Connect IQ Store listing (EN/DE/FR), privacy, checklists
 AGENTS.md                # guidance for coding agents
 ```
@@ -94,8 +105,10 @@ Coverage today:
 - `GeoTests.mc` — distance, symmetry, fix quality, outside-radius boundary, GPS string ids
 - `RadiusPresetsTests.mc` — preset list, snap-to-nearest, wrap-around nudge
 - `AnchorSessionTests.mc` — arming rules, breach → alarm, acknowledge/rearm, stop, radius nudge, enlarging radius
+- `StringResourceTests.mc` — every UI/settings `Rez.Strings.*` resolves non-empty in the active simulator language
 - `scripts/check-string-parity.sh` — every string id in `resources/` exists in `resources-deu/` and `resources-fre/` (and vice versa); runs at the start of `test.sh`
 - `scripts/check-manifest-languages.sh` — every `resources-<lang>` folder with strings is declared in `manifest.xml` `<iq:languages>` (and registered in `monkey.jungle`); otherwise monkeyc silently drops those strings. Runs from `test.sh`
+- `scripts/check-string-layout.py` — conservative pixel-width budgets for on-watch and settings strings (eng/deu/fre × fenix7/venu3); runs from `test.sh`
 
 ```bash
 # Build + run tests in the simulator (needs device package + GUI for simulator):
@@ -111,6 +124,17 @@ SKIP_SIMULATOR=1 ./scripts/test.sh fenix7
 In VS Code: **Monkey C: Run Tests** (Test Explorer).
 
 Manual UI checks (alarm screen / vibration) still need the simulator or a real watch.
+
+### Deterministic UI screenshots (smoke harness)
+
+`(:smoke)` seed helpers on `AnchorSession` / `AnchorMonitor` plus `source-smoke/` drive setup → inside → outside → alarm → mute → menu without flaky GPS UI automation. They are excluded from release via `monkey.jungle` `base.excludeAnnotations`. The smoke app omits `getGlanceView` so monkeydo opens each seeded full-app view directly (glance screenshots use the release PRG).
+
+```bash
+./scripts/build-smoke.sh fenix7
+./scripts/build-smoke.sh venu3
+python3 scripts/sim_ui_states.py   # fenix7+venu3 × eng/deu/fre → smoke-2.2.1/*.png
+./scripts/verify-release-builds.sh # every manifest product; assert no smoke symbols
+```
 
 ## Publish to the Connect IQ Store
 
@@ -158,7 +182,7 @@ Official docs: [Publishing to the Store](https://developer.garmin.com/connect-iq
 - Describe the app honestly: **not** a life-saving navigation system; GPS accuracy varies; **app must stay open**.
 - Permissions used: Positioning only (no Fit / Communications / developer cloud in MVP).
 - Safety-oriented wording in the prepared listing is intentional — keep those caveats if you edit the text.
-- Start requires **GPS good** (`QUALITY_GOOD`); glance is launch/preview only.
+- Start requires **GPS good** (`QUALITY_GOOD`); glance is launch/preview only (no GPS in the glance process; strings used there need `scope="glance"`).
 
 ## Roadmap (out of scope)
 

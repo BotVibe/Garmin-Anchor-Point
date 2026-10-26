@@ -47,6 +47,10 @@ ancre, bateau, dérive, GPS, marine, sécurité, alarme montre, mouillage
 
 ## Nouveautés (pour cette version)
 
+Version 2.2.1 :
+
+- Correction des plantages IQ! du glance sur les montres compatibles (démarrage sûr + chaînes UI au scope glance).
+
 Version 2.2.0 :
 
 - Anchor Point est désormais disponible en anglais, allemand et français. L’app et ses réglages dans Garmin Connect suivent la langue de votre montre (anglais pour toutes les autres langues).
