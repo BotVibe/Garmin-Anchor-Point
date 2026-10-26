@@ -25,7 +25,7 @@ So geht’s:
 4. START drücken, um den Anker zu setzen und die Überwachung zu starten.
 5. Die App geöffnet lassen. Die Uhr zeigt Distanz und Status INNERHALB/AUSSERHALB.
 6. Bei Drift: Alarmton und/oder Vibration. START = 60 Sekunden stumm, UP/DOWN = Radius ändern, MENÜ = beenden oder fortsetzen.
-7. Zum Beenden im Menü **Überwachung beenden** wählen.
+7. Zum Beenden im Menü **Überw. beenden** wählen.
 
 Die App muss die ganze Zeit im Vordergrund bleiben — Schließen beendet die Überwachung. Für Ton: **Warntöne** der Uhr auf **Ein** stellen (nicht nur „Während Aktivität“).
 
@@ -49,7 +49,7 @@ Anker, Boot, Drift, GPS, Marine, Sicherheit, Uhrenalarm, Ankerwache
 
 Version 2.2.1:
 
-- Glance-IQ!-Abstürze auf glance-fähigen Uhren behoben (sicherer App-Start + Glance-scoped UI-Strings).
+- Behebt einen Absturz der Glance (Widget-Vorschau). Deutsche und französische Texte passen jetzt besser auf das Uhrendisplay.
 
 Version 2.2.0:
 

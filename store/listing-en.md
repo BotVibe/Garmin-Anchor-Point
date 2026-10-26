@@ -49,7 +49,7 @@ anchor, boat, drift, GPS, marine, safety, watch alarm
 
 Version 2.2.1:
 
-- Fixed glance IQ! crashes on glance-capable watches (safe app startup + glance-scoped UI strings).
+- Fixes a crash of the glance (widget preview). German and French texts now fit better on the watch display.
 
 Version 2.2.0:
 

@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [2.2.1] - 2026-10-25
+## [2.2.1] - 2026-10-26
 
 ### Fixed
 - Glance IQ! crash: do not construct `AnchorMonitor` / enable GPS in `onStart`/`onStop` (glance and full app share those entry points; non-`(:glance)` types are unavailable in the glance process)

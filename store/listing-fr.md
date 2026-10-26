@@ -25,7 +25,7 @@ Utilisation :
 4. Appuyer sur START pour fixer l’ancre et démarrer la surveillance.
 5. Laisser l’app ouverte. La montre affiche la distance et le statut DEDANS/DEHORS.
 6. En cas de dérive : son et/ou vibration. START = silence 60 secondes, UP/DOWN = changer le rayon, MENU = arrêter ou continuer.
-7. Pour terminer, ouvrir le menu et choisir **Arrêter la surveillance**.
+7. Pour terminer, ouvrir le menu et choisir **Arrêter surveillance**.
 
 Gardez l’app au premier plan tout le temps — la fermer arrête la surveillance. Pour le son, réglez les **Tonalités d’alerte** de la montre sur **Activé** (pas seulement « Pendant l’activité »).
 
@@ -49,7 +49,7 @@ ancre, bateau, dérive, GPS, marine, sécurité, alarme montre, mouillage
 
 Version 2.2.1 :
 
-- Correction des plantages IQ! du glance sur les montres compatibles (démarrage sûr + chaînes UI au scope glance).
+- Corrige un plantage du glance (aperçu du widget). Les textes allemands et français s’affichent désormais mieux sur l’écran de la montre.
 
 Version 2.2.0 :
 
