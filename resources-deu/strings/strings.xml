@@ -39,7 +39,7 @@
     <string id="AlarmBody">Ankerkreis verlassen!</string>
     <string id="NeedGps">Warte auf gutes GPS</string>
     <string id="AnchorSet">Anker gesetzt</string>
-    <string id="GlanceDetail" scope="glance">Tippen · Radius</string>
+    <string id="GlanceDetail" scope="glance">Tippen</string>
 
     <string id="SettingRadiusTitle">Standardradius</string>
     <string id="Radius15">15 m</string>

@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Glance IQ! crash: do not construct `AnchorMonitor` / enable GPS in `onStart`/`onStop` (glance and full app share those entry points; non-`(:glance)` types are unavailable in the glance process)
 - Glance IQ! crash: mark glance UI strings (`AppName`, `GlanceDetail`, `MetersUnit`) with `scope="glance"` so `Rez` resolves in the glance process
 - Glance layout: small left inset so title/detail are less likely to clip against round-display chrome
+- Glance layout: two-line hint + radius so the venu3 glance strip does not clip “radius 50 m”
 - Shorten German/French glance hints and stop-menu labels so they fit round 260px displays (fenix7 family)
 - Shorten English/French alarm body copy so it fits fenix7 tiny-font width
 - Shorten stop-menu cancel labels (Continue / Continuer) so Menu2 rows are not clipped on round 260px bezels

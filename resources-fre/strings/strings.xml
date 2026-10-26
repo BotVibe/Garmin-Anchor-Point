@@ -39,7 +39,7 @@
     <string id="AlarmBody">Hors zone d'ancrage!</string>
     <string id="NeedGps">En attente d'un GPS bon</string>
     <string id="AnchorSet">Ancre fixée</string>
-    <string id="GlanceDetail" scope="glance">Toucher · rayon</string>
+    <string id="GlanceDetail" scope="glance">Toucher</string>
 
     <string id="SettingRadiusTitle">Rayon par défaut</string>
     <string id="Radius15">15 m</string>

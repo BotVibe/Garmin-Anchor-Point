@@ -127,7 +127,7 @@ Manual UI checks (alarm screen / vibration) still need the simulator or a real w
 
 ### Deterministic UI screenshots (smoke harness)
 
-`(:smoke)` seed helpers on `AnchorSession` / `AnchorMonitor` plus `source-smoke/` drive setup → inside → outside → alarm → mute → menu without flaky GPS UI automation. They are excluded from release via `monkey.jungle` `base.excludeAnnotations`.
+`(:smoke)` seed helpers on `AnchorSession` / `AnchorMonitor` plus `source-smoke/` drive setup → inside → outside → alarm → mute → menu without flaky GPS UI automation. They are excluded from release via `monkey.jungle` `base.excludeAnnotations`. The smoke app omits `getGlanceView` so monkeydo opens each seeded full-app view directly (glance screenshots use the release PRG).
 
 ```bash
 ./scripts/build-smoke.sh fenix7

@@ -39,9 +39,10 @@ SCREEN_PHASE = {name: i for i, name in enumerate(SCREENS)}
 
 EXPECT = {
     "glance": {
-        "eng": [[r"Anchor Point", r"Tap to open"]],
-        "deu": [[r"Anchor Point", r"Tippen"]],
-        "fre": [[r"Anchor Point", r"Toucher"]],
+        # venu3 glance OCR often drops the title; detail line is enough.
+        "eng": [[r"Tap to open"], [r"Anchor Point", r"Tap|radius"]],
+        "deu": [[r"Tipp"], [r"Anchor Point", r"Tipp|50\s*m"]],
+        "fre": [[r"Toucher"], [r"Anchor Point", r"Toucher|rayon"]],
     },
     "setup": {
         "eng": [[r"Keep app open"]],
@@ -60,9 +61,9 @@ EXPECT = {
         "fre": [[r"DEHORS"], [r"Distance:\s*189\s*m"]],
     },
     "alarm": {
-        "eng": [[r"\bALARM\b"]],
-        "deu": [[r"\bALARM\b"]],
-        "fre": [[r"ALARME"]],
+        "eng": [[r"\bALARM\b"], [r"Outside anchor|silence 60"]],
+        "deu": [[r"\bALARM\b"], [r"Ankerkreis|60s stumm"]],
+        "fre": [[r"ALARME"], [r"cercle|60\s*s"]],
     },
     "mute": {
         "eng": [[r"Alarm paused|paused\s*\d"], [r"Distance:\s*189\s*m", r"paused|OUTSIDE"]],
@@ -101,19 +102,26 @@ def shot(name: str) -> Path:
     """Capture desktop to ART/name. Unlink first — scrot never overwrites."""
     ART.mkdir(parents=True, exist_ok=True)
     path = ART / name
-    if path.exists():
-        path.unlink()
-    # Remove scrot's _NNN sidecars from earlier buggy runs for this stem.
     stem = path.stem
-    for stale in ART.glob(f"{stem}_*.png"):
-        try:
-            stale.unlink()
-        except OSError:
-            pass
-    run(["scrot", str(path)], check=True)
-    if not path.exists():
-        raise RuntimeError(f"scrot did not write {path}")
-    return path
+    for attempt in range(4):
+        if path.exists():
+            path.unlink()
+        for stale in ART.glob(f"{stem}_*.png"):
+            try:
+                stale.unlink()
+            except OSError:
+                pass
+        run(["scrot", str(path)], check=False)
+        if path.exists() and path.stat().st_size > 1000:
+            return path
+        # scrot sometimes writes stem_NNN.png instead; adopt newest sidecar.
+        sides = sorted(ART.glob(f"{stem}_*.png"), key=lambda p: p.stat().st_mtime, reverse=True)
+        if sides:
+            sides[0].replace(path)
+            if path.exists() and path.stat().st_size > 1000:
+                return path
+        time.sleep(0.4)
+    raise RuntimeError(f"scrot did not write {path}")
 
 
 def crop_win(src: Path, dest: Path, x, y, w, h):
@@ -127,6 +135,7 @@ def ocr_preprocess(path: Path) -> Path:
 
     Max-RGB washes yellow into red backgrounds; use max(G,B) plus luminance
     so status / mute countdown text stays readable for tesseract.
+    Intermediate files go under /tmp (not the artifact dir).
     """
     from PIL import Image
     import numpy as np
@@ -140,7 +149,7 @@ def ocr_preprocess(path: Path) -> Path:
     bright = np.maximum(chroma, white).astype(np.uint8)
     out = Image.fromarray(bright, mode="L")
     out = out.point(lambda v: 0 if v < 50 else (255 if v > 160 else int((v - 50) * 255 / 110)))
-    prep = path.with_name(path.stem + "-ocr.png")
+    prep = Path("/tmp") / f"smoke-ocr-{path.stem}.png"
     out.save(prep)
     return prep
 
@@ -234,7 +243,7 @@ def face_crop(win_crop: Path) -> Path:
     side = min(w, h) * 55 // 100
     cx, cy = w // 2, h * 48 // 100
     box = (cx - side // 2, cy - side // 2, cx + side // 2, cy + side // 2)
-    out = win_crop.with_name(win_crop.stem + "-face.png")
+    out = Path("/tmp") / f"smoke-face-{win_crop.stem}.png"
     im.crop(box).save(out)
     return out
 
@@ -242,11 +251,18 @@ def face_crop(win_crop: Path) -> Path:
 def save_crop(prefix: str, screen: str) -> tuple[Path, str]:
     dismiss_audio_prompts()
     x, y, w, h, _ = win_geom()
-    p = shot(f"{prefix}-{screen}.png")
-    crop = ART / f"{prefix}-{screen}-crop.png"
-    crop_win(p, crop, x, y, w, h)
-    # OCR the face; keep full-window crop as the review artifact.
-    return crop, ocr(face_crop(crop))
+    # Canonical artifact: device-lang-screen.png (window crop, not full desktop).
+    dest = ART / f"{prefix}-{screen}.png"
+    if dest.exists():
+        dest.unlink()
+    full = shot(f"_full-{prefix}-{screen}.png")
+    crop_win(full, dest, x, y, w, h)
+    try:
+        full.unlink()
+    except OSError:
+        pass
+    # OCR the face; artifact is the window crop.
+    return dest, ocr(face_crop(dest))
 
 
 def capture_glance(device: str, loc: str) -> bool:

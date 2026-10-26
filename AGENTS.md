@@ -45,7 +45,7 @@ Do not defer doc updates. Prefer English for contributor-facing docs, comments, 
 | `resources/settings/*` | Default radius + alarm style settings (`@Strings.*` titles/list entries) |
 | `manifest.xml` | App id, products, `Positioning`, languages `eng`/`deu`/`fre` |
 | `monkey.jungle` | Release/store build; `base.excludeAnnotations = test;smoke` |
-| `test.jungle` | Unit-test build; keeps `(:smoke)` seeds for `-t` |
+| `test.jungle` | Unit-test build; keeps `(:test)` + `(:smoke)` seeds for `-t` |
 | `smoke.jungle` / `smoke-manifest.xml` | Deterministic UI harness (not for store) |
 | `scripts/build.sh` | Normal/release PRG build (`-r`; no smoke symbols) |
 | `scripts/build-smoke.sh` | UI-smoke PRG for simulator screenshots |

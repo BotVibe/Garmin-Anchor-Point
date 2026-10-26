@@ -6,6 +6,7 @@ import Toybox.WatchUi;
 (:glance)
 //! Compact glance preview in the watch glance list.
 //! Tap opens the full watch-app; this view does not run GPS monitoring.
+//! Two-line detail (hint + radius) so venu3's narrow glance strip does not clip.
 class AnchorGlanceView extends WatchUi.GlanceView {
 
     public function initialize() {
@@ -28,7 +29,7 @@ class AnchorGlanceView extends WatchUi.GlanceView {
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
         dc.drawText(
             x,
-            height * 12 / 100,
+            height * 8 / 100,
             titleFont,
             WatchUi.loadResource(Rez.Strings.AppName) as String,
             Graphics.TEXT_JUSTIFY_LEFT
@@ -39,13 +40,13 @@ class AnchorGlanceView extends WatchUi.GlanceView {
         if (stored != null) {
             radius = stored as Number;
         }
-        var detail = (WatchUi.loadResource(Rez.Strings.GlanceDetail) as String)
-            + " "
-            + radius.toString()
+        var hint = WatchUi.loadResource(Rez.Strings.GlanceDetail) as String;
+        var radiusLine = radius.toString()
             + " "
             + (WatchUi.loadResource(Rez.Strings.MetersUnit) as String);
 
         dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
-        dc.drawText(x, height * 55 / 100, Graphics.FONT_XTINY, detail, Graphics.TEXT_JUSTIFY_LEFT);
+        dc.drawText(x, height * 48 / 100, Graphics.FONT_XTINY, hint, Graphics.TEXT_JUSTIFY_LEFT);
+        dc.drawText(x, height * 72 / 100, Graphics.FONT_XTINY, radiusLine, Graphics.TEXT_JUSTIFY_LEFT);
     }
 }
